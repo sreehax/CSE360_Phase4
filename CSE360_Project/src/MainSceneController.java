@@ -20,7 +20,7 @@ public class MainSceneController {
 	@FXML
 	public void LoginButtonClicked(ActionEvent event) throws IOException {
 		System.out.println("hello?");
-		//root = FXMLLoader.load(getClass().getResource("Authentication.fxml"));
+		//root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         //stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         //scene = new Scene(root);
         //stage.setScene(scene);
