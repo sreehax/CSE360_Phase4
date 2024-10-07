@@ -18,12 +18,22 @@ public class MainSceneController {
 	private Parent root;
 	
 	@FXML
-	public void AuthenticationClicked(ActionEvent event) throws IOException {
+	public void LoginButtonClicked(ActionEvent event) throws IOException {
 		System.out.println("hello?");
 		//root = FXMLLoader.load(getClass().getResource("Authentication.fxml"));
         //stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         //scene = new Scene(root);
         //stage.setScene(scene);
         //stage.show();
+	}
+	
+	@FXML
+	public void CreateAccountClicked(ActionEvent event) throws IOException {
+		System.out.println("//");
+		root = FXMLLoader.load(getClass().getResource("CreateAccount.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 	}
 }
