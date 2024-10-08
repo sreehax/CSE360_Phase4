@@ -16,7 +16,7 @@ public class CreateAccountController {
 	
 	@FXML
 	public void create_account_buttonClicked(ActionEvent event) throws IOException {
-		
+		//save information here
 	}
 	
 	@FXML
