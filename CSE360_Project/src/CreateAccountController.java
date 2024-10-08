@@ -35,7 +35,7 @@ public class CreateAccountController {
 			password2 = MainSceneController.getSHA(password2);
 			
 			System.out.println(password);
-			System.out.println(password2);
+			System.out.println(password2 + "\n");
 			
 		}
 		catch(NoSuchAlgorithmException e) {
