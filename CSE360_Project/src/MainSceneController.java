@@ -29,7 +29,7 @@ public class MainSceneController {
 	
 	@FXML
 	public void CreateAccountClicked(ActionEvent event) throws IOException {
-		System.out.println("//");
+
 		root = FXMLLoader.load(getClass().getResource("CreateAccount.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
