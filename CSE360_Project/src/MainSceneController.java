@@ -37,8 +37,7 @@ public class MainSceneController {
 		
 		//SHA-256 the password
 		try {
-			String SHAPass = getSHA(password);
-			password = SHAPass;
+			password = getSHA(password);
 			System.out.println(password);
 			
 		}
