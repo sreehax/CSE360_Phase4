@@ -1,4 +1,4 @@
-import java.util.List;
+import java.util.ArrayList;
 
 enum Role {
 	ADMIN,
@@ -9,7 +9,7 @@ enum Role {
 public class User {
 	
 	private String firstname, middlename, lastname, preferredname, username, password;
-	private List<Role> rolelist;
+	private ArrayList<Role> rolelist;
 	
 	public User() {
 		this.firstname = "";
@@ -17,8 +17,8 @@ public class User {
 		this.lastname = "";
 		this.preferredname = "";
 		this.username = "";
-		this.rolelist = null;
-		//user passwords are stored on the database
+		this.rolelist = new ArrayList<Role>();
+		//user passwords are stored in the database
 	}
 	
 	//constructor
@@ -29,6 +29,7 @@ public class User {
 		this.preferredname = preferredname;
 		this.username = username;
 	}
+	
 	//setters
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
@@ -45,9 +46,34 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public void setRole(String role) {
-		
-	}
-	//getters
 	
+	//getters
+	public String getFirstname() {
+		return firstname;
+	}
+	public String getMiddlename() {
+		return middlename;
+	}
+	public String getLastname() {
+		return lastname;
+	}
+	public String getPreferredname() {
+		return preferredname;
+	}
+	public String getUsername() {
+		return username;
+	}
+	
+	//Role operations
+	public void addRole(Role role) {
+		this.rolelist.add(role);
+	}
+	public void deleteRole(Role role) {
+		//check role exist in rolelist
+		//if it exist, delete it
+		//if it doesn't exist, print it doesn't exist and exit
+	}
+	public ArrayList<Role> getRoleList() {
+		return rolelist;
+	}
 }

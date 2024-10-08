@@ -19,7 +19,7 @@ public class MainSceneController {
 	
 	@FXML
 	public void LoginButtonClicked(ActionEvent event) throws IOException {
-		System.out.println("hello?");
+		System.out.println("Login Button Clicked");
 		//root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         //stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         //scene = new Scene(root);
@@ -35,5 +35,10 @@ public class MainSceneController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+	}
+	
+	@FXML
+	public void OTCButtonClicked(ActionEvent event) throws IOException {
+		System.out.println("One Time Code Button Clicked");
 	}
 }
