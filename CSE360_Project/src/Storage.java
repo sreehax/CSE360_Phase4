@@ -172,6 +172,14 @@ public class Storage {
 		stmt.execute(sql2);
 	}
 	
-	
+	public void registerOneTimeCode(String code, String time, String roles) throws SQLException {
+		String strQuery = "INSERT INTO onetimecode (code, time, role) VALUES (?,?,?)";
+		PreparedStatement pstmt = conn.prepareStatement(strQuery);
+		pstmt.setString(1, code);
+		pstmt.setString(2, time);
+		pstmt.setString(3, roles);
+		
+		pstmt.executeUpdate();
+	}
 	
 }

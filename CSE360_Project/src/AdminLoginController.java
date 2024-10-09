@@ -93,9 +93,23 @@ public class AdminLoginController {
 		System.out.println(code);
 		System.out.println(date);
 		//get the role indicated
-		System.out.println("Admin: " + al_admincheckbox.isSelected());
-		System.out.println("Student: " + al_studentcheckbox.isSelected());
-		System.out.println("Instructor: " + al_instructorcheckbox.isSelected());
+		String roles = "";
+		if (al_admincheckbox.isSelected()) {
+			roles += "A";
+		}
+		if (al_studentcheckbox.isSelected()) {
+			roles += "S";
+		}
+		if (al_instructorcheckbox.isSelected()) {
+			roles += "I";
+		}
+		System.out.println(roles);
+		try {
+			this.storage.registerOneTimeCode(code, date, roles);
+			System.out.println("One Time Code Registered");
+		} catch (SQLException e) {
+			e.printStackTrace(System.err);
+		}
 	}
 	@FXML
 	public void al_logoutClicked(ActionEvent event) throws IOException {
