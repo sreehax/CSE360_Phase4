@@ -120,9 +120,17 @@ public class Storage {
 	
 	//updates user information
 	public void updateUser(String username, String firstname, String middlename, String lastname, String preferredname, String email) throws SQLException {
-		String sql = "update user_info set middlename='testsuccess' WHERE username='a'";
-		Statement stmt = this.conn.createStatement();
-		stmt.executeUpdate(sql);
+		String sql = "UPDATE user_info SET firstname = ?, middlename = ?, lastname = ?, preferredname = ?, email = ? WHERE username = ?";
+		
+		PreparedStatement stmt = this.conn.prepareStatement(sql);
+		stmt.setString(1, firstname);
+		stmt.setString(2, middlename);
+		stmt.setString(3, lastname);
+		stmt.setString(4, preferredname);
+		stmt.setString(5, email);
+		stmt.setString(6, username);
+		
+		stmt.executeUpdate();
 	}
 	
 	//
