@@ -68,9 +68,6 @@ public class CSE360_Project extends Application {
 	            
 				primaryStage.setUserData(storage);
 				
-				//MainSceneController controller = loader.getController();
-				//controller.setData(storage);
-				
 	            Scene scene = new Scene(root);
 	            primaryStage.setScene(scene);
 	            primaryStage.show();
@@ -81,9 +78,13 @@ public class CSE360_Project extends Application {
 		}
 		else {
 			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
 				Parent root = FXMLLoader.load(getClass().getResource("CreateAccount.fxml"));
+				
+				primaryStage.setUserData(storage);
+				
 				Scene scene = new Scene(root);
-				primaryStage.setScene(scene);;
+				primaryStage.setScene(scene);
 				primaryStage.show();
 				
 			} catch(Exception e) {
