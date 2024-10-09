@@ -14,6 +14,7 @@ public class Storage {
 	private Connection conn;
 	
 	public Storage() throws SQLException {
+		//the storage.db is saved in C:\Users\yourname
 		String homedir = System.getProperty("user.home") + File.separatorChar;
 		this.conn = DriverManager.getConnection("jdbc:sqlite:" + homedir + "storage.db");
 		
@@ -24,6 +25,7 @@ public class Storage {
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS logins (username TEXT PRIMARY KEY, passhash TEXT)");
 	}
 	
+	//returns boolean flag whether login was successful or not
 	public boolean loginAttempt(String username, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
 		// Get the pbkdf2 hash for the user
 		String strQuery = "SELECT passhash FROM logins WHERE username = ?";
@@ -44,6 +46,7 @@ public class Storage {
 		return PasswordHasher.verifyPassword(password, hash);
 	}
 	
+	//creates user in the database based off of the class of user
 	public void registerUser(User user) throws SQLException {
 		// Encode roles for storage in database
 		String roles = "";
@@ -72,6 +75,7 @@ public class Storage {
 		prepared.executeUpdate();
 	}
 	
+	//
 	public void registerLogin(String username, String password) throws NoSuchAlgorithmException, InvalidKeySpecException, SQLException {
 		// Generate Password Hash
 		String passhash = PasswordHasher.hashPassword(password);
