@@ -32,6 +32,7 @@ import java.util.Scanner;
  * 
  * This class extends JavaFX's {@link Application} to load and display the main user interface.
  */
+
 public class CSE360_Project extends Application {
 
 	 /**

@@ -21,7 +21,7 @@ public class Storage {
 		// Create the database schema if it does not exist already
 		Statement statement = this.conn.createStatement();
 		statement.setQueryTimeout(30);
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS user_info (username TEXT PRIMARY KEY, firstname TEXT, middlename TEXT, lastname TEXT, preferredname TEXT, roles TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS user_info (username TEXT PRIMARY KEY, firstname TEXT, middlename TEXT, lastname TEXT, preferredname TEXT, email TEXT, roles TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS logins (username TEXT PRIMARY KEY, passhash TEXT)");
 	}
 	
@@ -67,7 +67,6 @@ public class Storage {
 			return true;
 		}
 	}
-	
 	//print table of user_info
 	public void printTable2() throws SQLException {
 		String strQuery = "SELECT * from user_info";
@@ -105,26 +104,25 @@ public class Storage {
 		
 		
 		// Prepare the statement
-		String strQuery = "INSERT INTO user_info (username, firstname, middlename, lastname, preferredname, roles) VALUES (?,?,?,?,?,?)";
+		String strQuery = "INSERT INTO user_info (username, firstname, middlename, lastname, preferredname, email, roles) VALUES (?,?,?,?,?,?,?)";
 		PreparedStatement prepared = this.conn.prepareStatement(strQuery);
 		prepared.setString(1, user.getUsername());
 		prepared.setString(2, user.getFirstname());
 		prepared.setString(3, user.getMiddlename());
 		prepared.setString(4, user.getLastname());
 		prepared.setString(5, user.getPreferredname());
-		prepared.setString(6, roles);
+		prepared.setString(6, user.getEmail());
+		prepared.setString(7, roles);
 		
 		// Execute the statement
 		prepared.executeUpdate();
 	}
 	
 	//updates user information
-	public void updateUser(String username, String firstname, String middlename, String lastname, String preferredname) throws SQLException {
-		String strQuery = "UPDATE user_info SET column2=" + firstname + ",column3=" + middlename + ",column4=" + lastname + ",column5=" + preferredname + " WHERE username = ?";
-		PreparedStatement prepared = this.conn.prepareStatement(strQuery);
-		prepared.setString(1,  username);
-		
-		prepared.executeUpdate();
+	public void updateUser(String username, String firstname, String middlename, String lastname, String preferredname, String email) throws SQLException {
+		String sql = "update user_info set middlename='testsuccess' WHERE username='a'";
+		Statement stmt = this.conn.createStatement();
+		stmt.executeUpdate(sql);
 	}
 	
 	//
@@ -140,6 +138,20 @@ public class Storage {
 		
 		// Execute the statement
 		prepared.executeUpdate();
+	}
+	
+	//check if user is set up properly, return true if it is not set up, return false if it is set up.
+	public boolean userSetup(String username) throws SQLException {
+		String strQuery = "SELECT * FROM user_info WHERE username = '" + username + "'";
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(strQuery);
+		
+		if (rs.getString("firstname").equals("")) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public void deleteTables() throws SQLException{

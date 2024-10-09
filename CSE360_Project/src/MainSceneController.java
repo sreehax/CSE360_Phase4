@@ -49,6 +49,27 @@ public class MainSceneController {
 			flag = this.storage.loginAttempt(username, password);
 			if (flag) {
 				System.out.println("Login succeeded!");
+				
+				//check user setup
+				if (this.storage.userSetup(username)) {
+					//load account set up page
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("SaveAccountInfo.fxml"));
+					root = loader.load();
+					
+					SaveAccountInfoController controller = loader.getController();
+					controller.currentUser(username);
+					
+			        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			        scene = new Scene(root);
+			        stage.setScene(scene);
+			        stage.show();
+					
+				}
+				else {
+					//log in
+				}
+				
+				
 			} else {
 				System.out.println("Login failed :(");
 			}
@@ -99,7 +120,8 @@ public class MainSceneController {
 	@FXML
 	public void OTCButtonClicked(ActionEvent event) throws IOException, SQLException {
 		System.out.println("One Time Code Button Clicked");
-		this.storage.deleteTables();
+		String username = mainscene_usernameid.getText();
+		this.storage.userSetup(username);
 	}
 	
 }

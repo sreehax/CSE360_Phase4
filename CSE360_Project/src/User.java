@@ -8,7 +8,7 @@ enum Role {
 
 public class User {
 	
-	private String firstname, middlename, lastname, preferredname, username, password;
+	private String firstname, middlename, lastname, preferredname, username, password, email;
 	private ArrayList<Role> rolelist;
 	
 	public User() {
@@ -46,6 +46,9 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	
 	//getters
 	public String getFirstname() {
@@ -62,6 +65,9 @@ public class User {
 	}
 	public String getUsername() {
 		return username;
+	}
+	public String getEmail() {
+		return email;
 	}
 	
 	//Role operations
