@@ -74,6 +74,14 @@ public class CreateAccountController {
 		}
 		
 		this.admincreation = false;
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
+		root = loader.load();
+		
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 	}
 	
 	@FXML
