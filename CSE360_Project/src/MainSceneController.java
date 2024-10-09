@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 
 import java.security.NoSuchAlgorithmException;
@@ -27,15 +29,16 @@ public class MainSceneController {
 	private Storage storage;
 	
 	public MainSceneController() throws IOException, SQLException {
-		this.storage = new Storage();
+		//this.storage = new Storage();
 	}
-	
 	
 	@FXML
 	private TextField mainscene_usernameid, mainscene_passwordid, mainscene_onetimeinviteid;
 	
 	@FXML
 	public void LoginButtonClicked(ActionEvent event) throws IOException {
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		storage = (Storage) stage.getUserData();
 		
 		boolean flag = false;
 		String username, password;
@@ -53,6 +56,11 @@ public class MainSceneController {
 				//check user setup
 				if (this.storage.userSetup(username)) {
 					//load account set up page
+					//FXMLLoader loader = new FXMLLoader(getClass().getResource("SaveAccountInfo.fxml"));
+					//root = FXMLLoader.load(getClass().getResource("SaveAccountInfo.fxml"));
+		            
+					stage.setUserData(storage);
+					
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("SaveAccountInfo.fxml"));
 					root = loader.load();
 					
@@ -122,6 +130,11 @@ public class MainSceneController {
 		System.out.println("One Time Code Button Clicked");
 		String username = mainscene_usernameid.getText();
 		this.storage.userSetup(username);
+	}
+	
+	public void setData(Storage storage) {
+		this.storage = storage;
+		
 	}
 	
 }

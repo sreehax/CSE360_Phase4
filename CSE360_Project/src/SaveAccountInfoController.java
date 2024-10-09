@@ -3,11 +3,19 @@ import java.sql.SQLException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class SaveAccountInfoController {
 	
 	private String username;
+	private Stage stage;
+	private Scene scene;
+	private Parent root;
+	//private Storage storage;
 	
 	@FXML
 	private TextField firstnameid, middlenameid, lastnameid, preferrednameid, emailid;
@@ -19,6 +27,7 @@ public class SaveAccountInfoController {
 	
 	@FXML
 	public void save_account_button_buttonClicked(ActionEvent event) throws IOException, SQLException{
+		
 		System.out.println("Clicked save account");
 		
 		String firstname, middlename, lastname, preferredname, email;
@@ -48,7 +57,9 @@ public class SaveAccountInfoController {
 			preferredname = firstname;
 		}
 		
-		Storage s = new Storage();
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		Storage s = (Storage) stage.getUserData();
+		//Storage s = new Storage();
 		s.updateUser(username, firstname, middlename, lastname, preferredname, email);
 		
 		

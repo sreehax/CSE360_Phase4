@@ -62,7 +62,15 @@ public class CSE360_Project extends Application {
 		if (flag) {
 			System.out.println("entering main scene");
 			try {
-	            Parent root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
+				Parent root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
+	            
+				primaryStage.setUserData(storage);
+				
+				//MainSceneController controller = loader.getController();
+				//controller.setData(storage);
+				
 	            Scene scene = new Scene(root);
 	            primaryStage.setScene(scene);
 	            primaryStage.show();
@@ -96,4 +104,3 @@ public class CSE360_Project extends Application {
 		launch(args);
 	}
 }
-
