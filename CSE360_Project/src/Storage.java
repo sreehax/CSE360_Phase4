@@ -8,11 +8,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+/**
+ * This class handles all interactions with the SQLite database for user management,
+ * login authentication, and storing user information.
+ * 
+ * <p>The database contains three tables: `user_info` for storing user details, 
+ * `logins` for storing login information with hashed passwords, and `onetimecode` for managing 
+ * one time authentication codes.</p>
+ */
 
 public class Storage {
 	private Connection conn;
-	
+	 /**
+     * Constructor that makes a connection to the SQLite database.
+     * It also ensures the necessary database schema is created if it does not already exist.
+     * 
+     * @throws SQLException if there is an error connecting to the database or executing SQL queries.
+     */
 	public Storage() throws SQLException {
 		//the storage.db is saved in C:\Users\yourname
 		String homedir = System.getProperty("user.home") + File.separatorChar;
@@ -25,8 +37,16 @@ public class Storage {
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS logins (username TEXT PRIMARY KEY, passhash TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS onetimecode (code TEXT PRIMARY KEY, time TEXT, role TEXT)");
 	}
-	
-	//returns boolean flag whether login was successful or not
+	/**
+     * Attempts to log in by verifying the provided username and password against the stored password hash.
+     *
+     * @param username The username of the user logging in.
+     * @param password The plaintext password entered by the user.
+     * @return true if the login attempt is successful, false otherwise.
+     * @throws SQLException if there is an error executing the SQL query.
+     * @throws NoSuchAlgorithmException if the password hashing algorithm is unavailable.
+     * @throws InvalidKeySpecException if the key specification for password hashing is invalid.
+     */
 	public boolean loginAttempt(String username, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
 		// Get the pbkdf2 hash for the user
 		String strQuery = "SELECT passhash FROM logins WHERE username = ?";
@@ -45,9 +65,13 @@ public class Storage {
 		}
 		
 		return PasswordHasher.verifyPassword(password, hash);
-	}
-	
-	//print table of logins, returns true if at least 1 user exist.
+	}	
+	 /**
+     * Prints the contents of the `logins` table to the console and returns whether any users are present.
+     * 
+     * @return true if at least one user exists in the `logins` table, false otherwise.
+     * @throws SQLException if there is an error executing the SQL query.
+     */
 	public boolean printTable() throws SQLException {
 		String strQuery = "SELECT * from logins";
 		Statement stmt = this.conn.createStatement();
@@ -68,7 +92,11 @@ public class Storage {
 			return true;
 		}
 	}
-	//print table of user_info
+	/**
+     * Prints the contents of the `user_info` table to the console, including all user details.
+     * 
+     * @throws SQLException if there is an error executing the SQL query.
+     */
 	public void printTable2() throws SQLException {
 		String strQuery = "SELECT * from user_info";
 		Statement stmt = this.conn.createStatement();
@@ -89,7 +117,12 @@ public class Storage {
 		System.out.println("number of users in user_info: " + i);
 	}
 	
-	//creates user in the database based off of the class of user
+	/**
+     * Registers a new user in the `user_info` table based on the provided {@link User} object.
+     * 
+     * @param user The user to register.
+     * @throws SQLException if there is an error executing the SQL insert query.
+     */
 	public void registerUser(User user) throws SQLException {
 		// Encode roles for storage in database
 		String roles = "";
@@ -118,8 +151,17 @@ public class Storage {
 		// Execute the statement
 		prepared.executeUpdate();
 	}
-	
-	//updates user information
+	  /**
+     * Updates the information of an existing user in the `user_info` table.
+     * 
+     * @param username The username of the user to update.
+     * @param firstname The new first name.
+     * @param middlename The new middle name.
+     * @param lastname The new last name.
+     * @param preferredname The new preferred name.
+     * @param email The new email address.
+     * @throws SQLException if there is an error executing the SQL update query.
+     */
 	public void updateUser(String username, String firstname, String middlename, String lastname, String preferredname, String email) throws SQLException {
 		String sql = "UPDATE user_info SET firstname = ?, middlename = ?, lastname = ?, preferredname = ?, email = ? WHERE username = ?";
 		
@@ -134,7 +176,15 @@ public class Storage {
 		stmt.executeUpdate();
 	}
 	
-	//
+	 /**
+     * Registers a login for the specified username with a hashed password in the `logins` table.
+     * 
+     * @param username The username to register.
+     * @param password The plaintext password to hash and store.
+     * @throws NoSuchAlgorithmException if the password hashing algorithm is unavailable.
+     * @throws InvalidKeySpecException if the key specification for password hashing is invalid.
+     * @throws SQLException if there is an error executing the SQL insert query.
+     */
 	public void registerLogin(String username, String password) throws NoSuchAlgorithmException, InvalidKeySpecException, SQLException {
 		// Generate Password Hash
 		String passhash = PasswordHasher.hashPassword(password);
@@ -147,9 +197,14 @@ public class Storage {
 		
 		// Execute the statement
 		prepared.executeUpdate();
-	}
-	
-	//check if user is set up properly, return true if it is not set up, return false if it is set up.
+	}	
+	 /**
+     * Checks if the user setup is complete by verifying that the first name field is filled in the `user_info` table.
+     * 
+     * @param username The username to check.
+     * @return true if the setup is incomplete, false if the user is properly set up.
+     * @throws SQLException if there is an error executing the SQL query.
+     */
 	public boolean userSetup(String username) throws SQLException {
 		String strQuery = "SELECT * FROM user_info WHERE username = ?";
 		PreparedStatement pstmt = conn.prepareStatement(strQuery);
@@ -163,7 +218,11 @@ public class Storage {
 			return false;
 		}
 	}
-	
+	 /**
+     * Deletes the `user_info` and `logins` tables from the database.
+     * 
+     * @throws SQLException if there is an error executing the SQL drop queries.
+     */
 	public void deleteTables() throws SQLException{
 		String sql = "DROP TABLE user_info";
 		String sql2 = "DROP TABLE logins";
@@ -171,7 +230,14 @@ public class Storage {
 		stmt.execute(sql);
 		stmt.execute(sql2);
 	}
-	
+	/**
+	 * Registers a one-time code with the associated time and role in the database.
+	 * 
+	 * @param code The one-time code to register.
+	 * @param time The time associated with the code.
+	 * @param roles The roles associated with the code.
+	 * @throws SQLException If a database access error occurs.
+	 */
 	public void registerOneTimeCode(String code, String time, String roles) throws SQLException {
 		String strQuery = "INSERT INTO onetimecode (code, time, role) VALUES (?,?,?)";
 		PreparedStatement pstmt = conn.prepareStatement(strQuery);
@@ -181,7 +247,13 @@ public class Storage {
 		
 		pstmt.executeUpdate();
 	}
-	
+	/**
+ * Checks if a one-time code exists in the "onetimecode" table.
+ *
+ * @param code the one-time code to check.
+ * @return true if the code exists, false otherwise.
+ * @throws SQLException if a database access error occurs.
+ */
 	public boolean doesCodeExist(String code) throws SQLException {
 		String strQuery = "SELECT * FROM onetimecode WHERE code = ?";
 		PreparedStatement prepared = conn.prepareStatement(strQuery);
@@ -194,7 +266,13 @@ public class Storage {
 		}
 		return found;
 	}
-	
+	/**
+ * Retrieves the role associated with a one-time code from the "onetimecode" table.
+ *
+ * @param code the one-time code to retrieve the role for.
+ * @return the role associated with the given code, or an empty string if no role is found.
+ * @throws SQLException if a database access error occurs.
+ */
 	public String getRolesFromCode(String code) throws SQLException {
 		String strQuery = "SELECT role FROM onetimecode WHERE code = ?";
 		PreparedStatement prepared = conn.prepareStatement(strQuery);
