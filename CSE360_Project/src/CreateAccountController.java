@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,20 +29,23 @@ public class CreateAccountController {
 		password = ca_passwordid.getText();
 		password2 = ca_password2id.getText();
 		
-		//SHA-256 the password
-		try {
-			// The .getSHA function needs to be moved to somewhere that's not the MainSceneController
-			password = MainSceneController.getSHA(password);
-			password2 = MainSceneController.getSHA(password2);
-			
-			System.out.println(password);
-			System.out.println(password2 + "\n");
-			
-		}
-		catch(NoSuchAlgorithmException e) {
-			System.out.println("Exception thrown for incorrect algorithm " + e);
-		}
+		// Passwords should match
+		// TODO: Show some better feedback
+		if (!password.equals(password2)) {
+			System.out.println("Passwords must match!");
+			return;
+		};
 		
+		// Register the user in the database
+		try {
+			Storage s = new Storage();
+			s.registerLogin(username, password);
+			System.out.println("Successfully registered user!");
+		} catch (SQLException e) {
+			System.out.println("User already exists!");
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+		}
 	}
 	
 	@FXML

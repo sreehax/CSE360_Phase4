@@ -7,6 +7,6 @@ public class SaveAccountInfoController {
 	
 	@FXML
 	public void save_account_button_buttonClicked(ActionEvent event) throws IOException {
-		
+		System.out.println("Clicked save account");
 	}
 }

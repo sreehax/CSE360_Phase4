@@ -17,11 +17,18 @@ import java.security.MessageDigest;
 import javafx.scene.control.ChoiceBox;
 
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
 
 public class MainSceneController {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	private Storage storage;
+	
+	public MainSceneController() throws SQLException {
+		this.storage = new Storage();
+	}
 	
 	@FXML
 	private TextField mainscene_usernameid, mainscene_passwordid, mainscene_onetimeinviteid;
@@ -35,14 +42,22 @@ public class MainSceneController {
 		username = mainscene_usernameid.getText();
 		password = mainscene_passwordid.getText();
 		
-		//SHA-256 the password
+		// Test the password
 		try {
-			password = getSHA(password);
-			System.out.println(password);
 			
-		}
-		catch(NoSuchAlgorithmException e) {
+			flag = this.storage.loginAttempt(username, password);
+			if (flag) {
+				System.out.println("Login succeeded!");
+			} else {
+				System.out.println("Login failed :(");
+			}
+			
+		} catch (NoSuchAlgorithmException e) {
 			System.out.println("Exception thrown for incorrect algorithm " + e);
+		} catch (SQLException e) {
+			e.printStackTrace(System.err);
+		} catch (InvalidKeySpecException e) {
+			e.printStackTrace(System.err);
 		}
 		
 		
@@ -79,28 +94,5 @@ public class MainSceneController {
 	public void OTCButtonClicked(ActionEvent event) throws IOException {
 		System.out.println("One Time Code Button Clicked");
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//SHA stuff, testing phase (move this somewhere else)
-	public static String getSHA(String input) throws NoSuchAlgorithmException {
-	  	MessageDigest md = MessageDigest.getInstance("SHA-256");
-	  	
-	  	byte[] hash = md.digest(input.getBytes(StandardCharsets.UTF_8));
-	  	BigInteger number = new BigInteger(1, hash);
-	  	StringBuilder hexString = new StringBuilder(number.toString(16));
-	  	while (hexString.length() < 64 ) {
-	  		hexString.insert(0,  '0');
-	  	}
-	  	return hexString.toString();
-	 }
 	
 }
