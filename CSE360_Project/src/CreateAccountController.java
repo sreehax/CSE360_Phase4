@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -16,9 +17,12 @@ public class CreateAccountController {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	private boolean admincreation = true;
 	
 	@FXML
 	private TextField ca_usernameid, ca_passwordid, ca_password2id;
+	@FXML
+	private Text ca_nouserstxt;
 	
 	@FXML
 	public void create_account_buttonClicked(ActionEvent event) throws IOException {
@@ -55,5 +59,10 @@ public class CreateAccountController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+	}
+	
+	public void deletenousermsg() {
+		ca_nouserstxt.setText("");
+		this.admincreation = false;
 	}
 }

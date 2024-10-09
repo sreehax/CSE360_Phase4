@@ -26,9 +26,10 @@ public class MainSceneController {
 	private Parent root;
 	private Storage storage;
 	
-	public MainSceneController() throws SQLException {
+	public MainSceneController() throws IOException, SQLException {
 		this.storage = new Storage();
 	}
+	
 	
 	@FXML
 	private TextField mainscene_usernameid, mainscene_passwordid, mainscene_onetimeinviteid;
@@ -82,8 +83,13 @@ public class MainSceneController {
 	
 	@FXML
 	public void CreateAccountClicked(ActionEvent event) throws IOException {
-
-		root = FXMLLoader.load(getClass().getResource("CreateAccount.fxml"));
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateAccount.fxml"));
+		root = loader.load();
+		
+		CreateAccountController controller = loader.getController();
+		controller.deletenousermsg();
+		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

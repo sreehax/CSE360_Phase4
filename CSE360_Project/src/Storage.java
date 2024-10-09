@@ -46,6 +46,27 @@ public class Storage {
 		return PasswordHasher.verifyPassword(password, hash);
 	}
 	
+	//print table of users, returns true if at least 1 user exist.
+	public boolean printTable() throws SQLException {
+		String strQuery = "SELECT * from logins";
+		Statement stmt = this.conn.createStatement();
+		ResultSet rs = stmt.executeQuery(strQuery);
+		
+		int i = 0;
+		System.out.println("logins table contents");
+		while(rs.next()) {
+			i++;
+			System.out.println(rs.getString("username"));
+		}
+		System.out.println("number of users: " + i);
+		if (i == 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
 	//creates user in the database based off of the class of user
 	public void registerUser(User user) throws SQLException {
 		// Encode roles for storage in database

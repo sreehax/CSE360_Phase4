@@ -24,9 +24,9 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 /**
  * CSE360_Project Class
  * 
@@ -49,18 +49,38 @@ public class CSE360_Project extends Application {
      * The main entry point for the JavaFX application.
      *
      * @param primaryStage the main stage for this application.
+	 * @throws SQLException 
      */
 	@Override
-	public void start(Stage primaryStage) {
-		try {
-            Parent root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-            
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+	public void start(Stage primaryStage) throws SQLException {
+		
+		//go to create account if there are no users, otherwise go to main home page 
+		Storage storage = new Storage();
+		boolean flag = storage.printTable();
+		if (flag) {
+			System.out.println("entering main scene");
+			try {
+	            Parent root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
+	            Scene scene = new Scene(root);
+	            primaryStage.setScene(scene);
+	            primaryStage.show();
+	            
+	        } catch(Exception e) {
+	            e.printStackTrace();
+	        }
+		}
+		else {
+			try {
+				Parent root = FXMLLoader.load(getClass().getResource("CreateAccount.fxml"));
+				Scene scene = new Scene(root);
+				primaryStage.setScene(scene);;
+				primaryStage.show();
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	 /**
      * The main method that launches the JavaFX application.
