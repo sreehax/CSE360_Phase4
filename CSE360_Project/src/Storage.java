@@ -182,4 +182,30 @@ public class Storage {
 		pstmt.executeUpdate();
 	}
 	
+	public boolean doesCodeExist(String code) throws SQLException {
+		String strQuery = "SELECT * FROM onetimecode WHERE code = ?";
+		PreparedStatement prepared = conn.prepareStatement(strQuery);
+		prepared.setString(1, code);
+		
+		ResultSet res = prepared.executeQuery();
+		boolean found = false;
+		while (res.next()) {
+			found = true;
+		}
+		return found;
+	}
+	
+	public String getRolesFromCode(String code) throws SQLException {
+		String strQuery = "SELECT role FROM onetimecode WHERE code = ?";
+		PreparedStatement prepared = conn.prepareStatement(strQuery);
+		prepared.setString(1, code);
+		
+		ResultSet res = prepared.executeQuery();
+		String role = "";
+		while (res.next()) {
+			role = res.getString("role");
+		}
+		
+		return role;
+	}
 }
