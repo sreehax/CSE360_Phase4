@@ -21,6 +21,9 @@ import javafx.scene.control.ChoiceBox;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class MainSceneController {
 	private Stage stage;
@@ -153,5 +156,12 @@ public class MainSceneController {
 		
 	}
 	
-	
+	private boolean within24Hours(String time) {
+		LocalDateTime currentTime = LocalDateTime.now();
+		
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+		LocalDateTime inputTime = LocalDateTime.parse(time, fmt);
+		long secondsElapsed = ChronoUnit.SECONDS.between(inputTime, currentTime);
+		return secondsElapsed < 24 * 60 * 60;
+	}
 }
