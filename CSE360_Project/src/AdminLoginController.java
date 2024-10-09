@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import java.util.List;
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.math.BigInteger;
@@ -24,12 +25,15 @@ import javafx.scene.control.ChoiceBox;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class AdminLoginController {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	private Storage storage;
 	
 	@FXML
 	private Text al_userLabel;
@@ -54,11 +58,29 @@ public class AdminLoginController {
 	}
 	@FXML
 	public void al_invitationbuttonClicked(ActionEvent event) throws IOException {
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+        
 		//get random code
+		Random rand = new Random();
+		StringBuilder codeBuilder = new StringBuilder();
+		String ALPHABET = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		while (codeBuilder.length() < 15) {
+			// Generate a random index into the alphabet
+			int idx = (int) (rand.nextFloat() * ALPHABET.length());
+			// Place that character into the code
+			codeBuilder.append(ALPHABET.charAt(idx));
+		}
+		String code = codeBuilder.toString();
+		
 		//get the current time
+		LocalDateTime time = LocalDateTime.now();
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+		String date = time.format(fmt);
+		
+		System.out.println(code);
+		System.out.println(date);
 		//get the role indicated
-		
-		
 	}
 	@FXML
 	public void al_logoutClicked(ActionEvent event) throws IOException {
