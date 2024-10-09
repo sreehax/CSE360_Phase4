@@ -17,10 +17,11 @@ public class CreateAccountController {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	private String currentCode;
 	private boolean admincreation = true;
-	private boolean invitea;
-	private boolean invitei;
-	private boolean invites;
+	private boolean invitea = false;
+	private boolean invitei = false;
+	private boolean invites = false;
 	
 	
 	
@@ -31,6 +32,7 @@ public class CreateAccountController {
 	
 	@FXML
 	public void create_account_buttonClicked(ActionEvent event) throws IOException {
+		
 		boolean flag = false;
 		String username, password, password2;
 		
@@ -44,6 +46,17 @@ public class CreateAccountController {
 			System.out.println("Passwords must match!");
 			return;
 		};
+		
+		//connect storage
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		Storage s = (Storage) stage.getUserData();
+				
+		//set invitation code roles based on the database
+		//String listofRoles = s.getRolesFromCode(currentCode);
+				
+		//interpret list of roles string
+		//System.out.println(listofRoles);
+		
 		
 		// Register the user in "logins" and "user_info"
 		User user = new User();
@@ -63,25 +76,29 @@ public class CreateAccountController {
 		
 		
 		try {
-			Storage s = new Storage();
+			String listofRoles = s.getRolesFromCode(currentCode);
+			System.out.println(listofRoles);
+			
 			s.registerLogin(username, password);
+			System.out.println("made it through registerlogin");
 			s.registerUser(user);
 			System.out.println("Successfully registered user!");
 		} catch (SQLException e) {
 			System.out.println("User already exists!");
+			e.printStackTrace(System.err);
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
 		}
 		
 		this.admincreation = false;
-		
+		/*
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
 		root = loader.load();
 		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
-        stage.show();
+        stage.show(); */
 	}
 	
 	@FXML
@@ -102,14 +119,10 @@ public class CreateAccountController {
 		this.admincreation = false;
 	}
 	
-	public void onetimeinvite() {
+	public void onetimeinvite(String code) {
 		ca_nouserstxt.setText("One Time Invite Code User Registration");
 		this.admincreation = false;
 		
-		//set these based on the database
-		this.invitea = false;
-		this.invitei = false;
-		this.invites = false;
-		
+		currentCode = code;
 	}
 }

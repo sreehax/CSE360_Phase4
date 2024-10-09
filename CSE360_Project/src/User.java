@@ -15,7 +15,7 @@ enum Role {
 
 public class User {
 	
-	private String firstname, middlename, lastname, preferredname, username, password, email;
+	private String firstname, middlename, lastname, preferredname, username, password, email, code;
 	private ArrayList<Role> rolelist;
 
 	 /**
@@ -29,6 +29,7 @@ public class User {
 		this.lastname = "";
 		this.preferredname = "";
 		this.username = "";
+		this.code = "";
 		this.rolelist = new ArrayList<Role>();
 		//user passwords are stored in the database
 	}
@@ -44,12 +45,13 @@ public class User {
      */
 	
 	//constructors
-	public User(String firstname, String middlename, String lastname, String preferredname, String username, String password) {
+	public User(String firstname, String middlename, String lastname, String preferredname, String username, String password, String code) {
 		this.firstname = firstname;
 		this.middlename = middlename;
 		this.lastname = lastname;
 		this.preferredname = preferredname;
 		this.username = username;
+		this.code = code;
 	}
 	
 	// Setters
@@ -103,6 +105,10 @@ public class User {
 		this.email = email;
 	}
 	
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
 	//getters
 	/**
      * Gets the user's first name.
@@ -151,6 +157,10 @@ public class User {
      */
 	public String getEmail() {
 		return email;
+	}
+	
+	public String getCode() {
+		return code;
 	}
 	
 	//Role operations

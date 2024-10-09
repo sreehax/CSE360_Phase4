@@ -126,19 +126,31 @@ public class MainSceneController {
 	
 	@FXML
 	public void OTCButtonClicked(ActionEvent event) throws IOException, SQLException {
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		storage = (Storage) stage.getUserData();
+		
+		String code = mainscene_onetimeinviteid.getText();
+		
 		//check database to see if one time code entered exists
+		boolean flag = storage.doesCodeExist(code);
 		
 		//if it exist load registration.
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateAccount.fxml"));
-		root = loader.load();
+		if (flag) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateAccount.fxml"));
+			root = loader.load();
+			
+			CreateAccountController controller = loader.getController();
+			controller.onetimeinvite(code);
+			
+	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        scene = new Scene(root);
+	        stage.setScene(scene);
+	        stage.show();
+		}
+		else {
+			System.out.println("no code exist on database");
+		}
 		
-		CreateAccountController controller = loader.getController();
-		controller.onetimeinvite();
-		
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
 	}
 	
 	

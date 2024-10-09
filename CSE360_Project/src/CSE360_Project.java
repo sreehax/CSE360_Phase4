@@ -59,6 +59,7 @@ public class CSE360_Project extends Application {
 		Storage storage = new Storage();
 		boolean flag = storage.printTable();
 		storage.printTable2();
+		storage.PrintTable3();
 		if (flag) {
 			System.out.println("entering main scene");
 			try {

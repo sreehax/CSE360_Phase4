@@ -21,7 +21,7 @@ public class Storage {
 		// Create the database schema if it does not exist already
 		Statement statement = this.conn.createStatement();
 		statement.setQueryTimeout(30);
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS user_info (username TEXT PRIMARY KEY, firstname TEXT, middlename TEXT, lastname TEXT, preferredname TEXT, email TEXT, roles TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS user_info (username TEXT PRIMARY KEY, firstname TEXT, middlename TEXT, lastname TEXT, preferredname TEXT, email TEXT, roles TEXT, code TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS logins (username TEXT PRIMARY KEY, passhash TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS onetimecode (code TEXT PRIMARY KEY, time TEXT, role TEXT)");
 	}
@@ -57,6 +57,7 @@ public class Storage {
 		System.out.println("----logins table contents----");
 		while(rs.next()) {
 			i++;
+			System.out.println("user " + i + ": ");
 			System.out.println(rs.getString("username"));
 		}
 		
@@ -78,12 +79,31 @@ public class Storage {
 		System.out.println("----user_info table contents----");
 		while(rs.next()) {
 			i++;
+			System.out.println("user " + i + ": ");
 			System.out.println(rs.getString("username"));
 			System.out.println(rs.getString("firstname"));
 			System.out.println(rs.getString("middlename"));
 			System.out.println(rs.getString("lastname"));
 			System.out.println(rs.getString("preferredname"));
 			System.out.println(rs.getString("roles"));
+		}
+		
+		System.out.println("number of users in user_info: " + i);
+	}
+	//print table of codes
+	public void PrintTable3() throws SQLException {
+		String strQuery = "SELECT * from onetimecode";
+		Statement stmt = this.conn.createStatement();
+		ResultSet rs = stmt.executeQuery(strQuery);
+		
+		int i = 0;
+		System.out.println("----onetimecode table contents----");
+		while(rs.next()) {
+			i++;
+			System.out.println("item " + i + ": ");
+			System.out.println(rs.getString("code"));
+			System.out.println(rs.getString("time"));
+			System.out.println(rs.getString("role"));
 		}
 		
 		System.out.println("number of users in user_info: " + i);
@@ -105,7 +125,7 @@ public class Storage {
 		
 		
 		// Prepare the statement
-		String strQuery = "INSERT INTO user_info (username, firstname, middlename, lastname, preferredname, email, roles) VALUES (?,?,?,?,?,?,?)";
+		String strQuery = "INSERT INTO user_info (username, firstname, middlename, lastname, preferredname, email, roles, code) VALUES (?,?,?,?,?,?,?,?)";
 		PreparedStatement prepared = this.conn.prepareStatement(strQuery);
 		prepared.setString(1, user.getUsername());
 		prepared.setString(2, user.getFirstname());
@@ -114,6 +134,7 @@ public class Storage {
 		prepared.setString(5, user.getPreferredname());
 		prepared.setString(6, user.getEmail());
 		prepared.setString(7, roles);
+		prepared.setString(8,  user.getCode());
 		
 		// Execute the statement
 		prepared.executeUpdate();

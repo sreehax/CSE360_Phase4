@@ -63,7 +63,6 @@ public class SaveAccountInfoController {
 		//Storage s = new Storage();
 		s.updateUser(username, firstname, middlename, lastname, preferredname, email);
 		
-		
 	}
 	@FXML
 	public void save_account_backClicked(ActionEvent event) throws IOException {
