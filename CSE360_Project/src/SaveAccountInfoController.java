@@ -3,6 +3,7 @@ import java.sql.SQLException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -66,6 +67,16 @@ public class SaveAccountInfoController {
 	}
 	@FXML
 	public void save_account_backClicked(ActionEvent event) throws IOException {
-		System.out.println("Clicked back button");
+		//System.out.println("Clicked back button");
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
+		root = loader.load();
+		
+		//CreateAccountController controller = loader.getController();
+		//controller.deletenousermsg();
+		
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 	}
 }

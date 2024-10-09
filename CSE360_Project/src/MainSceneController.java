@@ -28,12 +28,14 @@ public class MainSceneController {
 	private Parent root;
 	private Storage storage;
 	
-	public MainSceneController() throws IOException, SQLException {
-		//this.storage = new Storage();
-	}
 	
 	@FXML
 	private TextField mainscene_usernameid, mainscene_passwordid, mainscene_onetimeinviteid;
+	
+	public void initialize() {
+		
+	}
+	
 	
 	@FXML
 	public void LoginButtonClicked(ActionEvent event) throws IOException {
@@ -75,6 +77,21 @@ public class MainSceneController {
 				}
 				else {
 					//log in
+					
+					stage.setUserData(storage);
+					
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
+					root = loader.load();
+					
+					AdminLoginController controller = loader.getController();
+					controller.userName(username);
+					
+			        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			        scene = new Scene(root);
+			        stage.setScene(scene);
+			        stage.show();
+					
+					
 				}
 				
 				
@@ -128,13 +145,8 @@ public class MainSceneController {
 	@FXML
 	public void OTCButtonClicked(ActionEvent event) throws IOException, SQLException {
 		System.out.println("One Time Code Button Clicked");
-		String username = mainscene_usernameid.getText();
-		this.storage.userSetup(username);
+		//this.storage.deleteTables();
 	}
 	
-	public void setData(Storage storage) {
-		this.storage = storage;
-		
-	}
 	
 }
