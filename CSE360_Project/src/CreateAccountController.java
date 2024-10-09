@@ -40,10 +40,17 @@ public class CreateAccountController {
 			return;
 		};
 		
-		// Register the user in the database
+		// Register the user in "logins" and "user_info"
+		User user = new User();
+		user.setUsername(username);
+		if(admincreation) {
+			user.addRole('a');
+		}
+		
 		try {
 			Storage s = new Storage();
 			s.registerLogin(username, password);
+			s.registerUser(user);
 			System.out.println("Successfully registered user!");
 		} catch (SQLException e) {
 			System.out.println("User already exists!");

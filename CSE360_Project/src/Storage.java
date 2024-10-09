@@ -46,25 +46,47 @@ public class Storage {
 		return PasswordHasher.verifyPassword(password, hash);
 	}
 	
-	//print table of users, returns true if at least 1 user exist.
+	//print table of logins, returns true if at least 1 user exist.
 	public boolean printTable() throws SQLException {
 		String strQuery = "SELECT * from logins";
 		Statement stmt = this.conn.createStatement();
 		ResultSet rs = stmt.executeQuery(strQuery);
 		
 		int i = 0;
-		System.out.println("logins table contents");
+		System.out.println("----logins table contents----");
 		while(rs.next()) {
 			i++;
 			System.out.println(rs.getString("username"));
 		}
-		System.out.println("number of users: " + i);
+		
+		System.out.println("number of users in logins: " + i);
 		if (i == 0) {
 			return false;
 		}
 		else {
 			return true;
 		}
+	}
+	
+	//print table of user_info
+	public void printTable2() throws SQLException {
+		String strQuery = "SELECT * from user_info";
+		Statement stmt = this.conn.createStatement();
+		ResultSet rs = stmt.executeQuery(strQuery);
+		
+		int i = 0;
+		System.out.println("----user_info table contents----");
+		while(rs.next()) {
+			i++;
+			System.out.println(rs.getString("username"));
+			System.out.println(rs.getString("firstname"));
+			System.out.println(rs.getString("middlename"));
+			System.out.println(rs.getString("lastname"));
+			System.out.println(rs.getString("preferredname"));
+			System.out.println(rs.getString("roles"));
+		}
+		
+		System.out.println("number of users in user_info: " + i);
 	}
 	
 	//creates user in the database based off of the class of user
@@ -96,6 +118,15 @@ public class Storage {
 		prepared.executeUpdate();
 	}
 	
+	//updates user information
+	public void updateUser(String username, String firstname, String middlename, String lastname, String preferredname) throws SQLException {
+		String strQuery = "UPDATE user_info SET column2=" + firstname + ",column3=" + middlename + ",column4=" + lastname + ",column5=" + preferredname + " WHERE username = ?";
+		PreparedStatement prepared = this.conn.prepareStatement(strQuery);
+		prepared.setString(1,  username);
+		
+		prepared.executeUpdate();
+	}
+	
 	//
 	public void registerLogin(String username, String password) throws NoSuchAlgorithmException, InvalidKeySpecException, SQLException {
 		// Generate Password Hash
@@ -110,4 +141,13 @@ public class Storage {
 		// Execute the statement
 		prepared.executeUpdate();
 	}
+	
+	public void deleteTables() throws SQLException{
+		String sql = "DROP TABLE user_info";
+		String sql2 = "DROP TABLE logins";
+		Statement stmt = this.conn.createStatement();
+		stmt.execute(sql);
+		stmt.execute(sql2);
+	}
+	
 }

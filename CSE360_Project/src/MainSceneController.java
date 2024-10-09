@@ -97,8 +97,9 @@ public class MainSceneController {
 	}
 	
 	@FXML
-	public void OTCButtonClicked(ActionEvent event) throws IOException {
+	public void OTCButtonClicked(ActionEvent event) throws IOException, SQLException {
 		System.out.println("One Time Code Button Clicked");
+		this.storage.deleteTables();
 	}
 	
 }

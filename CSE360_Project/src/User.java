@@ -21,7 +21,7 @@ public class User {
 		//user passwords are stored in the database
 	}
 	
-	//constructor
+	//constructors
 	public User(String firstname, String middlename, String lastname, String preferredname, String username, String password) {
 		this.firstname = firstname;
 		this.middlename = middlename;
@@ -65,8 +65,22 @@ public class User {
 	}
 	
 	//Role operations
-	public void addRole(Role role) {
-		this.rolelist.add(role);
+	public void addRole(char role) {
+		Role temp;
+		switch(role) {
+		case 'a':
+			temp = Role.ADMIN;
+			this.rolelist.add(temp);
+			break;
+		case 'i':
+			temp = Role.INSTRUCTOR;
+			this.rolelist.add(temp);
+			break;
+		case 's':
+			temp = Role.STUDENT;
+			this.rolelist.add(temp);
+			break;
+		}
 	}
 	public void deleteRole(Role role) {
 		//check role exist in rolelist

@@ -57,6 +57,7 @@ public class CSE360_Project extends Application {
 		//go to create account if there are no users, otherwise go to main home page 
 		Storage storage = new Storage();
 		boolean flag = storage.printTable();
+		storage.printTable2();
 		if (flag) {
 			System.out.println("entering main scene");
 			try {
