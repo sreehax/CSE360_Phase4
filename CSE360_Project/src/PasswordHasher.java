@@ -8,11 +8,23 @@ import java.util.Base64.Encoder;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+/**
+ * Utility class for hashing and verifying passwords using PBKDF2 with HMAC-SHA1.
+ */
 public class PasswordHasher {
 	private static final int SALT_LENGTH = 16;
 	private static final int ITERATIONS = 1000;
 	private static final int HASH_BITS = 256;
-	
+
+	/**
+     * Hashes a password using PBKDF2 with a random salt and returns the hash and salt
+     * as a single string for storage.
+     *
+     * @param password the plaintext password to hash.
+     * @return a string containing the iterations, salt, and hashed password in base64 encoding.
+     * @throws NoSuchAlgorithmException if PBKDF2 algorithm is not available.
+     * @throws InvalidKeySpecException  if the key specification is invalid.
+     */
 	public static String hashPassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		// Generate a random salt (prevents rainbow-tables attacks)
 		byte[] salt = new byte[SALT_LENGTH];
@@ -35,7 +47,17 @@ public class PasswordHasher {
 		// Return a full representation that tells the verifier all the required parameters
 		return iterations + ":" + strSalt + ":" + strHash;
 	}
-	
+
+	/**
+     * Verifies a password by hashing it using the stored salt and iterations and comparing
+     * it to the stored hash.
+     *
+     * @param password the plaintext password to verify.
+     * @param strHash  the stored hash in the format iterations:salt:hash.
+     * @return true if the password matches the stored hash, false otherwise.
+     * @throws NoSuchAlgorithmException if PBKDF2 algorithm is not available.
+     * @throws InvalidKeySpecException  if the key specification is invalid.
+     */
 	public static boolean verifyPassword(String password, String strHash) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		// Obtain the iterations, salt, and hash
 		String[] hashParts = strHash.split(":");
@@ -57,7 +79,13 @@ public class PasswordHasher {
 		// Constant time comparison to prevent timing attacks
 		return constantTimeComparison(hash, computedHash);
 	}
-	
+	 /**
+     * Compares two byte arrays in constant time to prevent timing attacks.
+     *
+     * @param first  the first byte array.
+     * @param second the second byte array.
+     * @return true if both arrays are of equal length and contain the same bytes.
+     */
 	public static boolean constantTimeComparison(byte[] first, byte[] second) {
 		// Any differences will accumulate due to the properties of an XOR
 		int accumulated = first.length ^ second.length;
