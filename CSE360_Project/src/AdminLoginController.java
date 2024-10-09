@@ -20,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 
 import java.security.NoSuchAlgorithmException;
@@ -38,15 +39,26 @@ public class AdminLoginController {
 	@FXML
 	private Text al_userLabel;
 	@FXML
-	private ChoiceBox al_choicebox;
+	private CheckBox al_admincheckbox, al_studentcheckbox, al_instructorcheckbox;
 	
-	ObservableList<String> list = FXCollections.observableArrayList("Admin","Student","Instructor");
 	
 	@FXML
 	public void initialize() {
-		al_choicebox.setItems(list);
+		
 	}
 	
+	@FXML
+	public void al_admincheckboxClicked(ActionEvent event) throws IOException{
+		
+	}
+	@FXML
+	public void al_studentcheckboxClicked(ActionEvent event) throws IOException {
+		
+	}
+	@FXML
+	public void al_instructorcheckboxClicked(ActionEvent event) throws IOException {
+		
+	}
 	
 	@FXML
 	public void al_resetaccountbuttonClicked(ActionEvent event) throws IOException{
