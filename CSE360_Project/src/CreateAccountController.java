@@ -57,10 +57,16 @@ public class CreateAccountController {
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
 		}
+		
+		this.admincreation = false;
 	}
 	
 	@FXML
 	public void create_account_backClicked(ActionEvent event) throws IOException {
+		if (this.admincreation) {
+			ca_nouserstxt.setText("You have to register an admin first");
+			return;
+		}
 		root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
