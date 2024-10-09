@@ -93,6 +93,9 @@ public class AdminLoginController {
 		System.out.println(code);
 		System.out.println(date);
 		//get the role indicated
+		System.out.println("Admin: " + al_admincheckbox.isSelected());
+		System.out.println("Student: " + al_studentcheckbox.isSelected());
+		System.out.println("Instructor: " + al_instructorcheckbox.isSelected());
 	}
 	@FXML
 	public void al_logoutClicked(ActionEvent event) throws IOException {

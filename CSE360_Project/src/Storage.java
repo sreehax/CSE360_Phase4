@@ -151,9 +151,10 @@ public class Storage {
 	
 	//check if user is set up properly, return true if it is not set up, return false if it is set up.
 	public boolean userSetup(String username) throws SQLException {
-		String strQuery = "SELECT * FROM user_info WHERE username = '" + username + "'";
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery(strQuery);
+		String strQuery = "SELECT * FROM user_info WHERE username = ?";
+		PreparedStatement pstmt = conn.prepareStatement(strQuery);
+		pstmt.setString(1, username);
+		ResultSet rs = pstmt.executeQuery();
 		
 		if (rs.getString("firstname").equals("")) {
 			return true;
