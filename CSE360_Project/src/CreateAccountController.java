@@ -18,6 +18,9 @@ public class CreateAccountController {
 	private Scene scene;
 	private Parent root;
 	private boolean admincreation = true;
+	private boolean invitea;
+	private boolean invitei;
+	private boolean invites;
 	
 	
 	
@@ -48,6 +51,16 @@ public class CreateAccountController {
 		if(admincreation) {
 			user.addRole('a');
 		}
+		if(invitea) {
+			user.addRole('a');
+		}
+		if(invitei) {
+			user.addRole('i');
+		}
+		if(invites) {
+			user.addRole('s');
+		}
+		
 		
 		try {
 			Storage s = new Storage();
@@ -79,5 +92,16 @@ public class CreateAccountController {
 	public void deletenousermsg() {
 		ca_nouserstxt.setText("");
 		this.admincreation = false;
+	}
+	
+	public void onetimeinvite() {
+		ca_nouserstxt.setText("One Time Invite Code User Registration");
+		this.admincreation = false;
+		
+		//set these based on the database
+		this.invitea = false;
+		this.invitei = false;
+		this.invites = false;
+		
 	}
 }

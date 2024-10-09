@@ -107,24 +107,6 @@ public class MainSceneController {
 			e.printStackTrace(System.err);
 		}
 		
-		
-		//very beautiful pseudocode
-		
-		//flag = Database-object-name-whatever-it-is.login(username, password);
-		//if (flag == true) {
-			//root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-			
-			//passing information with the following
-			//	root = loader.load();
-			//	MainSceneController controller = loader.getController();
-			//	controller.changeUser(username); //have to add a function inside of MainSceneController that does .setText stuff!
-			
-				
-	        //stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-	        //scene = new Scene(root);
-	        //stage.setScene(scene);
-	        //stage.show();
-		//} else {sysout "no user match"}
 	}
 	
 	@FXML
@@ -144,8 +126,19 @@ public class MainSceneController {
 	
 	@FXML
 	public void OTCButtonClicked(ActionEvent event) throws IOException, SQLException {
-		System.out.println("One Time Code Button Clicked");
-		//this.storage.deleteTables();
+		//check database to see if one time code entered exists
+		
+		//if it exist load registration.
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateAccount.fxml"));
+		root = loader.load();
+		
+		CreateAccountController controller = loader.getController();
+		controller.onetimeinvite();
+		
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 	}
 	
 	
