@@ -329,4 +329,16 @@ public class Storage {
 		
 		return time;
 	}
+	
+	public boolean isCodeAlreadyInUse(String code) throws SQLException {
+		String strQuery = "SELECT username FROM user_info WHERE code = ?";
+		PreparedStatement prepared = conn.prepareStatement(strQuery);
+		prepared.setString(1, code);
+		
+		ResultSet res = prepared.executeQuery();
+		while (res.next()) {
+			return true;
+		}
+		return false;
+	}
 }
