@@ -50,37 +50,40 @@ public class CreateAccountController {
 		//connect storage
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		Storage s = (Storage) stage.getUserData();
-				
-		//set invitation code roles based on the database
-		//String listofRoles = s.getRolesFromCode(currentCode);
-				
-		//interpret list of roles string
-		//System.out.println(listofRoles);
 		
-		
-		// Register the user in "logins" and "user_info"
-		User user = new User();
-		user.setUsername(username);
-		if(admincreation) {
-			user.addRole('a');
-		}
-		if(invitea) {
-			user.addRole('a');
-		}
-		if(invitei) {
-			user.addRole('i');
-		}
-		if(invites) {
-			user.addRole('s');
-		}
-		
+		char c;
 		
 		try {
 			String listofRoles = s.getRolesFromCode(currentCode);
 			System.out.println(listofRoles);
 			
+			for (int i = 0; i < listofRoles.length(); i++) {
+				listofRoles.charAt(i);
+				System.out.println("");
+				
+			}
+			
+			//interpret list of roles.
+			
+			User user = new User();
+			user.setUsername(username);
+			if(admincreation) {
+				user.addRole('a');
+			}
+			if(invitea) {
+				user.addRole('a');
+			}
+			if(invitei) {
+				user.addRole('i');
+			}
+			if(invites) {
+				user.addRole('s');
+			}
+			
+			//
+			
+			
 			s.registerLogin(username, password);
-			System.out.println("made it through registerlogin");
 			s.registerUser(user);
 			System.out.println("Successfully registered user!");
 		} catch (SQLException e) {

@@ -186,6 +186,7 @@ public class Storage {
 	public void updateUser(String username, String firstname, String middlename, String lastname, String preferredname, String email) throws SQLException {
 		String sql = "UPDATE user_info SET firstname = ?, middlename = ?, lastname = ?, preferredname = ?, email = ? WHERE username = ?";
 		
+		
 		PreparedStatement stmt = this.conn.prepareStatement(sql);
 		stmt.setString(1, firstname);
 		stmt.setString(2, middlename);
