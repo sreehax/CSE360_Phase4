@@ -308,4 +308,25 @@ public class Storage {
 		
 		return role;
 	}
+	
+	/**
+ * Retrieves the time associated with a one-time code from the "onetimecode" table.
+ *
+ * @param code the one-time code to retrieve the role for.
+ * @return the time that the one-time code was created, or an empty string if no role is found.
+ * @throws SQLException if a database access error occurs.
+ */
+	public String getTimeFromCode(String code) throws SQLException {
+		String strQuery = "SELECT time FROM onetimecode WHERE code = ?";
+		PreparedStatement prepared = conn.prepareStatement(strQuery);
+		prepared.setString(1, code);
+		
+		ResultSet res = prepared.executeQuery();
+		String time = "";
+		while (res.next()) {
+			time = res.getString("time"); 
+		}
+		
+		return time;
+	}
 }
