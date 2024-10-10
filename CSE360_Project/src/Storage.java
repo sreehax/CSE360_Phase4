@@ -361,4 +361,34 @@ public class Storage {
 			System.out.println("User to delete does not exist");
 		}
 	}
+	
+	public User getUser(String username) throws SQLException {
+		String query = "SELECT * FROM user_info WHERE username = ?";
+		PreparedStatement prepared = conn.prepareStatement(query);
+		prepared.setString(1, query);
+		
+		ResultSet res = prepared.executeQuery();
+		
+		while (res.next()) {
+			User user = new User();
+			user.setFirstname(res.getString("firstname"));
+			user.setMiddlename(res.getString("middlename"));
+			user.setLastname(res.getString("lastname"));
+			user.setPreferredname(res.getString("preferredname"));
+			user.setEmail(res.getString("email"));
+			user.setUsername(username);
+			user.setCode(res.getString("code"));
+			for (char c : res.getString("roles").toCharArray()) {
+				if (c == 'A')
+					user.addRole('a');
+				if (c == 'I')
+					user.addRole('i');
+				if (c == 'S')
+					user.addRole('s');
+			}
+			
+			return user;
+		}
+		throw new SQLException("User Not Found");
+	}
 }
