@@ -237,6 +237,20 @@ public class Storage {
 		prep2.setString(2, username);
 	}
 	
+	public boolean isTempPass(String username) throws SQLException {
+		String query1 = "SELECT temppass FROM user_info WHERE username = ?";
+		
+		PreparedStatement prep1 = this.conn.prepareStatement(query1);
+		prep1.setString(1, username);
+		
+		ResultSet res = prep1.executeQuery();
+		if (res.next()) {
+			int temppass = res.getInt("temppass");
+			return temppass == 1;
+		}
+		return false;
+	}
+	
 	 /**
      * Registers a login for the specified username with a hashed password in the `logins` table.
      * 
