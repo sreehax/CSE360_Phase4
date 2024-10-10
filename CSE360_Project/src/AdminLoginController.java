@@ -133,8 +133,6 @@ public class AdminLoginController {
 		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 		String date = time.format(fmt);
 		
-		System.out.println(code);
-		System.out.println(date);
 		//get the role indicated
 		String roles = "";
 		if (al_admincheckbox.isSelected()) {
@@ -151,6 +149,8 @@ public class AdminLoginController {
 			System.out.println("You must select at least one role to generate a One Time Password");
 			return;
 		}
+		System.out.println(code);
+		System.out.println(date);
 		System.out.println(roles);
 		// Register the one-time code in the storage
 		try {
