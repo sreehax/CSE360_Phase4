@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,10 +16,14 @@ public class DeleteConfirmationController {
 	private Scene scene;
 	private Parent root;
 	private Storage storage;
+	private String username;
 	
 	@FXML
 	private TextField dc_confirmtxtBox;
 	
+	public void userName(String name) {
+		this.username = name;
+	}
 	
 	@FXML
 	public void dc_backClicked(ActionEvent event) throws IOException {
@@ -39,7 +44,22 @@ public class DeleteConfirmationController {
 			return;
 		}
 		
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		this.storage = (Storage) stage.getUserData();
-		// delete the user here
+		try {
+			this.storage.deleteUser(this.username);
+			System.out.println("Deleted user " + this.username + " successfully!");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
+		root = loader.load();
+		
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 	}
 }

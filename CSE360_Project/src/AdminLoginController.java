@@ -22,6 +22,7 @@ import java.security.MessageDigest;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -43,6 +44,9 @@ public class AdminLoginController {
 	
 	@FXML
 	private Text al_userLabel;
+	
+	@FXML
+	private TextField al_username, al_deleteusername;
 	@FXML
 	private CheckBox al_admincheckbox, al_studentcheckbox, al_instructorcheckbox;
 	
@@ -101,19 +105,17 @@ public class AdminLoginController {
      */
 	@FXML
 	public void al_deleteuserbuttonClicked(ActionEvent event) throws IOException{
-		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("DeleteConfirmatio.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("DeleteConfirmation.fxml"));
 		root = loader.load();
 		
 		DeleteConfirmationController controller = loader.getController();
-		//controller.userName(username);
+		controller.userName(this.al_deleteusername.getText());
 		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
 	}
-		
 	/**
      * Handles the event when the invitation button is clicked.
      * Generates a one-time code for user roles and registers it in the storage.

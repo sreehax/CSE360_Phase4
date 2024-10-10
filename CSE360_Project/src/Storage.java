@@ -350,11 +350,11 @@ public class Storage {
 		int updates = 0;
 		
 		PreparedStatement prep1 = conn.prepareStatement(query1);
-		prep1.setString(1, query1);
+		prep1.setString(1, username);
 		updates += prep1.executeUpdate();
 		
 		PreparedStatement prep2 = conn.prepareStatement(query2);
-		prep2.setString(2, query2);
+		prep2.setString(1, username);
 		updates += prep2.executeUpdate();
 		
 		if (updates == 0) {
