@@ -29,7 +29,12 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
+/**
+ * The AdminLoginController class manages the admin login interface,
+ * including user interactions for account management and invitation code generation.
+ * It handles the setup of the admin panel, allowing the admin to reset accounts,
+ * delete users, and create invitation codes for different user roles.
+ */
 public class AdminLoginController {
 	private Stage stage;
 	private Scene scene;
@@ -41,35 +46,73 @@ public class AdminLoginController {
 	@FXML
 	private CheckBox al_admincheckbox, al_studentcheckbox, al_instructorcheckbox;
 	
-	
+	/**
+     * Initializes the controller after the root element has been processed.
+     */
 	@FXML
 	public void initialize() {
 		
 	}
-	
+	/**
+     * Handles the event when the admin checkbox is clicked.
+     *
+     * @param event The action event triggered by the checkbox click
+     * @throws IOException If there is an issue during the operation
+     */
 	@FXML
 	public void al_admincheckboxClicked(ActionEvent event) throws IOException{
 		
 	}
+	/**
+     * Handles the event when the student checkbox is clicked.
+     *
+     * @param event The action event triggered by the checkbox click
+     * @throws IOException If there is an issue during the operation
+     */
 	@FXML
 	public void al_studentcheckboxClicked(ActionEvent event) throws IOException {
 		
 	}
+	/**
+     * Handles the event when the instructor checkbox is clicked.
+     *
+     * @param event The action event triggered by the checkbox click
+     * @throws IOException If there is an issue during the operation
+     */
 	@FXML
 	public void al_instructorcheckboxClicked(ActionEvent event) throws IOException {
 		
 	}
-	
+	/**
+     * Handles the event when the reset account button is clicked.
+     *
+     * @param event The action event triggered by the button click
+     * @throws IOException If there is an issue during the operation
+     */
 	@FXML
 	public void al_resetaccountbuttonClicked(ActionEvent event) throws IOException{
 		
 	}
+	/**
+     * Handles the event when the delete user button is clicked.
+     *
+     * @param event The action event triggered by the button click
+     * @throws IOException If there is an issue during the operation
+     */
 	@FXML
 	public void al_deleteuserbuttonClicked(ActionEvent event) throws IOException{
 		
 	}
+	/**
+     * Handles the event when the invitation button is clicked.
+     * Generates a one-time code for user roles and registers it in the storage.
+     *
+     * @param event The action event triggered by the button click
+     * @throws IOException If there is an issue during the operation
+     */
 	@FXML
 	public void al_invitationbuttonClicked(ActionEvent event) throws IOException {
+		// Get the current stage and storage object
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         this.storage = (Storage) stage.getUserData();
         
@@ -104,6 +147,7 @@ public class AdminLoginController {
 			roles += "I";
 		}
 		System.out.println(roles);
+		// Register the one-time code in the storage
 		try {
 			this.storage.registerOneTimeCode(code, date, roles);
 			System.out.println("One Time Code Registered");
@@ -111,6 +155,13 @@ public class AdminLoginController {
 			e.printStackTrace(System.err);
 		}
 	}
+	 /**
+     * Handles the event when the logout button is clicked.
+     * Loads the main scene and displays it.
+     *
+     * @param event The action event triggered by the button click
+     * @throws IOException If there is an issue loading the main scene
+     */
 	@FXML
 	public void al_logoutClicked(ActionEvent event) throws IOException {
 		
@@ -125,7 +176,11 @@ public class AdminLoginController {
         stage.setScene(scene);
         stage.show();
 	}
-	
+	 /**
+     * Sets the user name label to display the currently logged-in user.
+     *
+     * @param name The name of the user to be displayed
+     */
 	public void userName(String name) {
 		al_userLabel.setText("User: " + name);
 	}
