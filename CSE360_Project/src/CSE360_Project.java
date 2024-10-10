@@ -8,7 +8,7 @@
  * 
  * @author Team TU39
  * 
- * @version 1.00	2024-10-08 Initial implementation of a JavaFX project.
+ * @version 1.00	2024-10-09 Initial implementation of a JavaFX project.
  */
 //mainline created by Jonathan Lin 9/25/2024
 
@@ -50,7 +50,7 @@ public class CSE360_Project extends Application {
      * The main entry point for the JavaFX application.
      *
      * @param primaryStage the main stage for this application.
-	 * @throws SQLException 
+ * @throws SQLException if there is an error accessing the storage system or SQL database.
      */
 	@Override
 	public void start(Stage primaryStage) throws SQLException {

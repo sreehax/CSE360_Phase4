@@ -1,12 +1,10 @@
 import java.util.ArrayList;
-
 /**
  * Represents a user in the system with personal information and roles.
  * 
  * <p> This class is used to manage user data, including their first name, middle name, last name, preferred name,
  * username, password, and roles within the application. Roles define the user's permissions within the system.</p>
  */
-
 public class User {
 	
 	private String firstname, middlename, lastname, preferredname, username, password, email, code;
@@ -16,8 +14,7 @@ public class User {
 	 /**
      * Default constructor for the User class.
      * <p> Initializes the user's personal information to empty strings and creates an empty list of roles. </p>
-     */
-	
+     */	
 	public User() {
 		this.firstname = "";
 		this.middlename = "";
@@ -39,8 +36,6 @@ public class User {
      * @param username The username of the user.
      * @param password The password of the user.
      */
-	
-	//constructors
 	public User(String firstname, String middlename, String lastname, String preferredname, String username, String password, String code, int temppass) {
 		this.firstname = firstname;
 		this.middlename = middlename;
