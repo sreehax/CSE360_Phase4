@@ -146,9 +146,21 @@ public class AdminLoginController {
      *
      * @param event The action event triggered by the button click
      * @throws IOException If there is an issue during the operation
+	 * @throws SQLException 
      */
 	@FXML
-	public void al_deleteuserbuttonClicked(ActionEvent event) throws IOException{
+	public void al_deleteuserbuttonClicked(ActionEvent event) throws IOException, SQLException{
+		String username = al_deleteusername.getText();
+		
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		storage = (Storage) stage.getUserData();
+		
+		Boolean userexistflag = storage.doesUserExist(username);
+		if (!userexistflag) {
+			System.out.println("no user found");
+			return;
+		}
+		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("DeleteConfirmation.fxml"));
 		root = loader.load();
 		

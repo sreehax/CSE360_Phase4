@@ -14,8 +14,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class ResetPasswordController {
-	//rp_backClicked
-	//rp_confirmClicked
 	
 	private Stage stage;
 	private Scene scene;
@@ -33,6 +31,7 @@ public class ResetPasswordController {
 		root = loader.load();
 		
 		MainSceneController controller = loader.getController();
+		
 
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -45,7 +44,7 @@ public class ResetPasswordController {
 		
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		storage = (Storage) stage.getUserData(); 
-		//needs to update database with selected password and reset flag
+		
 		String newPass = rp_txtfield.getText();
 		System.out.println(newPass);
 		

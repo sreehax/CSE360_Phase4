@@ -23,6 +23,7 @@ public class DeleteConfirmationController {
 	
 	public void userName(String name) {
 		this.username = name;
+		
 	}
 	
 	@FXML
@@ -37,8 +38,9 @@ public class DeleteConfirmationController {
 	}
 	
 	@FXML
-	public void dc_confirmbuttonClicked(ActionEvent event) throws IOException {
+	public void dc_confirmbuttonClicked(ActionEvent event) throws IOException, SQLException {
 		String input = this.dc_confirmtxtBox.getText();
+		
 		if (!input.equals("Yes")) {
 			System.out.println("You must type in 'Yes' to delete!");
 			return;
@@ -57,9 +59,13 @@ public class DeleteConfirmationController {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
 		root = loader.load();
 		
+		//pass in username so admin is still logged in
+		
+		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
 	}
+	
 }
