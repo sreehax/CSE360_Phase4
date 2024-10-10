@@ -222,6 +222,21 @@ public class Storage {
 		prep2.setString(2, username);
 	}
 	
+	public void updateMainPass(String username, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
+		//find user, change password, set flag
+		String query1 = "UPDATE user_info SET temppass = NULL, temptime = NULL WHERE username = ?";
+		String query2 = "UPDATE logins SET passhash = ? WHERE username = ?";
+		
+		PreparedStatement prep1 = this.conn.prepareStatement(query1);
+		
+		prep1.setString(1, username);
+		prep1.executeUpdate();
+		
+		PreparedStatement prep2 = this.conn.prepareStatement(query2);
+		prep2.setString(1, PasswordHasher.hashPassword(password));
+		prep2.setString(2, username);
+	}
+	
 	 /**
      * Registers a login for the specified username with a hashed password in the `logins` table.
      * 
