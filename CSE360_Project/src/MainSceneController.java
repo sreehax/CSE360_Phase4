@@ -105,33 +105,70 @@ public class MainSceneController {
 					if (list.size() > 1) {
 						//go to selection page
 						System.out.println("more than one role");
+						
+						FXMLLoader loader = new FXMLLoader(getClass().getResource("SelectRole.fxml"));
+						root = loader.load();
+						
+						SelectRoleController controller = loader.getController();
+						controller.changeUsername(username);
+	
+				        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+				        scene = new Scene(root);
+				        stage.setScene(scene);
+				        stage.show();
+						
+				        return;
 					}
 					else {
 						//choose between 3
 						if (list.get(0) == Role.ADMIN) {
 							System.out.println("role is admin");
+							FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
+							root = loader.load();
+							
+							AdminLoginController controller = loader.getController();
+							controller.userName(username);
+		
+					        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+					        scene = new Scene(root);
+					        stage.setScene(scene);
+					        stage.show();
+							
+					        return;
 						}
 						if (list.get(0) == Role.INSTRUCTOR) {
 							System.out.println("role is instructor");
+							FXMLLoader loader = new FXMLLoader(getClass().getResource("InstructorLogin.fxml"));
+							root = loader.load();
+							
+							InstructorLoginController controller = loader.getController();
+							controller.userName(username);
+		
+					        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+					        scene = new Scene(root);
+					        stage.setScene(scene);
+					        stage.show();
+					        
+					        return;
+							
 						}
 						if (list.get(0) == Role.STUDENT) {
 							System.out.println("role is student");
+							
+							FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentLogin.fxml"));
+							root = loader.load();
+							
+							StudentLoginController controller = loader.getController();
+							controller.userName(username);
+		
+					        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+					        scene = new Scene(root);
+					        stage.setScene(scene);
+					        stage.show();
+					        
+					        return;
 						}
-					}
-					
-						// Load the admin login page for users without a complete setup
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
-					root = loader.load();
-						// Pass the current username to the admin login controller
-					AdminLoginController controller = loader.getController();
-					controller.userName(username);
-						// Transition to the admin login scene	
-			        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			        scene = new Scene(root);
-			        stage.setScene(scene);
-			        stage.show();
-			        
-			        
+					}	        
 					
 					
 				}

@@ -18,7 +18,7 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <Text fx:id="ip_userLabel" layoutX="454.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: not logged in" />
+      <Text fx:id="sr_userLabel" layoutX="454.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: not logged in" />
       <Text layoutX="8.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version 0.1 alpha" />
       <Text layoutX="430.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="version date: 9/25/2024" />
       
@@ -26,6 +26,6 @@
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
       <Button fx:id="sr_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#sr_logoutClicked" text="logout" />
       <ChoiceBox fx:id="sr_combobox" layoutX="107.0" layoutY="133.0" prefWidth="150.0" />
-      <Button fx:id="sr_logout1" layoutX="319.0" layoutY="133.0" mnemonicParsing="false" onAction="#sr_logoutClicked" text="select your session" />
+      <Button fx:id="sr_selectSession" layoutX="319.0" layoutY="133.0" mnemonicParsing="false" onAction="#sr_selectSessionClicked" text="select your session" />
    </children>
 </AnchorPane>
