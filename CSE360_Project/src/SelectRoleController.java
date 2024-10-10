@@ -12,7 +12,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+/**
+ * Controller class for selecting a user role.
+ * Manages role selection and navigation to different login views based on the selected role.
+ */
 public class SelectRoleController {
 	private Stage stage;
 	private Scene scene;
@@ -20,22 +23,31 @@ public class SelectRoleController {
 	private String username;
 	
 	private ArrayList<Role> list;
-	
+	 /** Text label to display the username. */
 	@FXML
 	private Text sr_userLabel;
+	/** Choice box for selecting the user's role. */
 	@FXML
 	private ChoiceBox sr_combobox;
-	
+	/**
+     * Initializes the controller class. This method is called after the FXML file has been loaded.
+     */
 	@FXML
 	private void initialize() {
 	}
-	
+	/**
+     * Handles the event when the user clicks the "Select Session" button.
+     * Loads the appropriate login view based on the selected role.
+     *
+     * @param event The event triggered by clicking the button.
+     * @throws IOException If the FXML file for the selected role cannot be loaded.
+     */
 	@FXML
 	public void sr_selectSessionClicked(ActionEvent event) throws IOException {
 		//check session view selected and change scene based on selection
 		String selectedRole = (String) sr_combobox.getValue();
 		System.out.println(selectedRole);
-		
+		// Load the appropriate FXML file and set the scene based on the selected role
 		if (selectedRole.equals("Admin")) {
 			System.out.println("admin selected");
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
@@ -79,6 +91,13 @@ public class SelectRoleController {
 			System.out.println("Error, no role found");
 		}
 	}
+	 /**
+     * Handles the event when the user clicks the "Logout" button.
+     * Navigates back to the main scene.
+     *
+     * @param event The event triggered by clicking the button.
+     * @throws IOException If the FXML file for the main scene cannot be loaded.
+     */
 	@FXML
 	public void sr_logoutClicked(ActionEvent event) throws IOException {
 		System.out.println("logoutclicked");
@@ -92,16 +111,24 @@ public class SelectRoleController {
         stage.setScene(scene);
         stage.show();
 	}
-	
+	/**
+     * Sets the username of the user and updates the user label.
+     *
+     * @param username The username to set.
+     */
 	public void changeUsername(String username) {
 		this.username = username;
 		sr_userLabel.setText("User: " + username);
 	}
-	
+	 /**
+     * Populates the combo box with the available roles based on the given list of roles.
+     *
+     * @param list The list of roles available to the user.
+     */
 	public void addroles(ArrayList<Role> list) {
 		this.list = list;
 		System.out.println("list size: " + this.list.size());
-		
+		// Populate the combo box with the roles
 		ArrayList<String> test = new ArrayList<String>();
 		Role temp;
 		
