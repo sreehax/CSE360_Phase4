@@ -24,7 +24,7 @@ For now, the home page only has the options to logout
 
 NOTE!!!
 put the following 3 jars in the userlibraries!
-slf4j-api-1.7.36.jar
-slf4j-simple-1.7.36.jar
-sqlite-jdbc-3.45.1.3.jar
+slf4j-api-1.7.36.jar, 
+slf4j-simple-1.7.36.jar, 
+sqlite-jdbc-3.45.1.3.jar, 
 
