@@ -25,7 +25,6 @@
       <Line endX="469.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
       <Button fx:id="LoginButton" layoutX="216.0" layoutY="181.0" mnemonicParsing="false" onAction="#LoginButtonClicked" text="Login" />
-      <Button fx:id="CreateAccount" layoutX="42.0" layoutY="181.0" mnemonicParsing="false" onAction="#CreateAccountClicked" text="Create Account" />
       <TextField fx:id="mainscene_usernameid" layoutX="113.0" layoutY="99.0" />
       <Text layoutX="42.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
       <Text layoutX="42.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />

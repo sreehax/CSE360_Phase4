@@ -112,20 +112,6 @@ public class MainSceneController {
 		
 	}
 	
-	@FXML
-	public void CreateAccountClicked(ActionEvent event) throws IOException {
-		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateAccount.fxml"));
-		root = loader.load();
-		
-		CreateAccountController controller = loader.getController();
-		controller.deletenousermsg();
-		
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-	}
 	
 	@FXML
 	public void OTCButtonClicked(ActionEvent event) throws IOException, SQLException {
