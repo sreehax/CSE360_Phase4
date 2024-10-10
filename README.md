@@ -22,3 +22,6 @@ Complete account setup, pick roles, and see the appropriate page for that role
 For now, the home page only has the options to logout
 
 
+NOTE!!!
+https://auth.ssree.dev/#/send/FZtpaB0QR4O5O-hEDZf-5Q/7QvWKaKwWif-hI7N2vUrYQ
+put sqlite-jdbc in the User Libraries, add the three jars
