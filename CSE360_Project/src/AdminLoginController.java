@@ -57,6 +57,16 @@ public class AdminLoginController {
 	public void initialize() {
 		
 	}
+	
+	@FXML
+	public void al_printtableClicked(ActionEvent event) throws IOException, SQLException {
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+        
+        //list the user accounts. a list of all the user accounts with the user name,
+        //the individual's name, and a set of codes for the roles is displayed.
+        storage.printTable2();
+	}
 	/**
      * Handles the event when the admin checkbox is clicked.
      *

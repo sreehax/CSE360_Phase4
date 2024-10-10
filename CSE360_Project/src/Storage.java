@@ -110,14 +110,14 @@ public class Storage {
 		System.out.println("----user_info table contents----");
 		while(rs.next()) {
 			i++;
-			System.out.println("user " + i + ": ");
-			System.out.println(rs.getString("username"));
-			System.out.println(rs.getString("firstname"));
-			System.out.println(rs.getString("middlename"));
-			System.out.println(rs.getString("lastname"));
-			System.out.println(rs.getString("preferredname"));
-			System.out.println(rs.getString("roles"));
-			System.out.println(rs.getString("code"));
+			System.out.println("User \t\t#" + i + " ");
+			System.out.println("Username:\t" + rs.getString("username"));
+			System.out.println("First Name:\t" + rs.getString("firstname"));
+			System.out.println("Middle Name:\t" + rs.getString("middlename"));
+			System.out.println("Last Name:\t" + rs.getString("lastname"));
+			System.out.println("Preferred Name:\t" + rs.getString("preferredname"));
+			System.out.println("Roles:\t\t" + rs.getString("roles"));
+			System.out.println("Invitation Code:\t" + rs.getString("code"));
 		}
 		
 		System.out.println("number of users in user_info: " + i);
