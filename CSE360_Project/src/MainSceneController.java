@@ -24,24 +24,37 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-
+/**
+ * Controller class for handling the main login scene in a JavaFX application.
+ * It allows users to log in using a username and password or a one-time code (OTC).
+ */
 public class MainSceneController {
+	// Stage and Scene objects for transitioning between different UI scenes
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
 	private Storage storage;
 	
-	
+	// FXML UI elements linked to the main scene
 	@FXML
 	private TextField mainscene_usernameid, mainscene_passwordid, mainscene_onetimeinviteid;
-	
+	/**
+     * Initializes the controller when the scene is loaded.
+     * This method is called automatically by the JavaFX framework.
+     */
 	public void initialize() {
 		
 	}
-	
-	
+	  /**
+     * Handles the login process when the "Login" button is clicked.
+     * Verifies the username and password against stored data, and navigates to the appropriate scene based on the result.
+     *
+     * @param event the event triggered by clicking the login button.
+     * @throws IOException if an I/O error occurs while loading the next scene.
+     */
 	@FXML
 	public void LoginButtonClicked(ActionEvent event) throws IOException {
+		// Get the current stage from the event source
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		storage = (Storage) stage.getUserData();
 		
@@ -68,7 +81,7 @@ public class MainSceneController {
 					
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("SaveAccountInfo.fxml"));
 					root = loader.load();
-					
+					// Pass the current username to the account setup controller
 					SaveAccountInfoController controller = loader.getController();
 					controller.currentUser(username);
 					
@@ -82,13 +95,13 @@ public class MainSceneController {
 					//log in
 					
 					stage.setUserData(storage);
-					
+					// Load the admin login page for users without a complete setup
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
 					root = loader.load();
-					
+					// Pass the current username to the admin login controller
 					AdminLoginController controller = loader.getController();
 					controller.userName(username);
-					
+				// Transition to the admin login scene	
 			        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			        scene = new Scene(root);
 			        stage.setScene(scene);
@@ -112,9 +125,18 @@ public class MainSceneController {
 		
 	}
 	
-	
+	/**
+     * Handles the one-time code (OTC) login process when the "Use OTC" button is clicked.
+     * Checks the validity of the one-time code, ensuring it exists, is within 24 hours, and is not already used.
+     * Loads the registration page if the code is valid.
+     *
+     * @param event the event triggered by clicking the OTC button.
+     * @throws IOException if an I/O error occurs while loading the next scene.
+     * @throws SQLException if a database access error occurs.
+     */
 	@FXML
 	public void OTCButtonClicked(ActionEvent event) throws IOException, SQLException {
+		// Get the current stage and storage object from the event source
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		storage = (Storage) stage.getUserData();
 		
@@ -153,10 +175,15 @@ public class MainSceneController {
 		}
 		
 	}
-	
+	 /**
+     * Checks whether the provided time is within the last 24 hours.
+     *
+     * @param time the time in "yyyy-MM-dd'T'HH:mm:ss" format.
+     * @return true if the time is within 24 hours; false otherwise.
+     */
 	private boolean within24Hours(String time) {
 		LocalDateTime currentTime = LocalDateTime.now();
-		
+		// Parse the provided time and calculate the time difference
 		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 		LocalDateTime inputTime = LocalDateTime.parse(time, fmt);
 		long secondsElapsed = ChronoUnit.SECONDS.between(inputTime, currentTime);
