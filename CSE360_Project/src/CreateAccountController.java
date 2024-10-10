@@ -19,10 +19,6 @@ public class CreateAccountController {
 	private Parent root;
 	private String currentCode;
 	private boolean admincreation = true;
-	private boolean invitea = false;
-	private boolean invitei = false;
-	private boolean invites = false;
-	
 	
 	
 	@FXML
@@ -34,6 +30,10 @@ public class CreateAccountController {
 	public void create_account_buttonClicked(ActionEvent event) throws IOException {
 		
 		boolean flag = false;
+		boolean invitea = false;
+		boolean invitei = false;
+		boolean invites = false;
+		
 		String username, password, password2;
 		
 		username = ca_usernameid.getText();
@@ -58,15 +58,27 @@ public class CreateAccountController {
 			System.out.println(listofRoles);
 			
 			for (int i = 0; i < listofRoles.length(); i++) {
-				listofRoles.charAt(i);
-				System.out.println("");
-				
+				c = listofRoles.charAt(i);
+				c = Character.toLowerCase(c);
+				switch (c) {
+					case 'a':
+						invitea = true;
+						break;
+					case 'i':
+						invitei = true;
+						break;
+					case 's':
+						invites = true;
+						break;
+				}
 			}
 			
 			//interpret list of roles.
 			
 			User user = new User();
 			user.setUsername(username);
+			user.setCode(currentCode);
+			
 			if(admincreation) {
 				user.addRole('a');
 			}
@@ -79,8 +91,6 @@ public class CreateAccountController {
 			if(invites) {
 				user.addRole('s');
 			}
-			
-			//
 			
 			
 			s.registerLogin(username, password);

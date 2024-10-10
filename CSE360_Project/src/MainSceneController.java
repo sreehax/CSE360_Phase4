@@ -142,6 +142,12 @@ public class MainSceneController {
 			return;
 		}
 		
+		//check if it's already in use
+		boolean flag2 = storage.isCodeAlreadyInUse(code);
+		if (flag2) {
+			System.out.println("Code is already used");
+			return;
+		}
 		
 		//if it exist load registration.
 		if (flag) {

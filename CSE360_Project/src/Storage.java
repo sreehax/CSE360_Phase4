@@ -114,6 +114,7 @@ public class Storage {
 			System.out.println(rs.getString("lastname"));
 			System.out.println(rs.getString("preferredname"));
 			System.out.println(rs.getString("roles"));
+			System.out.println(rs.getString("code"));
 		}
 		
 		System.out.println("number of users in user_info: " + i);
