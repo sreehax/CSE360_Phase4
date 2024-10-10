@@ -369,8 +369,7 @@ public class Storage {
 		
 		ResultSet res = prepared.executeQuery();
 		
-		if (res.next()) {
-			System.out.println("Got a user");
+		while (res.next()) {
 			User user = new User();
 			user.setFirstname(res.getString("firstname"));
 			user.setMiddlename(res.getString("middlename"));

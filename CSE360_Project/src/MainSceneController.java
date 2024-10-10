@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+
 /**
  * Controller class for handling the main login scene in a JavaFX application.
  * It allows users to log in using a username and password or a one-time code (OTC).
@@ -98,14 +99,33 @@ public class MainSceneController {
 					
 					//check users role, if it is more than 1 go to selection screen, otherwise go to one of the 3 login pages.
 					
+					User u = storage.getUser(username);
+					ArrayList<Role> list = u.getRoleList();
 					
-					// Load the admin login page for users without a complete setup
+					if (list.size() > 1) {
+						//go to selection page
+						System.out.println("more than one role");
+					}
+					else {
+						//choose between 3
+						if (list.get(0) == Role.ADMIN) {
+							System.out.println("role is admin");
+						}
+						if (list.get(0) == Role.INSTRUCTOR) {
+							System.out.println("role is instructor");
+						}
+						if (list.get(0) == Role.STUDENT) {
+							System.out.println("role is student");
+						}
+					}
+					
+						// Load the admin login page for users without a complete setup
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
 					root = loader.load();
-					// Pass the current username to the admin login controller
+						// Pass the current username to the admin login controller
 					AdminLoginController controller = loader.getController();
 					controller.userName(username);
-					// Transition to the admin login scene	
+						// Transition to the admin login scene	
 			        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			        scene = new Scene(root);
 			        stage.setScene(scene);
