@@ -102,7 +102,18 @@ public class AdminLoginController {
 	@FXML
 	public void al_deleteuserbuttonClicked(ActionEvent event) throws IOException{
 		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("DeleteConfirmatio.fxml"));
+		root = loader.load();
+		
+		DeleteConfirmationController controller = loader.getController();
+		//controller.userName(username);
+		
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 	}
+		
 	/**
      * Handles the event when the invitation button is clicked.
      * Generates a one-time code for user roles and registers it in the storage.
