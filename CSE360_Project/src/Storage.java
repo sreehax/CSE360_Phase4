@@ -251,6 +251,18 @@ public class Storage {
 		return false;
 	}
 	
+	public boolean doesUserExist(String username) throws SQLException {
+		String query = "SELECT * FROM user_info WHERE username = ?";
+		PreparedStatement prep = this.conn.prepareStatement(query);
+		
+		prep.setString(1, username);
+		ResultSet res = prep.executeQuery();
+		if (res.next()) {
+			return true;
+		}
+		return false;
+	}
+	
 	 /**
      * Registers a login for the specified username with a hashed password in the `logins` table.
      * 
