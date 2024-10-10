@@ -342,4 +342,23 @@ public class Storage {
 		}
 		return false;
 	}
+	
+	public void deleteUser(String username) throws SQLException {
+		String query1 = "DELETE FROM logins WHERE username = ?";
+		String query2 = "DELETE FROM user_info WHERE username = ?";
+		
+		int updates = 0;
+		
+		PreparedStatement prep1 = conn.prepareStatement(query1);
+		prep1.setString(1, query1);
+		updates += prep1.executeUpdate();
+		
+		PreparedStatement prep2 = conn.prepareStatement(query2);
+		prep2.setString(2, query2);
+		updates += prep2.executeUpdate();
+		
+		if (updates == 0) {
+			System.out.println("User to delete does not exist");
+		}
+	}
 }
