@@ -91,9 +91,4 @@ public class DeleteConfirmationController {
         stage.setScene(scene);
         stage.show();
 	}
-<<<<<<< HEAD
-	
 }
-=======
-}
->>>>>>> refs/remotes/origin/main
