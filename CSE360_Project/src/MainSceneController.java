@@ -95,17 +95,23 @@ public class MainSceneController {
 					//log in
 					
 					stage.setUserData(storage);
+					
+					//check users role, if it is more than 1 go to selection screen, otherwise go to one of the 3 login pages.
+					
+					
 					// Load the admin login page for users without a complete setup
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
 					root = loader.load();
 					// Pass the current username to the admin login controller
 					AdminLoginController controller = loader.getController();
 					controller.userName(username);
-				// Transition to the admin login scene	
+					// Transition to the admin login scene	
 			        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			        scene = new Scene(root);
 			        stage.setScene(scene);
 			        stage.show();
+			        
+			        
 					
 					
 				}
@@ -144,6 +150,11 @@ public class MainSceneController {
 		
 		//check database to see if one time code entered exists
 		boolean flag = storage.doesCodeExist(code);
+		if (!flag) {
+			System.out.println("Doesn't exist");
+			return;
+		}
+		
 		String time = storage.getTimeFromCode(code);
 		if (!this.within24Hours(time)) {
 			System.out.println("Code expired!");
@@ -169,9 +180,6 @@ public class MainSceneController {
 	        scene = new Scene(root);
 	        stage.setScene(scene);
 	        stage.show();
-		}
-		else {
-			System.out.println("no code exist on database");
 		}
 		
 	}
