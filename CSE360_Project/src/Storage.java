@@ -220,6 +220,7 @@ public class Storage {
 		PreparedStatement prep2 = this.conn.prepareStatement(query2);
 		prep2.setString(1, PasswordHasher.hashPassword(password));
 		prep2.setString(2, username);
+		prep2.executeUpdate();
 	}
 	
 	public void updateMainPass(String username, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
@@ -235,6 +236,7 @@ public class Storage {
 		PreparedStatement prep2 = this.conn.prepareStatement(query2);
 		prep2.setString(1, PasswordHasher.hashPassword(password));
 		prep2.setString(2, username);
+		prep2.executeUpdate();
 	}
 	
 	public boolean isTempPass(String username) throws SQLException {
