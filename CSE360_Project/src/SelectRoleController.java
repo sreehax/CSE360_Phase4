@@ -32,12 +32,52 @@ public class SelectRoleController {
 	
 	@FXML
 	public void sr_selectSessionClicked(ActionEvent event) throws IOException {
-		System.out.println("selectsessionclicked");
+		//check session view selected and change scene based on selection
 		String selectedRole = (String) sr_combobox.getValue();
 		System.out.println(selectedRole);
-		//check session view selected and change scene based on selection
 		
-		
+		if (selectedRole.equals("Admin")) {
+			System.out.println("admin selected");
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
+			root = loader.load();
+			
+			AdminLoginController controller = loader.getController();
+			controller.userName(username);
+
+	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        scene = new Scene(root);
+	        stage.setScene(scene);
+	        stage.show();
+			
+		} else if (selectedRole.equals("Instructor")) {
+			System.out.println("instructor selected");
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("InstructorLogin.fxml"));
+			root = loader.load();
+			
+			InstructorLoginController controller = loader.getController();
+			controller.userName(username);
+
+	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        scene = new Scene(root);
+	        stage.setScene(scene);
+	        stage.show();
+	        
+		} else if (selectedRole.equals("Student")) {
+			System.out.println("student selected");
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentLogin.fxml"));
+			root = loader.load();
+			
+			StudentLoginController controller = loader.getController();
+			controller.userName(username);
+
+	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        scene = new Scene(root);
+	        stage.setScene(scene);
+	        stage.show();
+	        
+		} else {
+			System.out.println("Error, no role found");
+		}
 	}
 	@FXML
 	public void sr_logoutClicked(ActionEvent event) throws IOException {

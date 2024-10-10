@@ -33,7 +33,7 @@ public class Storage {
 		// Create the database schema if it does not exist already
 		Statement statement = this.conn.createStatement();
 		statement.setQueryTimeout(30);
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS user_info (username TEXT PRIMARY KEY, firstname TEXT, middlename TEXT, lastname TEXT, preferredname TEXT, email TEXT, roles TEXT, code TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS user_info (username TEXT PRIMARY KEY, firstname TEXT, middlename TEXT, lastname TEXT, preferredname TEXT, email TEXT, roles TEXT, code TEXT, temppass INT, temptime TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS logins (username TEXT PRIMARY KEY, passhash TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS onetimecode (code TEXT PRIMARY KEY, time TEXT, role TEXT)");
 	}
@@ -197,6 +197,12 @@ public class Storage {
 		stmt.setString(6, username);
 		
 		stmt.executeUpdate();
+	}
+	
+	public void updatetempPass(String user) {
+		//find user, change password, set flag
+		
+		
 	}
 	
 	 /**

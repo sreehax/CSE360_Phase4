@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class User {
 	
 	private String firstname, middlename, lastname, preferredname, username, password, email, code;
+	private int temppass;
 	private ArrayList<Role> rolelist;
 
 	 /**
@@ -24,6 +25,7 @@ public class User {
 		this.preferredname = "";
 		this.username = "";
 		this.code = "";
+		this.temppass = 0;
 		this.rolelist = new ArrayList<Role>();
 		//user passwords are stored in the database
 	}
@@ -39,13 +41,14 @@ public class User {
      */
 	
 	//constructors
-	public User(String firstname, String middlename, String lastname, String preferredname, String username, String password, String code) {
+	public User(String firstname, String middlename, String lastname, String preferredname, String username, String password, String code, int temppass) {
 		this.firstname = firstname;
 		this.middlename = middlename;
 		this.lastname = lastname;
 		this.preferredname = preferredname;
 		this.username = username;
 		this.code = code;
+		this.temppass = 0;
 	}
 	
 	// Setters
@@ -103,6 +106,10 @@ public class User {
 		this.code = code;
 	}
 	
+	public void setTemppass(int value) {
+		this.temppass = value;
+	}
+	
 	//getters
 	/**
      * Gets the user's first name.
@@ -155,6 +162,10 @@ public class User {
 	
 	public String getCode() {
 		return code;
+	}
+	
+	public int getTemppass() {
+		return temppass;
 	}
 	
 	//Role operations

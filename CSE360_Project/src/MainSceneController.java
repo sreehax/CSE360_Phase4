@@ -213,11 +213,15 @@ public class MainSceneController {
 			return;
 		}
 		
+		/*
 		String time = storage.getTimeFromCode(code);
-		if (!this.within24Hours(time)) {
+		
+		
+		if (!storage.within24Hours(time)) {
 			System.out.println("Code expired!");
 			return;
 		}
+		*/
 		
 		//check if it's already in use
 		boolean flag2 = storage.isCodeAlreadyInUse(code);
@@ -247,12 +251,5 @@ public class MainSceneController {
      * @param time the time in "yyyy-MM-dd'T'HH:mm:ss" format.
      * @return true if the time is within 24 hours; false otherwise.
      */
-	private boolean within24Hours(String time) {
-		LocalDateTime currentTime = LocalDateTime.now();
-		// Parse the provided time and calculate the time difference
-		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-		LocalDateTime inputTime = LocalDateTime.parse(time, fmt);
-		long secondsElapsed = ChronoUnit.SECONDS.between(inputTime, currentTime);
-		return secondsElapsed < 24 * 60 * 60;
-	}
+	
 }
