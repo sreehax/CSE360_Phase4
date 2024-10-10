@@ -92,9 +92,43 @@ public class AdminLoginController {
      *
      * @param event The action event triggered by the button click
      * @throws IOException If there is an issue during the operation
+	 * @throws SQLException 
+	 * @throws InvalidKeySpecException 
+	 * @throws NoSuchAlgorithmException 
      */
 	@FXML
-	public void al_resetaccountbuttonClicked(ActionEvent event) throws IOException{
+	public void al_resetaccountbuttonClicked(ActionEvent event) throws IOException, SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+        
+        String username = al_username.getText(); 
+        
+		//find user, generate random password, replace database password with random password, 
+        //set the temppass flag to 1, set time to when button was pressed
+		//print password
+ 
+        //check if user exist returns true, return if it doesn't
+        boolean ifuserexistflag = storage.doesUserExist(username);
+        if (!ifuserexistflag) {
+        	System.out.println("no user found");
+        	return;
+        }
+        
+		Random rand = new Random();
+		StringBuilder codeBuilder = new StringBuilder();
+		String ALPHABET = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		while (codeBuilder.length() < 15) {
+			// Generate a random index into the alphabet
+			int idx = (int) (rand.nextFloat() * ALPHABET.length());
+			// Place that character into the code
+			codeBuilder.append(ALPHABET.charAt(idx));
+		}
+		String code = codeBuilder.toString();
+		System.out.println(code);
+	
+		
+		System.out.println("updated temppass");
+		storage.updateTempPass(username, code);
 		
 	}
 	/**

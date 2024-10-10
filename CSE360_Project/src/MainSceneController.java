@@ -72,6 +72,25 @@ public class MainSceneController {
 			if (flag) {
 				System.out.println("Login succeeded!");
 				
+				//check if password is temp
+				boolean temppassflag = storage.isTempPass(username);
+				//if flag is set
+				if (temppassflag) {
+					//go to reset page
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("ResetPassword.fxml"));
+					root = loader.load();
+					
+					ResetPasswordController controller = loader.getController();
+					controller.setdata(username);
+					
+			        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			        scene = new Scene(root);
+			        stage.setScene(scene);
+			        stage.show();
+			        return;
+				}
+				
+				
 				//check user setup
 				if (this.storage.userSetup(username)) {
 					//load account set up page

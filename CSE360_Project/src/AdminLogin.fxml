@@ -39,3 +39,4 @@
       <CheckBox fx:id="al_instructorcheckbox" layoutX="128.0" layoutY="263.0" mnemonicParsing="false" onAction="#al_instructorcheckboxClicked" text="Instructor" />
    </children>
 </AnchorPane>
+
