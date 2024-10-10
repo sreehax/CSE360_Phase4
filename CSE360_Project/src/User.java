@@ -7,12 +7,6 @@ import java.util.ArrayList;
  * username, password, and roles within the application. Roles define the user's permissions within the system.</p>
  */
 
-enum Role {
-	ADMIN,
-	STUDENT,
-	INSTRUCTOR
-}
-
 public class User {
 	
 	private String firstname, middlename, lastname, preferredname, username, password, email, code;

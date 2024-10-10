@@ -146,6 +146,11 @@ public class AdminLoginController {
 		if (al_instructorcheckbox.isSelected()) {
 			roles += "I";
 		}
+		
+		if (roles.equals("")) {
+			System.out.println("You must select at least one role to generate a One Time Password");
+			return;
+		}
 		System.out.println(roles);
 		// Register the one-time code in the storage
 		try {
