@@ -115,9 +115,11 @@ public class MainSceneController {
 					//log in
 					
 					stage.setUserData(storage);
-					
-					//check users role, if it is more than 1 go to selection screen, otherwise go to one of the 3 login pages.
-					
+					/**
+ 					* Check the roles of the user to determine which login page to load.
+ 					* If the user has multiple roles, navigate to the role selection screen.
+ 					* Otherwise, load the appropriate login page based on the user's single role.
+					 */
 					User u = storage.getUser(username);
 					ArrayList<Role> list = u.getRoleList();
 					
@@ -127,11 +129,11 @@ public class MainSceneController {
 						
 						FXMLLoader loader = new FXMLLoader(getClass().getResource("SelectRole.fxml"));
 						root = loader.load();
-						
+						// Pass the username and roles to the SelectRoleController
 						SelectRoleController controller = loader.getController();
 						controller.changeUsername(username);
 						controller.addroles(list);
-	
+						// Set the scene to the role selection page
 				        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 				        scene = new Scene(root);
 				        stage.setScene(scene);
@@ -145,10 +147,10 @@ public class MainSceneController {
 							System.out.println("role is admin");
 							FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
 							root = loader.load();
-							
+							// Pass the username to the AdminLoginController
 							AdminLoginController controller = loader.getController();
 							controller.userName(username);
-		
+						// Set the scene to the Admin login page
 					        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 					        scene = new Scene(root);
 					        stage.setScene(scene);
@@ -160,10 +162,10 @@ public class MainSceneController {
 							System.out.println("role is instructor");
 							FXMLLoader loader = new FXMLLoader(getClass().getResource("InstructorLogin.fxml"));
 							root = loader.load();
-							
+							// Pass the username to the InstructorLoginController
 							InstructorLoginController controller = loader.getController();
 							controller.userName(username);
-		
+						// Set the scene to the Instructor login page
 					        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 					        scene = new Scene(root);
 					        stage.setScene(scene);
@@ -173,14 +175,15 @@ public class MainSceneController {
 							
 						}
 						if (list.get(0) == Role.STUDENT) {
+							 // User is a student, load StudentLogin scene
 							System.out.println("role is student");
 							
 							FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentLogin.fxml"));
 							root = loader.load();
-							
+							 // Pass the username to the StudentLoginController
 							StudentLoginController controller = loader.getController();
 							controller.userName(username);
-		
+						// Set the scene to the Student login page
 					        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 					        scene = new Scene(root);
 					        stage.setScene(scene);
