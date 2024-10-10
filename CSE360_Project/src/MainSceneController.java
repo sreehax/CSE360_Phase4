@@ -136,6 +136,12 @@ public class MainSceneController {
 		
 		//check database to see if one time code entered exists
 		boolean flag = storage.doesCodeExist(code);
+		String time = storage.getTimeFromCode(code);
+		if (!this.within24Hours(time)) {
+			System.out.println("Code expired!");
+			return;
+		}
+		
 		
 		//if it exist load registration.
 		if (flag) {
