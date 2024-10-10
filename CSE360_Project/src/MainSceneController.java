@@ -111,6 +111,7 @@ public class MainSceneController {
 						
 						SelectRoleController controller = loader.getController();
 						controller.changeUsername(username);
+						controller.addroles(list);
 	
 				        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 				        scene = new Scene(root);

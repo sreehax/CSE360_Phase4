@@ -19,6 +19,7 @@ public class SelectRoleController {
 	private Parent root;
 	private String username;
 	
+	private ArrayList<Role> list;
 	
 	@FXML
 	private Text sr_userLabel;
@@ -27,18 +28,13 @@ public class SelectRoleController {
 	
 	@FXML
 	private void initialize() {
-		ArrayList<String> test = new ArrayList<String>();
-		test.add("test1");
-		test.add("test2");
-		ObservableList<String> rolelist = FXCollections.observableArrayList(test);
-		sr_combobox.setItems(rolelist);
-		//sr_combobox.setValue("test");
 	}
 	
 	@FXML
 	public void sr_selectSessionClicked(ActionEvent event) throws IOException {
 		System.out.println("selectsessionclicked");
-		
+		String selectedRole = (String) sr_combobox.getValue();
+		System.out.println(selectedRole);
 		//check session view selected and change scene based on selection
 		
 		
@@ -60,5 +56,31 @@ public class SelectRoleController {
 	public void changeUsername(String username) {
 		this.username = username;
 		sr_userLabel.setText("User: " + username);
+	}
+	
+	public void addroles(ArrayList<Role> list) {
+		this.list = list;
+		System.out.println("list size: " + this.list.size());
+		
+		ArrayList<String> test = new ArrayList<String>();
+		Role temp;
+		
+		for(int i = 0; i < list.size();i++) {
+			temp = list.get(i);
+			switch (temp) {
+			case ADMIN:
+				test.add("Admin");
+				break;
+			case INSTRUCTOR:
+				test.add("Instructor");
+				break;
+			case STUDENT:
+				test.add("Student");
+				break;
+			}
+		}
+		
+		ObservableList<String> rolelist = FXCollections.observableArrayList(test);
+		sr_combobox.setItems(rolelist);
 	}
 }
