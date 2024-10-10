@@ -365,11 +365,12 @@ public class Storage {
 	public User getUser(String username) throws SQLException {
 		String query = "SELECT * FROM user_info WHERE username = ?";
 		PreparedStatement prepared = conn.prepareStatement(query);
-		prepared.setString(1, query);
+		prepared.setString(1, username);
 		
 		ResultSet res = prepared.executeQuery();
 		
-		while (res.next()) {
+		if (res.next()) {
+			System.out.println("Got a user");
 			User user = new User();
 			user.setFirstname(res.getString("firstname"));
 			user.setMiddlename(res.getString("middlename"));
