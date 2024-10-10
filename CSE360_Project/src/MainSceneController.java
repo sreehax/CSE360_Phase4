@@ -213,7 +213,6 @@ public class MainSceneController {
 			return;
 		}
 		
-		/*
 		String time = storage.getTimeFromCode(code);
 		
 		
@@ -221,7 +220,6 @@ public class MainSceneController {
 			System.out.println("Code expired!");
 			return;
 		}
-		*/
 		
 		//check if it's already in use
 		boolean flag2 = storage.isCodeAlreadyInUse(code);
@@ -245,11 +243,5 @@ public class MainSceneController {
 		}
 		
 	}
-	 /**
-     * Checks whether the provided time is within the last 24 hours.
-     *
-     * @param time the time in "yyyy-MM-dd'T'HH:mm:ss" format.
-     * @return true if the time is within 24 hours; false otherwise.
-     */
 	
 }

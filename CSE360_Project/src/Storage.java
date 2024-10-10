@@ -7,6 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 /**
  * This class handles all interactions with the SQLite database for user management,
@@ -199,10 +202,24 @@ public class Storage {
 		stmt.executeUpdate();
 	}
 	
-	public void updatetempPass(String user) {
+	public void updateTempPass(String username, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
 		//find user, change password, set flag
+		String query1 = "UPDATE user_info SET temppass = 1, temptime = ? WHERE username = ?";
+		String query2 = "UPDATE logins SET passhash = ? WHERE username = ?";
 		
+		LocalDateTime time = LocalDateTime.now();
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+		String timeNow = time.format(fmt);
 		
+		PreparedStatement prep1 = this.conn.prepareStatement(query1);
+		
+		prep1.setString(1, timeNow);
+		prep1.setString(2, username);
+		prep1.executeUpdate();
+		
+		PreparedStatement prep2 = this.conn.prepareStatement(query2);
+		prep2.setString(1, PasswordHasher.hashPassword(password));
+		prep2.setString(2, username);
 	}
 	
 	 /**
@@ -397,4 +414,19 @@ public class Storage {
 		}
 		throw new SQLException("User Not Found");
 	}
+	
+	 /**
+     * Checks whether the provided time is within the last 24 hours.
+     *
+     * @param time the time in "yyyy-MM-dd'T'HH:mm:ss" format.
+     * @return true if the time is within 24 hours; false otherwise.
+     */
+	public boolean within24Hours(String time) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        // Parse the provided time and calculate the time difference
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime inputTime = LocalDateTime.parse(time, fmt);
+        long secondsElapsed = ChronoUnit.SECONDS.between(inputTime, currentTime);
+        return secondsElapsed < 24 * 60 * 60;
+    }
 }
