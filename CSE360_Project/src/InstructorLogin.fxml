@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Line?>
@@ -9,7 +11,7 @@
 
 <!-- Author: Jonathan Lin -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InstructorLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InstructorLoginController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instructor Page">
@@ -24,5 +26,16 @@
       <Line endX="469.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
       <Button fx:id="ip_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#ip_logoutClicked" text="logout" />
+      <Button layoutX="401.0" layoutY="110.0" mnemonicParsing="false" text="Create Article" />
+      <Button layoutX="401.0" layoutY="153.0" mnemonicParsing="false" text="Generate Backup" />
+      <Button layoutX="401.0" layoutY="195.0" mnemonicParsing="false" text="Restore Articles" />
+      <ComboBox layoutX="23.0" layoutY="298.0" prefWidth="150.0" />
+      <Text layoutX="45.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Make Backup File" />
+      <TextField layoutX="187.0" layoutY="153.0" />
+      <TextField layoutX="187.0" layoutY="195.0" />
+      <Text layoutX="32.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Restore Articles From File" />
+      <Text layoutX="24.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Articles by..." />
+      <TextField layoutX="23.0" layoutY="343.0" prefHeight="26.0" prefWidth="309.0" />
+      <Button layoutX="401.0" layoutY="343.0" mnemonicParsing="false" text="Search" />
    </children>
 </AnchorPane>
