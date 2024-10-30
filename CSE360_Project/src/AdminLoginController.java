@@ -142,12 +142,15 @@ public class AdminLoginController {
 		storage.updateTempPass(username, code);
 		
 	}
-	/**
-     * Handles the event when the delete user button is clicked.
+	  /**
+     * Handles the event triggered by clicking the delete user button.
+     * Retrieves the username from the input field, verifies if the user exists
+     * in the storage, and if found, loads the DeleteConfirmation.fxml view.
+     * If the user does not exist, it prints a message to the console.
      *
-     * @param event The action event triggered by the button click
-     * @throws IOException If there is an issue during the operation
-	 * @throws SQLException 
+     * @param event The ActionEvent triggered by clicking the delete user button
+     * @throws IOException if the DeleteConfirmation.fxml file cannot be loaded
+     * @throws SQLException if there is an error querying the storage database
      */
 	@FXML
 	public void al_deleteuserbuttonClicked(ActionEvent event) throws IOException, SQLException{
@@ -260,7 +263,14 @@ public class AdminLoginController {
 		al_userLabel.setText("User: " + name);
 		this.myusername = name;
 	}
-	
+	/**
+     * Handles the action triggered by clicking the "Articles" button. Loads the 
+     * ManageArticles.fxml view, passes the current username to the 
+     * ManageArticleController, and displays the scene.
+     *
+     * @param event The ActionEvent triggered by clicking the "Articles" button
+     * @throws IOException if the ManageArticles.fxml file cannot be loaded
+     */
 	@FXML
 	public void al_toArticlesClicked(ActionEvent event) throws IOException {
 		
