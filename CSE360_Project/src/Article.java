@@ -57,6 +57,12 @@ public class Article {
   public ArrayList<String> getReferences() {
     return this.references;
   }
+  
+  public String getReferencesStr() {
+	  String ret = this.references.toString();
+	  ret.substring(1, ret.length() - 1);
+	  return ret;
+  }
 
   public void addReference(String reference) {
     this.references.add(reference);
@@ -96,6 +102,12 @@ public class Article {
 
   public ArrayList<String> getKeywords() {
     return this.keywords;
+  }
+  
+  public String getKeywordsStr() {
+	  String ret = this.keywords.toString();
+	  ret.substring(1, ret.length() - 1);
+	  return ret;
   }
 
   public void addKeyword(String keyword) {

@@ -1,4 +1,10 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
@@ -12,6 +18,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
+import java.util.Base64.Decoder;
+import java.util.Base64.Encoder;
 /**
  * This class handles all interactions with the SQLite database for user management,
  * login authentication, and storing user information.
@@ -464,10 +473,8 @@ public class Storage {
 	public void addArticle(Article a) throws SQLException {
 		String update = "INSERT INTO articles (title, body, refs, id, header, grouping, description, keywords) VALUES (?,?,?,?,?,?,?,?)";
 		PreparedStatement prep = conn.prepareStatement(update);
-		String references = a.getReferences().toString();
-		String keywords = a.getKeywords().toString();
-		references = references.substring(1, references.length() - 1);
-		keywords = keywords.substring(1, keywords.length() - 1);
+		String references = a.getReferencesStr();
+		String keywords = a.getKeywordsStr();
 		
 		prep.setString(1, a.getTitle());
 		prep.setString(2, a.getBody());
@@ -505,6 +512,63 @@ public class Storage {
 			ret.add(new Article(title, body, references, id, header, grouping, description, keywords));
 		}
 		
+		return ret;
+	}
+	
+	// Serialize a list of articles to a file
+	public void backupArticles(ArrayList<Article> articles, String path) throws IOException {
+		FileWriter fw = new FileWriter(new File(path));
+		BufferedWriter bw = new BufferedWriter(fw);
+		
+		int count = articles.size();
+		bw.write(Integer.toString(count));
+		bw.newLine();
+		
+		// Body and Description can be multiple lines, so base64 encode it
+		Encoder enc = Base64.getEncoder();
+		for (Article a : articles) {
+			bw.write(a.getTitle());
+			bw.write(enc.encodeToString(a.getBody().getBytes("UTF-8")));
+			bw.write(a.getReferencesStr());
+			bw.write(Integer.toString(a.getID()));
+			bw.write(a.getHeader());
+			bw.write(a.getGrouping());
+			bw.write(enc.encodeToString(a.getDescription().getBytes("UTF-8")));
+			bw.write(a.getKeywordsStr());
+		}
+	}
+	
+	// Deserialize a list of articles from a file
+	public ArrayList<Article> restoreArticles(String path) throws IOException {
+		ArrayList<Article> ret = new ArrayList<Article>();
+		BufferedReader reader = new BufferedReader(new FileReader(path));
+		
+		int count = Integer.parseInt(reader.readLine());
+		
+		// Body and Description can be multiple lines, so base64 decode them
+		Decoder dec = Base64.getDecoder();
+		for(int i = 0; i < count; i++) {
+			String title = reader.readLine();
+			String body = new String(dec.decode(reader.readLine()), StandardCharsets.UTF_8);
+			String[] references_arr = reader.readLine().split(", ");
+			int id = Integer.parseInt(reader.readLine());
+			String header = reader.readLine();
+			String grouping = reader.readLine();
+			String description = new String(dec.decode(reader.readLine()), StandardCharsets.UTF_8);
+			String[] keywords_arr = reader.readLine().split(", ");
+			ArrayList<String> references = new ArrayList<String>();
+			ArrayList<String> keywords = new ArrayList<String>();
+			for (String ref : references_arr) {
+				references.add(ref);
+			}
+			for (String keyword : keywords_arr) {
+				keywords.add(keyword);
+			}
+			
+			ret.add(new Article(title, body, references, id, header, grouping, description, keywords));
+		}
+		
+		reader.close();
 		return ret;
 	}
 	
