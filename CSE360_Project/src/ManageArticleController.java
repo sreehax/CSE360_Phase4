@@ -114,26 +114,52 @@ public class ManageArticleController {
 	
 	/**
      * Performs a merge restore based on inputed file name 
+	 * @throws SQLException 
      */
 	@FXML
-	public void ma_doMergeClicked(ActionEvent event) throws IOException {
+	public void ma_doMergeClicked(ActionEvent event) throws IOException, SQLException {
 		
 		//Code merge files, if two files have the same ID, keep the old one
 		String mergeFile = ma_restore.getText();
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
 		
-		
+        ArrayList<Article> articles = this.storage.restoreArticles(mergeFile);
+        
+        int merged = 0;
+        for (Article a : articles) {
+        	// If there is no article stored with the same ID as one we restored,
+        	// then we should place it into our storage
+        	if (this.storage.getArticleByID(a.getID()) == null) {
+        		this.storage.addArticle(a);
+        		merged += 1;
+        	}
+        	// else, skip over it
+        }
+        System.out.println("Read in " + articles.size() + " articles, merged in " + merged + " of them.");
 	}
 	
 	/**
      * Performs an overwrite restore based on inputed file name 
+	 * @throws SQLException 
      */
 	@FXML
-	public void ma_doOverwriteClicked(ActionEvent event) throws IOException {
+	public void ma_doOverwriteClicked(ActionEvent event) throws IOException, SQLException {
 		
 		//Overwrites all existing help articles and replaces them with backup
-		String retoreFile = ma_restore.getText();
+		String restoreFile = ma_restore.getText();
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+		ArrayList<Article> articles = this.storage.restoreArticles(restoreFile);
 		
+		// nuke our articles
+		this.storage.deleteAllArticles();
 		
+		// Import in all the articles
+		for (Article a : articles) {
+			this.storage.addArticle(a);
+		}
+		System.out.println("Read in " + articles.size() + " articles.");
 	}
 	
 	/**

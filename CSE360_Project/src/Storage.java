@@ -600,6 +600,20 @@ public class Storage {
 		return consolidateArticles(rs);
 	}
 	
+	// get article by ID, or null if it ain't found
+	public Article getArticleByID(int id) throws SQLException {
+		String query = "SELECT * FROM articles WHERE id = ?";
+		PreparedStatement prep = this.conn.prepareStatement(query);
+		prep.setInt(1, id);
+		ResultSet rs = prep.executeQuery();
+		
+		ArrayList<Article> got = consolidateArticles(rs);
+		if (got.size() < 1) {
+			return null;
+		}
+		return got.get(0);
+	}
+	
 	// dump articles by group
 	public ArrayList<Article> listArticlesByGroup(String group) throws SQLException {
 		String query = "SELECT * FROM articles WHERE grouping LIKE ?";
@@ -608,6 +622,13 @@ public class Storage {
 		ResultSet rs = prep.executeQuery();
 		
 		return consolidateArticles(rs);
+	}
+	
+	// delete all articles
+	public void deleteAllArticles() throws SQLException {
+		String update = "DELETE FROM articles";
+		Statement stmt = this.conn.createStatement();
+		stmt.executeUpdate(update);
 	}
 	
 	 /**
