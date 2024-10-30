@@ -39,6 +39,9 @@ public class CreateArticleController {
 	@FXML
 	private TextArea bodyTextField;
 	
+	@FXML
+	private Text ip_userLabel;
+	
 	String titleString, referenceString, headersString, groupsString, descriptionString, bodyString, keywordString;
 	
 	@FXML
@@ -98,6 +101,7 @@ public class CreateArticleController {
 	}
 	
 	public void userName(String username) {
+		ip_userLabel.setText("User: " + username);
 		myusername = username;
 	}
 	

@@ -50,7 +50,7 @@ public class Storage {
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS user_info (username TEXT PRIMARY KEY, firstname TEXT, middlename TEXT, lastname TEXT, preferredname TEXT, email TEXT, roles TEXT, code TEXT, temppass INT, temptime TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS logins (username TEXT PRIMARY KEY, passhash TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS onetimecode (code TEXT PRIMARY KEY, time TEXT, role TEXT)");
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS articles (title TEXT, body TEXT, refs TEXT, id INTEGER PRIMARY KEY, header TEXT, grouping TEXT, description TEXT, keywords TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS articles (title TEXT, body TEXT, refs TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT, header TEXT, grouping TEXT, description TEXT, keywords TEXT)");
 	}
 	/**
      * Attempts to log in by verifying the provided username and password against the stored password hash.

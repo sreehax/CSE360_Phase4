@@ -174,8 +174,15 @@ public class ManageArticleController {
         this.storage = (Storage) stage.getUserData();
         ArrayList<Article> articles = this.storage.listAllArticles();
         
+        if (articles.size() == 0) {
+        	System.out.println("No articles :(");
+        	return;
+        }
+        
+        System.out.println("All articles: ");
         for (Article a : articles) {
         	a.printInfo();
+        	System.out.println();
         }
 	}
 	
@@ -191,14 +198,21 @@ public class ManageArticleController {
         this.storage = (Storage) stage.getUserData();
         
         String group = this.ma_filterGroups.getText();
+        
+        if (group.isBlank()) {
+        	System.out.println("Error: Enter in a group for me to search by!");
+        	return;
+        }
         ArrayList<Article> articles = this.storage.listArticlesByGroup(group);
         
         if (articles.size() == 0) {
         	System.out.println("No articles found by that group");
         	return;
         }
+        System.out.println("Articles of group " + group + ":");
         for (Article a : articles) {
         	a.printInfo();
+        	System.out.println();
         }
 		
 	}
