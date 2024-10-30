@@ -259,4 +259,17 @@ public class AdminLoginController {
 		al_userLabel.setText("User: " + name);
 	}
 	
+	@FXML
+	public void al_toArticlesClicked(ActionEvent event) throws IOException {
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("ManageArticles.fxml"));
+		root = loader.load();
+		
+		
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+	}
+	
 }

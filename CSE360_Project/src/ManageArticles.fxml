@@ -10,7 +10,7 @@
 
 <!-- Author: Benjamin Nelson -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InstructorLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ManageArticleController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Article Manager">
@@ -18,23 +18,26 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <Text fx:id="ip_userLabel" layoutX="454.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: not logged in" />
+      <Text fx:id="ma_userLabel" layoutX="454.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: not logged in" />
       <Text layoutX="8.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version 0.1 alpha" />
       <Text layoutX="430.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="version date: 9/25/2024" />
       
       <Line endX="469.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
-      <Button fx:id="ip_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#ip_logoutClicked" text="back" />
-      <Button layoutX="401.0" layoutY="110.0" mnemonicParsing="false" text="Create Article" />
-      <Button layoutX="401.0" layoutY="153.0" mnemonicParsing="false" text="Generate Backup" />
-      <Button layoutX="401.0" layoutY="195.0" mnemonicParsing="false" text="Restore Articles" />
-      <Text layoutX="45.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Make Backup File" />
-      <TextField layoutX="187.0" layoutY="153.0" />
-      <TextField layoutX="187.0" layoutY="195.0" />
+      <Button fx:id="ma_back" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#ma_backClicked" text="back" />
+      <Button fx:id="ma_makeArticle" layoutX="396.0" layoutY="65.0" mnemonicParsing="false" onAction="#al_makeArticlesClicked" text="Create New Article" />
+      <Button fx:id="ma_makeBackup" layoutX="397.0" layoutY="115.0" mnemonicParsing="false" onAction="#ma_makeBackupClicked" text="Generate Backup" />
+      <Button fx:id="ma_doMerge" layoutX="401.0" layoutY="195.0" mnemonicParsing="false" onAction="#ma_doMergeClicked" text="Restore Articles (Merge)" />
+      <Text layoutX="53.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Make Backup File" />
+      <TextField fx:id="ma_backup" layoutX="187.0" layoutY="107.0" />
+      <TextField fx:id="ma_restore" layoutX="187.0" layoutY="202.0" />
       <Text layoutX="32.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Restore Articles From File" />
-      <Text layoutX="23.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter Articles by Group" />
-      <TextField layoutX="187.0" layoutY="296.0" prefHeight="26.0" prefWidth="150.0" />
-      <Button layoutX="401.0" layoutY="296.0" mnemonicParsing="false" text="List Articles by Group" />
-      <Button layoutX="404.0" layoutY="261.0" mnemonicParsing="false" text="List All Articles" />
+      <Text layoutX="30.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter Articles by Group" />
+      <TextField fx:id="ma_filterGroups" layoutX="186.0" layoutY="328.0" prefHeight="26.0" prefWidth="150.0" />
+      <Button fx:id="ma_listGroup" layoutX="401.0" layoutY="328.0" mnemonicParsing="false" onAction="#ma_listGroupClicked" text="List Articles by Group" />
+      <Button fx:id="ma_list" layoutX="404.0" layoutY="294.0" mnemonicParsing="false" onAction="#ma_listClicked" text="List All Articles" />
+      <Text layoutX="53.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Backup Group" />
+      <TextField fx:id="ma_backupGroup" layoutX="187.0" layoutY="141.0" />
+      <Button fx:id="ma_doOverwrite" layoutX="401.0" layoutY="228.0" mnemonicParsing="false" onAction="#ma_doOverwriteClicked" text="Restore Articles (Overwrite)" />
    </children>
 </AnchorPane>

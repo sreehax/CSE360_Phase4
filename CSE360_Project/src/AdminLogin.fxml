@@ -38,6 +38,6 @@
       <CheckBox fx:id="al_studentcheckbox" layoutX="128.0" layoutY="236.0" mnemonicParsing="false" onAction="#al_studentcheckboxClicked" text="Student" />
       <CheckBox fx:id="al_instructorcheckbox" layoutX="128.0" layoutY="263.0" mnemonicParsing="false" onAction="#al_instructorcheckboxClicked" text="Instructor" />
       <Button fx:id="al_printtable" layoutX="323.0" layoutY="259.0" mnemonicParsing="false" onAction="#al_printtableClicked" text="Print Users Table" />
-      <Button layoutX="324.0" layoutY="313.0" mnemonicParsing="false" text="Manage Articles" />
+      <Button fx:id="al_toArticles" layoutX="324.0" layoutY="313.0" mnemonicParsing="false" onAction="#al_toArticlesClicked" text="Manage Articles" />
    </children>
 </AnchorPane>

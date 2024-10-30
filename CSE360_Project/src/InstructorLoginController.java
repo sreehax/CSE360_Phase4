@@ -48,4 +48,16 @@ public class InstructorLoginController {
 	public void userName(String name) {
 		this.ip_userLabel.setText("User: " + name);
 	}
+	
+	@FXML
+	public void ip_toArticlesClicked(ActionEvent event) throws IOException{
+		// Load the ManageArticles.fxml file and set it as the root of the new scene
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("ManageArticles.fxml"));
+		root = loader.load();
+	// Get the current stage and update the scene to the main scene	
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+	}
 }

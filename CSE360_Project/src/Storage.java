@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 /**
  * This class handles all interactions with the SQLite database for user management,
  * login authentication, and storing user information.
@@ -31,7 +32,7 @@ public class Storage {
 	public Storage() throws SQLException {
 		//the storage.db is saved in C:\Users\yourname
 		String homedir = System.getProperty("user.home") + File.separatorChar;
-		this.conn = DriverManager.getConnection("jdbc:sqlite:" + homedir + "storage.db");
+		this.conn = DriverManager.getConnection("jdbc:sqlite:" + homedir + "storage2.db");
 		
 		// Create the database schema if it does not exist already
 		Statement statement = this.conn.createStatement();
@@ -39,7 +40,7 @@ public class Storage {
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS user_info (username TEXT PRIMARY KEY, firstname TEXT, middlename TEXT, lastname TEXT, preferredname TEXT, email TEXT, roles TEXT, code TEXT, temppass INT, temptime TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS logins (username TEXT PRIMARY KEY, passhash TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS onetimecode (code TEXT PRIMARY KEY, time TEXT, role TEXT)");
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS articles (title TEXT, body TEXT, refs TEXT, id INTEGER, grouping TEXT, description TEXT, keywords TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS articles (title TEXT, body TEXT, refs TEXT, id INTEGER PRIMARY KEY, header TEXT, grouping TEXT, description TEXT, keywords TEXT)");
 	}
 	/**
      * Attempts to log in by verifying the provided username and password against the stored password hash.
@@ -457,6 +458,63 @@ public class Storage {
 			return user;
 		}
 		throw new SQLException("User Not Found");
+	}
+	
+	// Insert an article into the database
+	public void addArticle(Article a) throws SQLException {
+		String update = "INSERT INTO articles (title, body, refs, id, header, grouping, description, keywords) VALUES (?,?,?,?,?,?,?,?)";
+		PreparedStatement prep = conn.prepareStatement(update);
+		String references = a.getReferences().toString();
+		String keywords = a.getKeywords().toString();
+		references = references.substring(1, references.length() - 1);
+		keywords = keywords.substring(1, keywords.length() - 1);
+		
+		prep.setString(1, a.getTitle());
+		prep.setString(2, a.getBody());
+		prep.setString(3, references);
+		prep.setInt(4, a.getID());
+		prep.setString(5, a.getHeader());
+		prep.setString(6, a.getGrouping());
+		prep.setString(7, a.getDescription());
+		prep.setString(8, keywords);
+		
+		prep.executeUpdate();
+	}
+	
+	// helper method to get all Articles from a ResultSet
+	private ArrayList<Article> consolidateArticles(ResultSet rs) throws SQLException {
+		ArrayList<Article> ret = new ArrayList<Article>();
+		while (rs.next()) {
+			String title = rs.getString("title");
+			String body = rs.getString("body");
+			String[] references_arr = rs.getString("refs").split(", ");
+			int id = rs.getInt("id");
+			String header = rs.getString("header");
+			String grouping = rs.getString("grouping");
+			String description = rs.getString("description");
+			String[] keywords_arr = rs.getString("keywords").split(", ");
+			ArrayList<String> references = new ArrayList<String>();
+			ArrayList<String> keywords = new ArrayList<String>();
+			for (String ref : references_arr) {
+				references.add(ref);
+			}
+			for (String keyword : keywords_arr) {
+				keywords.add(keyword);
+			}
+			
+			ret.add(new Article(title, body, references, id, header, grouping, description, keywords));
+		}
+		
+		return ret;
+	}
+	
+	// dump all articles
+	public ArrayList<Article> listAllArticles() throws SQLException {
+		String query = "SELECT * FROM articles";
+		Statement stmt = this.conn.createStatement();
+		ResultSet rs = stmt.executeQuery(query);
+		
+		return consolidateArticles(rs);
 	}
 	
 	 /**

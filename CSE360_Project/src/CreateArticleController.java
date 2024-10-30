@@ -17,7 +17,9 @@ import java.security.MessageDigest;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 //
 public class CreateArticleController {
@@ -25,10 +27,10 @@ public class CreateArticleController {
 	private Scene scene;
 	private Parent root;
 	
-	private TextField titleTextField, referenceLinksTextField, headersTextField, groupsTextField, descriptionTextField, bodyTextField;
+	private TextField titleTextField, referenceLinksTextField, headersTextField, groupsTextField, descriptionTextField, bodyTextField, keywordsTextField;
 	private Button createArticleButton;
 	
-	String titleString, referenceString, headersString, groupsString, descriptionString, bodyString;
+	String titleString, referenceString, headersString, groupsString, descriptionString, bodyString, keywordString;
 	
 	public void pressCreateArticleButton(ActionEvent event) throws IOException {
 		titleString = titleTextField.getText();
@@ -37,9 +39,26 @@ public class CreateArticleController {
 		groupsString = groupsTextField.getText();
 		descriptionString = descriptionTextField.getText();
 		bodyString = bodyTextField.getText();
+		keywordString = keywordsTextField.getText();
 		
-		//NEED TO ADD SOMETHING THAT UPLOADS THIS INFO TO THE DATABASE
-		//
+		//NOTE: Keywords are going to be separated by spaces
+	    String[] referenceArray = referenceString.split(" ");
+	    String[] keywordsArray = keywordString.split(" ");
+	        
+		Article newArticle = new Article();
+		newArticle.setTitle(titleString);
+		for(int i = 0; i < referenceArray.length; i++) {
+			newArticle.addReference(referenceArray[i]);
+		}
+		for(int j = 0; j < keywordsArray.length; j++) {
+			newArticle.addKeyword(keywordsArray[j]);
+		}
+		newArticle.setBody(bodyString);
+		newArticle.setHeader(headersString);
+		newArticle.setDescription(descriptionString);
+		
+		//SET ARTICLE ID 
+		//SET ARTICLE GROUPINGS
 	}
 	
 }
