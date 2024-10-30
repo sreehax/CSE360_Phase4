@@ -39,7 +39,7 @@ public class CreateArticleController {
 		bodyString = bodyTextField.getText();
 		
 		//NEED TO ADD SOMETHING THAT UPLOADS THIS INFO TO THE DATABASE
-		
+		//
 	}
 	
 }
