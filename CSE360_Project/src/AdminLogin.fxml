@@ -11,7 +11,7 @@
 
 <!-- Author: Jonathan Lin -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AdminLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AdminLoginController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Page">
@@ -38,5 +38,6 @@
       <CheckBox fx:id="al_studentcheckbox" layoutX="128.0" layoutY="236.0" mnemonicParsing="false" onAction="#al_studentcheckboxClicked" text="Student" />
       <CheckBox fx:id="al_instructorcheckbox" layoutX="128.0" layoutY="263.0" mnemonicParsing="false" onAction="#al_instructorcheckboxClicked" text="Instructor" />
       <Button fx:id="al_printtable" layoutX="323.0" layoutY="259.0" mnemonicParsing="false" onAction="#al_printtableClicked" text="Print Users Table" />
+      <Button layoutX="324.0" layoutY="313.0" mnemonicParsing="false" text="Manage Articles" />
    </children>
 </AnchorPane>

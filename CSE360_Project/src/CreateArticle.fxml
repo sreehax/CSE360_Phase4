@@ -31,7 +31,7 @@
       <Text layoutX="13.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reference Links" />
       <Text layoutX="37.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Body" />
       <TextField layoutX="99.0" layoutY="202.0" prefHeight="26.0" prefWidth="385.0" />
-      <Button layoutX="410.0" layoutY="72.0" mnemonicParsing="false" text="Create Article" />
+      <Button layoutX="410.0" layoutY="64.0" mnemonicParsing="false" text="Create Article" />
       <Text layoutX="24.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Header (s)" />
       <TextField layoutX="98.0" layoutY="131.0" prefHeight="26.0" prefWidth="182.0" />
       <Text layoutX="28.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group(s)" />
