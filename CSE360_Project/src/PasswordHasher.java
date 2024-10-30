@@ -99,4 +99,70 @@ public class PasswordHasher {
 		// Timing attacks are impossible to use for an attacker trying to exfiltrate a password
 		return accumulated == 0;
 	}
+	
+	public static boolean selfTest() {
+		boolean allGood = true;
+		boolean current = true;
+		
+		// Try hashing a password
+		try {
+			String hash = PasswordHasher.hashPassword("password1234");
+			System.out.println("[PASS] hashed password properly!");
+		} catch (Exception e) {
+			System.out.println("[FAIL] Couldn't hash the password properly");
+			System.out.println(e.getMessage());
+			allGood = false;
+		}
+		
+		// Try verifying the password, expected pass and fail
+		try {
+			current = PasswordHasher.verifyPassword("password1234", PasswordHasher.hashPassword("password1234"));
+			allGood &= current;
+			if (current) {
+				System.out.println("[PASS] Verified hashed password");
+			} else {
+				System.out.println("[FAIL] Couldn't verify password, should be verified!");
+			}
+		} catch (Exception e) {
+			System.out.println("[FAIL] Exception while verifying password!");
+			System.out.println(e.getMessage());
+		}
+		
+		try {
+			current = !PasswordHasher.verifyPassword("password1234", PasswordHasher.hashPassword("password1984"));
+			allGood &= current;
+			if (current) {
+				System.out.println("[PASS] Invalid password successfully rejected");
+			} else {
+				System.out.println("[FAIL] Invalid password was accepted, it shouldn't be!");
+			}
+		} catch (Exception e) {
+			System.out.println("[FAIL] Exception while verifying password!");
+			System.out.println(e.getMessage());
+		}
+		
+		// Finally, test constant time comparison
+		byte[] a1 = new byte[] { (byte)0xde, (byte)0xad, (byte)0xbe, (byte)0xef, (byte)0xd0, (byte)0x0d, (byte)0xfe, (byte)0xed };
+		byte[] a3 = new byte[] { (byte)0xde, (byte)0xad, (byte)0xbe, (byte)0xef, (byte)0xd0, (byte)0x0d, (byte)0xfe, (byte)0xed };
+		byte[] a2 = new byte[8];
+		SecureRandom random = new SecureRandom();
+		random.nextBytes(a2);
+		
+		current = PasswordHasher.constantTimeComparison(a1, a3);
+		allGood &= current;
+		if (current) {
+			System.out.println("[PASS] constantTimeComparison a1 == a3");
+		} else {
+			System.out.println("[FAIL] constantTimeComparison failed to identify equal arrays a1 and a3!");
+		}
+		
+		current = !PasswordHasher.constantTimeComparison(a1, a2);
+		allGood &= current;
+		if (current) {
+			System.out.println("[PASS] constantTimeComparison a1 != a2");
+		} else {
+			System.out.println("[FAIL] constantTimeComparison said a1 == a2, but they are not equal values!");
+		}
+		return allGood;
+	}
 }

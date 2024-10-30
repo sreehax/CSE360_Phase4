@@ -52,6 +52,22 @@ public class Storage {
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS onetimecode (code TEXT PRIMARY KEY, time TEXT, role TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS articles (title TEXT, body TEXT, refs TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT, header TEXT, grouping TEXT, description TEXT, keywords TEXT)");
 	}
+	
+	// Constructor to create an alternate database (used for self-test)
+	public Storage(String dbName) throws SQLException {
+		//the database is saved in your home directory
+		String homedir = System.getProperty("user.home") + File.separatorChar;
+		this.conn = DriverManager.getConnection("jdbc:sqlite:" + homedir + dbName);
+		
+		// Create the database schema if it does not exist already
+		Statement statement = this.conn.createStatement();
+		statement.setQueryTimeout(30);
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS user_info (username TEXT PRIMARY KEY, firstname TEXT, middlename TEXT, lastname TEXT, preferredname TEXT, email TEXT, roles TEXT, code TEXT, temppass INT, temptime TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS logins (username TEXT PRIMARY KEY, passhash TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS onetimecode (code TEXT PRIMARY KEY, time TEXT, role TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS articles (title TEXT, body TEXT, refs TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT, header TEXT, grouping TEXT, description TEXT, keywords TEXT)");
+	}
+	
 	/**
      * Attempts to log in by verifying the provided username and password against the stored password hash.
      *
@@ -645,4 +661,173 @@ public class Storage {
         long secondsElapsed = ChronoUnit.SECONDS.between(inputTime, currentTime);
         return secondsElapsed < 24 * 60 * 60;
     }
+	
+	// Self test
+	public static boolean selfTest() {
+		System.out.println("User, Storage, and Article SelfTest");
+		boolean allGood = true;
+		boolean current = true;
+		try {
+			// Delete the database if it exists
+			String homedir = System.getProperty("user.home") + File.separatorChar;
+			String dbpath = homedir + "testing.db";
+			File db = new File(dbpath);
+			db.delete();
+			Storage tester = new Storage("testing.db");
+			// Register some users with their passwords
+			tester.registerLogin("user1", "password1");
+			tester.registerLogin("user2", "password2");
+			tester.registerLogin("user3", "password3");
+			
+			// Attempt logins: Expected pass
+			current = tester.loginAttempt("user1", "password1");
+			allGood &= current;
+			if (!current) {
+				System.out.println("[FAIL] Login with <user1, password1> FAILED, should have PASSED!");
+			} else {
+				System.out.println("[PASS] Login with <user1, password1>");
+			}
+			
+			current = tester.loginAttempt("user2", "password2");
+			allGood &= current;
+			if (!current) {
+				System.out.println("[FAIL] Login with <user2, password2> FAILED, should have PASSED!");
+			} else {
+				System.out.println("[PASS] Login with <user2, password2>");
+			}
+			
+			// Attempt login: Expected fail
+			current = !tester.loginAttempt("user3", "password12345");
+			allGood &= current;
+			if (!current) {
+				System.out.println("[FAIL] Login with <user3, password3> PASSED, should have FAILED!");
+			} else {
+				System.out.println("[PASS] Login with <user3, password3>");
+			}
+			
+			// Attempt updating password
+			tester.updateMainPass("user1", "password11");
+			
+			// Attempt logging in again with the new password
+			current = tester.loginAttempt("user1", "password11");
+			allGood &= current;
+			if (!current) {
+				System.out.println("[FAIL] Login with changed password FAILED, should have PASSED!");
+			} else {
+				System.out.println("[PASS] Login with changed password");
+			}
+			
+			// Make our admin user
+			User user1 = new User("First1", "Middle1", "Last1", "Pref1", "user1", "****", null, 0);
+			user1.addRole('a');
+			tester.registerUser(user1);
+			
+			System.out.println("[PASS] Registered admin");
+			
+			// Update the admin user
+			user1.setFirstname("Admin");
+			tester.updateUser("user1", "Admin", "Middle", "Root", "The Admin", "iamthe@admin.org");
+						
+			// Make sure the update worked
+			User admin = tester.getUser("user1");
+			current = admin.getFirstname().equals("Admin");
+			allGood &= current;
+			if (!current) {
+				System.out.println("[FAIL] Admin user did not update");
+			} else {
+				System.out.println("[PASS] Admin user info updated");
+			}
+			
+			// Make a code for an instructor and student
+			tester.registerOneTimeCode("TESTINGCODE1234", "1970-01-01T23:34:45", "IS");
+			
+			current = tester.doesCodeExist("TESTINGCODE1234");
+			allGood &= current;
+			if (!current) {
+				System.out.println("[FAIL] One time code TESTINGCODE1234 does not exist, but it should");
+			} else {
+				System.out.println("[PASS] One time code exists");
+			}
+			
+			// Check that the roles of the code match
+			String gotRoles = tester.getRolesFromCode("TESTINGCODE1234");
+			current = gotRoles.toUpperCase().equals("IS") || gotRoles.toUpperCase().equals("SI");
+			allGood &= current;
+			if (!current) {
+				System.out.println("[FAIL] Couldn't get the roles back from the one time code");
+			} else {
+				System.out.println("[PASS] Retrieved role info from one time code");
+			}
+			
+			// Article Testing (ALSO TESTS ARTICLE CLASS)
+			current = tester.listAllArticles().size() == 0;
+			allGood &= current;
+			if (!current) {
+				System.out.println("[FAIL] There are articles when there shouldn't be");
+			} else {
+				System.out.println("[PASS] There aren't any articles already");
+			}
+			
+			// Create articles
+			ArrayList<String> refs = new ArrayList<String>();
+			refs.add("a ref");
+			ArrayList<String> keywords = new ArrayList<String>();
+			keywords.add("linux");
+			keywords.add("macos");
+			Article a1 = new Article("Title", "Body", refs, 3, "Header", "system user global", "Description", keywords);
+			tester.addArticle(a1);
+			
+			System.out.println("[PASS] Created Article 1");
+			
+			ArrayList<String> refs2 = new ArrayList<String>();
+			refs.add("a ref");
+			ArrayList<String> keywords2 = new ArrayList<String>();
+			keywords2.add("windows");
+			keywords2.add("unix");
+			Article a2 = new Article("Title", "Body", refs2, 4, "Header", "user java global", "Description", keywords2);
+			tester.addArticle(a2);
+			
+			System.out.println("[PASS] Created Article 2");
+			
+			ArrayList<String> refs3 = new ArrayList<String>();
+			refs.add("a ref");
+			ArrayList<String> keywords3 = new ArrayList<String>();
+			keywords3.add("linux");
+			keywords3.add("ios");
+			Article a3 = new Article("Title", "Body", refs3, 5, "Header", "testing global", "Description", keywords3);
+			tester.addArticle(a3);
+			
+			System.out.println("[PASS] Created Article 3");
+			
+			// Now, test retrieving of the articles.
+			current = tester.listAllArticles().size() == 3;
+			allGood &= current;
+			if (!current) {
+				System.out.println("[FAIL] There is an improper amount of articles, insertion failed");
+			} else {
+				System.out.println("[PASS] There are the right amount of articles inserted");
+			}
+			
+			// Test grouping too
+			current = tester.listArticlesByGroup("user").size() == 2;
+			allGood &= current;
+			if (!current) {
+				System.out.println("[FAIL] Grouping selector for article listing failed!");
+			} else {
+				System.out.println("[PASS] Grouping selector for article listing works!");
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Exception occurred during Storage testing!");
+			System.out.println(e.getMessage());
+			allGood = false;
+		}
+		
+		if (allGood) {
+			System.out.println("All Storage, User, and Article self tests passed!");
+		} else {
+			System.out.println("[!] Some Storage/User/Article self tests failed, check previous input");
+		}
+		return allGood;
+	}
 }

@@ -101,8 +101,24 @@ public class CSE360_Project extends Application {
      */
 	
 	public static void main(String[] args) {
+		// Perform all self tests
+		runAllSelfTests();
 		System.out.println("starting process");
 		
 		launch(args);
+	}
+	
+	public static void runAllSelfTests() {
+		boolean allGood = true;
+		
+		// User and Article are also tested in the Storage selfTest() method.
+		allGood &= PasswordHasher.selfTest();
+		allGood &= Storage.selfTest();
+		
+		if (allGood) {
+			System.out.println("All test cases passed, nice!");
+		} else {
+			System.out.println("Some test cases failed, see above :(");
+		}
 	}
 }

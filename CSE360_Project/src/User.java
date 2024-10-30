@@ -44,6 +44,7 @@ public class User {
 		this.username = username;
 		this.code = code;
 		this.temppass = 0;
+		this.rolelist = new ArrayList<Role>();
 	}
 	
 	// Setters
