@@ -11,7 +11,7 @@
 
 <!-- Authors: Benjamin Nelson & Jonathan Lin -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InstructorLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InstructorLoginController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Article">
@@ -26,17 +26,17 @@
       <Line endX="469.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
       <Text layoutX="40.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" />
-      <TextField layoutX="98.0" layoutY="65.0" prefHeight="26.0" prefWidth="181.0" />
-      <TextField layoutX="98.0" layoutY="97.0" prefHeight="26.0" prefWidth="182.0" />
+      <TextField fx:id="titleTextField" layoutX="98.0" layoutY="65.0" prefHeight="26.0" prefWidth="181.0" />
+      <TextField fx:id="referenceLinksTextField" layoutX="98.0" layoutY="97.0" prefHeight="26.0" prefWidth="182.0" />
       <Text layoutX="13.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reference Links" />
       <Text layoutX="37.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Body" />
-      <TextField layoutX="99.0" layoutY="202.0" prefHeight="26.0" prefWidth="385.0" />
-      <Button layoutX="410.0" layoutY="64.0" mnemonicParsing="false" text="Create Article" />
+      <TextField fx:id="descriptionTextField" layoutX="99.0" layoutY="202.0" prefHeight="26.0" prefWidth="385.0" />
+      <Button fx:id="createArticleButton" layoutX="410.0" layoutY="64.0" mnemonicParsing="false" text="Create Article" />
       <Text layoutX="24.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Header (s)" />
-      <TextField layoutX="98.0" layoutY="131.0" prefHeight="26.0" prefWidth="182.0" />
+      <TextField fx:id="headersTextField" layoutX="98.0" layoutY="131.0" prefHeight="26.0" prefWidth="182.0" />
       <Text layoutX="28.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group(s)" />
-      <TextField layoutX="98.0" layoutY="166.0" prefHeight="26.0" prefWidth="182.0" />
+      <TextField fx:id="groupsTextBox" layoutX="98.0" layoutY="166.0" prefHeight="26.0" prefWidth="182.0" />
       <Text layoutX="22.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
-      <TextArea layoutX="98.0" layoutY="259.0" prefHeight="137.0" prefWidth="386.0" />
+      <TextArea fx:id="bodyTextField" layoutX="98.0" layoutY="259.0" prefHeight="137.0" prefWidth="386.0" />
    </children>
 </AnchorPane>
