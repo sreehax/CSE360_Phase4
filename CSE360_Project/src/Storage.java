@@ -817,6 +817,25 @@ public class Storage {
 				System.out.println("[PASS] Grouping selector for article listing works!");
 			}
 			
+			// Test backup and restore
+			ArrayList<Article> articles = new ArrayList<Article>();
+			articles.add(a1);
+			articles.add(a2);
+			articles.add(a3);
+			
+			String temppath = homedir + "tempfile.txt";
+			String fullBackupPath = tester.backupArticles(articles, temppath);
+			System.out.println("[PASS] Backed up articles to " + fullBackupPath + "!");
+			
+			ArrayList<Article> restored = tester.restoreArticles(temppath);
+			current = restored.size() == 3;
+			allGood &= current;
+			if (!current) {
+				System.out.println("[FAIL] Could not properly restore from file!");
+			} else {
+				System.out.println("[PASS] Restored articles from backup!");
+			}
+			
 		} catch (Exception e) {
 			System.out.println("Exception occurred during Storage testing!");
 			System.out.println(e.getMessage());
