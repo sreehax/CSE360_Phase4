@@ -41,6 +41,7 @@ public class AdminLoginController {
 	private Scene scene;
 	private Parent root;
 	private Storage storage;
+	private String myusername;
 	
 	@FXML
 	private Text al_userLabel;
@@ -257,6 +258,7 @@ public class AdminLoginController {
      */
 	public void userName(String name) {
 		al_userLabel.setText("User: " + name);
+		this.myusername = name;
 	}
 	
 	@FXML
@@ -265,6 +267,8 @@ public class AdminLoginController {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("ManageArticles.fxml"));
 		root = loader.load();
 		
+		ManageArticleController controller = loader.getController();
+		controller.userName(myusername);
 		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

@@ -26,6 +26,7 @@ public class Article {
       this.keywords = keywords;
     }
   }
+  
 
   public Article() {
     this.title = "";
@@ -36,6 +37,21 @@ public class Article {
     this.grouping = "";
     this.description = "";
     this.keywords = new ArrayList<String>();
+  }
+  
+  // Pretty print this article
+  public void printInfo() {
+	  System.out.println("==========");
+	  System.out.println("Article ID#" + this.id);
+	  System.out.println("Title: " + this.title);
+	  System.out.println("References: " + this.getReferencesStr());
+	  System.out.println("Header: " + this.header);
+	  System.out.println("Grouping: " + this.grouping);
+	  System.out.println("Description: " + this.description);
+	  System.out.println("Keywords: " + this.getKeywordsStr());
+	  System.out.println("Body: ");
+	  System.out.println(this.body);
+	  System.out.println("==========");
   }
 
   public String getTitle() {
@@ -60,7 +76,7 @@ public class Article {
   
   public String getReferencesStr() {
 	  String ret = this.references.toString();
-	  ret.substring(1, ret.length() - 1);
+	  ret = ret.substring(1, ret.length() - 1);
 	  return ret;
   }
 
@@ -106,7 +122,7 @@ public class Article {
   
   public String getKeywordsStr() {
 	  String ret = this.keywords.toString();
-	  ret.substring(1, ret.length() - 1);
+	  ret = ret.substring(1, ret.length() - 1);
 	  return ret;
   }
 

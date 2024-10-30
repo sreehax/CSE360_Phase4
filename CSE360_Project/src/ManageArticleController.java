@@ -41,6 +41,7 @@ public class ManageArticleController {
 	private Scene scene;
 	private Parent root;
 	private Storage storage;
+	private String myusername;
 	
 	@FXML
 	private Text ma_userLabel;
@@ -69,6 +70,9 @@ public class ManageArticleController {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateArticle.fxml"));
 		root = loader.load();
 		
+		CreateArticleController controller = loader.getController();
+		controller.userName(myusername);
+		
 		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -78,15 +82,34 @@ public class ManageArticleController {
 	
 	/**
      * Creates Backup file 
+	 * @throws SQLException 
      */
 	@FXML
-	public void ma_makeBackupClicked(ActionEvent event) throws IOException {
+	public void ma_makeBackupClicked(ActionEvent event) throws IOException, SQLException {
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
 		
 		//Code to create backup files
 		//If the backup group file is texfield is empty, backup all articles
 		String backupfile = ma_backup.getText();
 		String group = ma_backupGroup.getText();
+		if (backupfile.isEmpty()) {
+			System.out.println("Error: specify a file to backup to!");
+			return;
+		}
 		
+		// Get the articles to backup depending on the group scope
+		ArrayList<Article> articles;
+		if (group.isEmpty()) {
+			articles = this.storage.listAllArticles();
+		} else {
+			articles = this.storage.listArticlesByGroup(group);
+		}
+		
+		// Back them up to a file
+		String abspath = this.storage.backupArticles(articles, backupfile);
+		
+		System.out.println("Created backup at " + abspath + "!");
 	}
 	
 	/**
@@ -115,23 +138,42 @@ public class ManageArticleController {
 	
 	/**
      * Lists all articles in the database
+	 * @throws SQLException 
      */
 	@FXML
-	public void ma_listClicked(ActionEvent event) throws IOException {
+	public void ma_listClicked(ActionEvent event) throws IOException, SQLException {
 		
 		//Code to list all articles in database
-
-		
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+        ArrayList<Article> articles = this.storage.listAllArticles();
+        
+        for (Article a : articles) {
+        	a.printInfo();
+        }
 	}
 	
 	/**
      * Lists articles based on inputed group
+	 * @throws SQLException 
      */
 	@FXML
-	public void ma_listGroupClicked(ActionEvent event) throws IOException {
+	public void ma_listGroupClicked(ActionEvent event) throws IOException, SQLException {
 		
 		//Code to list articles based on group
-
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+        
+        String group = this.ma_filterGroups.getText();
+        ArrayList<Article> articles = this.storage.listArticlesByGroup(group);
+        
+        if (articles.size() == 0) {
+        	System.out.println("No articles found by that group");
+        	return;
+        }
+        for (Article a : articles) {
+        	a.printInfo();
+        }
 		
 	}
 	
@@ -165,6 +207,7 @@ public class ManageArticleController {
      */
 	public void userName(String name) {
 		ma_userLabel.setText("User: " + name);
+		myusername = name;
 	}
 	
 

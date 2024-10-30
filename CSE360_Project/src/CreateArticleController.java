@@ -14,9 +14,12 @@ import java.util.stream.Collectors;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.sql.SQLException;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,13 +29,24 @@ public class CreateArticleController {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	private Storage storage;
+	private String myusername;
 	
-	private TextField titleTextField, referenceLinksTextField, headersTextField, groupsTextField, descriptionTextField, bodyTextField, keywordsTextField;
+	@FXML
+	private TextField titleTextField, referenceLinksTextField, headersTextField, groupsTextField, descriptionTextField, keywordsTextField;
+	@FXML
 	private Button createArticleButton;
+	@FXML
+	private TextArea bodyTextField;
 	
 	String titleString, referenceString, headersString, groupsString, descriptionString, bodyString, keywordString;
 	
-	public void pressCreateArticleButton(ActionEvent event) throws IOException {
+	@FXML
+	public void ca_createArticleClicked(ActionEvent event) throws IOException, SQLException {
+		
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+        
 		titleString = titleTextField.getText();
 		referenceString = referenceLinksTextField.getText();
 		headersString = headersTextField.getText();
@@ -57,8 +71,34 @@ public class CreateArticleController {
 		newArticle.setHeader(headersString);
 		newArticle.setDescription(descriptionString);
 		
-		//SET ARTICLE ID 
+		//SET ARTICLE ID to -1 (NULL) to take advantage of auto increment
+		newArticle.setID(-1);
+		
 		//SET ARTICLE GROUPINGS
+		//multiple groups separated by space are already handled in the backend group search
+		newArticle.setGrouping(groupsString);
+		
+		// Commit the article to the database
+		this.storage.addArticle(newArticle);
+		
+		System.out.println("Added the article to the database!");
+		
+		// Go back to the previous page
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("ManageArticles.fxml"));
+		root = loader.load();
+		
+		ManageArticleController controller = loader.getController();
+		controller.userName(myusername);
+		
+		
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+	}
+	
+	public void userName(String username) {
+		myusername = username;
 	}
 	
 }

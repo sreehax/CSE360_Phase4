@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -475,11 +476,16 @@ public class Storage {
 		PreparedStatement prep = conn.prepareStatement(update);
 		String references = a.getReferencesStr();
 		String keywords = a.getKeywordsStr();
+		int id = a.getID();
 		
 		prep.setString(1, a.getTitle());
 		prep.setString(2, a.getBody());
 		prep.setString(3, references);
-		prep.setInt(4, a.getID());
+		if (id > 0) {
+			prep.setInt(4, a.getID());
+		} else {
+			prep.setNull(4, Types.NULL);
+		}
 		prep.setString(5, a.getHeader());
 		prep.setString(6, a.getGrouping());
 		prep.setString(7, a.getDescription());
@@ -516,10 +522,10 @@ public class Storage {
 	}
 	
 	// Serialize a list of articles to a file
-	public void backupArticles(ArrayList<Article> articles, String path) throws IOException {
-		FileWriter fw = new FileWriter(new File(path));
+	public String backupArticles(ArrayList<Article> articles, String path) throws IOException {
+		File file = new File(path);
+		FileWriter fw = new FileWriter(path);
 		BufferedWriter bw = new BufferedWriter(fw);
-		
 		int count = articles.size();
 		bw.write(Integer.toString(count));
 		bw.newLine();
@@ -528,14 +534,27 @@ public class Storage {
 		Encoder enc = Base64.getEncoder();
 		for (Article a : articles) {
 			bw.write(a.getTitle());
+			bw.newLine();
 			bw.write(enc.encodeToString(a.getBody().getBytes("UTF-8")));
+			bw.newLine();
 			bw.write(a.getReferencesStr());
+			bw.newLine();
 			bw.write(Integer.toString(a.getID()));
+			bw.newLine();
 			bw.write(a.getHeader());
+			bw.newLine();
 			bw.write(a.getGrouping());
+			bw.newLine();
 			bw.write(enc.encodeToString(a.getDescription().getBytes("UTF-8")));
+			bw.newLine();
 			bw.write(a.getKeywordsStr());
+			bw.newLine();
 		}
+		
+		bw.close();
+		fw.close();
+		
+		return file.getAbsolutePath();
 	}
 	
 	// Deserialize a list of articles from a file
@@ -577,6 +596,16 @@ public class Storage {
 		String query = "SELECT * FROM articles";
 		Statement stmt = this.conn.createStatement();
 		ResultSet rs = stmt.executeQuery(query);
+		
+		return consolidateArticles(rs);
+	}
+	
+	// dump articles by group
+	public ArrayList<Article> listArticlesByGroup(String group) throws SQLException {
+		String query = "SELECT * FROM articles WHERE grouping LIKE ?";
+		PreparedStatement prep = this.conn.prepareStatement(query);
+		prep.setString(1, "%" + group + "%");
+		ResultSet rs = prep.executeQuery();
 		
 		return consolidateArticles(rs);
 	}

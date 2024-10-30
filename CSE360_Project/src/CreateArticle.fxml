@@ -11,7 +11,7 @@
 
 <!-- Authors: Benjamin Nelson & Felix Allison -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InstructorLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CreateArticleController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Article">
@@ -31,7 +31,7 @@
       <Text layoutX="13.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reference Links" />
       <Text layoutX="37.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Body" />
       <TextField fx:id="descriptionTextField" layoutX="99.0" layoutY="202.0" prefHeight="26.0" prefWidth="385.0" />
-      <Button fx:id="createArticleButton" layoutX="410.0" layoutY="64.0" mnemonicParsing="false" text="Create Article" />
+      <Button fx:id="createArticleButton" layoutX="410.0" layoutY="64.0" mnemonicParsing="false" text="Create Article" onAction="#ca_createArticleClicked" />
       <Text layoutX="24.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Header (s)" />
       <TextField fx:id="headersTextField" layoutX="98.0" layoutY="131.0" prefHeight="26.0" prefWidth="182.0" />
       <Text layoutX="28.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group(s)" />
