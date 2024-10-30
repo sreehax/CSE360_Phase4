@@ -18,6 +18,7 @@ public class InstructorLoginController {
 	private Scene scene;
 	private Parent root;
 	private Storage storage;
+	private String myusername;
 	/** Text label that displays the logged-in instructor's username. */
 	@FXML
 	private Text ip_userLabel;
@@ -47,6 +48,7 @@ public class InstructorLoginController {
      */
 	public void userName(String name) {
 		this.ip_userLabel.setText("User: " + name);
+		this.myusername = name;
 	}
 	
 	@FXML
@@ -54,6 +56,9 @@ public class InstructorLoginController {
 		// Load the ManageArticles.fxml file and set it as the root of the new scene
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("ManageArticles.fxml"));
 		root = loader.load();
+		ManageArticleController controller = loader.getController();
+		controller.userName(myusername);
+		controller.cameFrom("Instructor");
 	// Get the current stage and update the scene to the main scene	
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

@@ -42,6 +42,7 @@ public class ManageArticleController {
 	private Parent root;
 	private Storage storage;
 	private String myusername;
+	private String camefrom;
 	
 	@FXML
 	private Text ma_userLabel;
@@ -223,9 +224,10 @@ public class ManageArticleController {
      *
      * @param event The action event triggered by the button click
      * @throws IOException If there is an issue loading the main scene
+	 * @throws SQLException 
      */
 	@FXML
-	public void ma_backClicked(ActionEvent event) throws IOException {
+	public void ma_backClicked(ActionEvent event) throws IOException, SQLException {
 		
 		//This method should load either the admin or instructor page based on what the role is for the current user
 		
@@ -239,6 +241,29 @@ public class ManageArticleController {
         //scene = new Scene(root);
         //stage.setScene(scene);
         //stage.show();
+		if (this.camefrom.equals("Admin")) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
+			root = loader.load();
+			
+			AdminLoginController controller = loader.getController();
+			controller.userName(myusername);
+			
+	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        scene = new Scene(root);
+	        stage.setScene(scene);
+	        stage.show();
+		} else if (this.camefrom.equals("Instructor")) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("InstructorLogin.fxml"));
+			root = loader.load();
+			
+			InstructorLoginController controller = loader.getController();
+			controller.userName(myusername);
+			
+	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        scene = new Scene(root);
+	        stage.setScene(scene);
+	        stage.show();
+		}
 	}
 	 /**
      * Sets the user name label to display the currently logged-in user.
@@ -250,5 +275,8 @@ public class ManageArticleController {
 		myusername = name;
 	}
 	
+	public void cameFrom(String loc) {
+		this.camefrom = loc;
+	}
 
 }

@@ -269,6 +269,7 @@ public class AdminLoginController {
 		
 		ManageArticleController controller = loader.getController();
 		controller.userName(myusername);
+		controller.cameFrom("Admin");
 		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

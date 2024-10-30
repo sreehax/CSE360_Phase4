@@ -8,7 +8,7 @@
 
 <!-- Author: Jonathan Lin -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CreateAccountController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CreateAccountController">
    <children>
       <TextField fx:id="ca_usernameid" layoutX="150.0" layoutY="29.0" promptText="username" />
       <Label layoutX="21.0" layoutY="33.0" text="Username" />
