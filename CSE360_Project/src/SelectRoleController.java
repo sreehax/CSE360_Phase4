@@ -46,9 +46,12 @@ public class SelectRoleController {
 	public void sr_selectSessionClicked(ActionEvent event) throws IOException {
 		//check session view selected and change scene based on selection
 		String selectedRole = (String) sr_combobox.getValue();
-		System.out.println(selectedRole);
+		
 		// Load the appropriate FXML file and set the scene based on the selected role
-		if (selectedRole.equals("Admin")) {
+		if (selectedRole == null) {
+			System.out.println("No roles selected");
+			
+		} else if (selectedRole.equals("Admin")) {
 			System.out.println("admin selected");
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
 			root = loader.load();
