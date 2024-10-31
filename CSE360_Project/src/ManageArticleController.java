@@ -265,7 +265,15 @@ public class ManageArticleController {
 	        stage.show();
 		}
 	}
-	
+	    /**
+     * Handles the action when the "Edit" button is clicked. Retrieves the article ID from the 
+     * edit field, verifies it as a valid integer, and loads the EditArticle.fxml view. It passes
+     * the article to be edited to the EditArticleController.
+     *
+     * @param event The ActionEvent triggered by clicking the "Edit" button
+     * @throws IOException if there is an issue loading the EditArticle.fxml file
+     * @throws SQLException if there is an error retrieving the article from the database
+     */
 	@FXML
 	public void ma_editClicked(ActionEvent event) throws IOException, SQLException {
 		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -294,6 +302,16 @@ public class ManageArticleController {
         stage.show();
 	}
 	
+    /**
+     * Handles the action when the "Delete Article" button is clicked. Retrieves the article ID 
+     * from the delete field, verifies it as a valid integer, and attempts to delete the article 
+     * from the database. Prints a success message if the article is deleted or an error message 
+     * if the article is not found.
+     *
+     * @param event The ActionEvent triggered by clicking the "Delete Article" button
+     * @throws IOException if an I/O error occurs
+     * @throws SQLException if there is an error deleting the article from the database
+     */
 	@FXML
 	public void ma_deleteArticleClicked(ActionEvent event) throws IOException, SQLException {
 		String got_id = ma_deleteArticleField.getText();
@@ -324,7 +342,12 @@ public class ManageArticleController {
 		ma_userLabel.setText("User: " + name);
 		myusername = name;
 	}
-	
+	 /**
+     * Sets the origin location indicating where the user navigated from.
+     * This can be used to determine the navigation behavior based on the previous page.
+     *
+     * @param loc The name of the location or page the user came from
+     */
 	public void cameFrom(String loc) {
 		this.camefrom = loc;
 	}
