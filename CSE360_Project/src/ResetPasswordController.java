@@ -12,7 +12,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+/**
+ * The ResetPasswordController class handles the reset password functionality.
+ * It allows users to enter a new password and update it in the database.
+ * The class also provides navigation back to the main scene.
+ */
 public class ResetPasswordController {
 	
 	private Stage stage;
@@ -23,7 +27,13 @@ public class ResetPasswordController {
 	
 	@FXML
 	private TextField rp_txtfield;
-	
+	   /**
+     * Handles the action when the "Back" button is clicked.
+     * Loads the MainScene.fxml view and returns the user to the main scene.
+     *
+     * @param event The ActionEvent triggered by clicking the "Back" button
+     * @throws IOException if there is an issue loading the MainScene.fxml file
+     */
 	@FXML
 	public void rp_backClicked(ActionEvent event) throws IOException{ 
 		
@@ -38,7 +48,18 @@ public class ResetPasswordController {
         stage.setScene(scene);
         stage.show();
 	}
-	
+	   /**
+     * Handles the action when the "Confirm" button is clicked.
+     * Retrieves the new password entered in the text field, validates it, 
+     * and updates the password in the database if it is not empty.
+     * If no password is entered, it prompts the user to input a password.
+     *
+     * @param event The ActionEvent triggered by clicking the "Confirm" button
+     * @throws IOException if an I/O error occurs
+     * @throws NoSuchAlgorithmException if the hashing algorithm is unavailable
+     * @throws InvalidKeySpecException if the password specification is invalid
+     * @throws SQLException if there is an error updating the password in the database
+     */
 	@FXML
 	public void rp_confirmClicked(ActionEvent event) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, SQLException{ 
 		
@@ -58,7 +79,12 @@ public class ResetPasswordController {
 		}
 		
 	}
-	
+	 /**
+     * Sets the username for the current user.
+     * This username is used to identify the account for which the password will be reset.
+     *
+     * @param username The username of the account to reset the password for
+     */
 	public void setdata(String username) {
 		this.username = username;
 	}
