@@ -446,7 +446,13 @@ public class Storage {
 		
 		return time;
 	}
-	
+	  /**
+     * Checks if a one-time code is already associated with a user in the "user_info" table.
+     *
+     * @param code the one-time code to check
+     * @return true if the code is already in use, false otherwise
+     * @throws SQLException if a database access error occurs
+     */
 	public boolean isCodeAlreadyInUse(String code) throws SQLException {
 		String strQuery = "SELECT username FROM user_info WHERE code = ?";
 		PreparedStatement prepared = conn.prepareStatement(strQuery);
@@ -458,7 +464,12 @@ public class Storage {
 		}
 		return false;
 	}
-	
+	 /**
+     * Deletes a user from the "logins" and "user_info" tables based on the username.
+     *
+     * @param username the username of the user to delete
+     * @throws SQLException if a database access error occurs
+     */
 	public void deleteUser(String username) throws SQLException {
 		String query1 = "DELETE FROM logins WHERE username = ?";
 		String query2 = "DELETE FROM user_info WHERE username = ?";
@@ -477,7 +488,13 @@ public class Storage {
 			System.out.println("User to delete does not exist");
 		}
 	}
-	
+	   /**
+     * Retrieves a User object populated with user details based on the provided username.
+     *
+     * @param username the username of the user to retrieve
+     * @return the User object containing user details
+     * @throws SQLException if a database access error occurs or if the user is not found
+     */
 	public User getUser(String username) throws SQLException {
 		String query = "SELECT * FROM user_info WHERE username = ?";
 		PreparedStatement prepared = conn.prepareStatement(query);
@@ -508,7 +525,12 @@ public class Storage {
 		throw new SQLException("User Not Found");
 	}
 	
-	// Insert an article into the database
+	  /**
+     * Inserts a new Article into the database.
+     *
+     * @param a the Article to insert
+     * @throws SQLException if a database access error occurs
+     */
 	public void addArticle(Article a) throws SQLException {
 		String update = "INSERT INTO articles (title, body, refs, id, header, grouping, description, keywords) VALUES (?,?,?,?,?,?,?,?)";
 		PreparedStatement prep = conn.prepareStatement(update);
@@ -531,8 +553,12 @@ public class Storage {
 		
 		prep.executeUpdate();
 	}
-	
-	// Update an article using the ID
+	  /**
+     * Updates an existing Article in the database using its ID.
+     *
+     * @param a the Article with updated details
+     * @throws SQLException if a database access error occurs
+     */
 	public void updateArticle(Article a) throws SQLException {
 		String update = "UPDATE articles SET title = ?, body = ?, refs = ?, header = ?, grouping = ?, description = ?, keywords = ? WHERE id = ?";
 		PreparedStatement prep = conn.prepareStatement(update);
@@ -552,7 +578,13 @@ public class Storage {
 		prep.executeUpdate();
 	}
 	
-	// helper method to get all Articles from a ResultSet
+	  /**
+     * Helper method to convert a ResultSet into a list of Article objects.
+     *
+     * @param rs the ResultSet containing article data
+     * @return a list of Article objects
+     * @throws SQLException if a database access error occurs
+     */
 	private ArrayList<Article> consolidateArticles(ResultSet rs) throws SQLException {
 		ArrayList<Article> ret = new ArrayList<Article>();
 		while (rs.next()) {
@@ -579,7 +611,14 @@ public class Storage {
 		return ret;
 	}
 	
-	// Serialize a list of articles to a file
+	    /**
+     * Serializes a list of articles to a specified file.
+     *
+     * @param articles the list of articles to backup
+     * @param path the file path to write to
+     * @return the absolute path of the backup file
+     * @throws IOException if an I/O error occurs
+     */
 	public String backupArticles(ArrayList<Article> articles, String path) throws IOException {
 		File file = new File(path);
 		FileWriter fw = new FileWriter(path);
@@ -615,7 +654,13 @@ public class Storage {
 		return file.getAbsolutePath();
 	}
 	
-	// Deserialize a list of articles from a file
+	    /**
+     * Deserializes a list of articles from a specified file.
+     *
+     * @param path the file path to read from
+     * @return a list of Article objects
+     * @throws IOException if an I/O error occurs
+     */
 	public ArrayList<Article> restoreArticles(String path) throws IOException {
 		ArrayList<Article> ret = new ArrayList<Article>();
 		BufferedReader reader = new BufferedReader(new FileReader(path));
@@ -649,7 +694,12 @@ public class Storage {
 		return ret;
 	}
 	
-	// dump all articles
+	    /**
+     * Retrieves all articles from the "articles" table.
+     *
+     * @return a list of Article objects containing all articles in the database
+     * @throws SQLException if a database access error occurs
+     */
 	public ArrayList<Article> listAllArticles() throws SQLException {
 		String query = "SELECT * FROM articles";
 		Statement stmt = this.conn.createStatement();
@@ -658,7 +708,13 @@ public class Storage {
 		return consolidateArticles(rs);
 	}
 	
-	// get article by ID, or null if it ain't found
+	  /**
+     * Retrieves an article by its ID.
+     *
+     * @param id the ID of the article to retrieve
+     * @return the Article object if found, or null if no article with the specified ID exists
+     * @throws SQLException if a database access error occurs
+     */
 	public Article getArticleByID(int id) throws SQLException {
 		String query = "SELECT * FROM articles WHERE id = ?";
 		PreparedStatement prep = this.conn.prepareStatement(query);
@@ -672,7 +728,13 @@ public class Storage {
 		return got.get(0);
 	}
 	
-	// dump articles by group
+	    /**
+     * Retrieves articles by their grouping attribute.
+     *
+     * @param group the grouping category to filter articles by
+     * @return a list of Article objects matching the specified group
+     * @throws SQLException if a database access error occurs
+     */
 	public ArrayList<Article> listArticlesByGroup(String group) throws SQLException {
 		String query = "SELECT * FROM articles WHERE grouping LIKE ?";
 		PreparedStatement prep = this.conn.prepareStatement(query);
@@ -682,7 +744,13 @@ public class Storage {
 		return consolidateArticles(rs);
 	}
 	
-	// search article by title
+	  /**
+     * Searches for articles by title.
+     *
+     * @param title the title or partial title to search for
+     * @return a list of Article objects whose titles contain the specified search term
+     * @throws SQLException if a database access error occurs
+     */
 	public ArrayList<Article> searchArticlesByTitle(String title) throws SQLException {
 		String query = "SELECT * FROM articles WHERE title LIKE ?";
 		PreparedStatement prep = this.conn.prepareStatement(query);
@@ -691,14 +759,24 @@ public class Storage {
 		return consolidateArticles(rs);
 	}
 	
-	// delete all articles
+	/**
+     * Deletes all articles from the "articles" table.
+     *
+     * @throws SQLException if a database access error occurs
+     */
 	public void deleteAllArticles() throws SQLException {
 		String update = "DELETE FROM articles";
 		Statement stmt = this.conn.createStatement();
 		stmt.executeUpdate(update);
 	}
 	
-	// delete article by ID
+	 /**
+     * Deletes an article by its ID.
+     *
+     * @param id the ID of the article to delete
+     * @return the number of rows affected (1 if the article was deleted, 0 if no article was found)
+     * @throws SQLException if a database access error occurs
+     */
 	public int deleteArticleByID(int id) throws SQLException {
 		String update = "DELETE FROM articles WHERE id = ?";
 		PreparedStatement prep = this.conn.prepareStatement(update);
@@ -722,7 +800,12 @@ public class Storage {
         return secondsElapsed < 24 * 60 * 60;
     }
 	
-	// Self test
+	  /**
+     * Performs a self-test for user, storage, and article functionalities, such as registering,
+     * logging in, updating, and deleting users and articles. Outputs test results to the console.
+     *
+     * @return true if all tests pass, false if any test fails
+     */
 	public static boolean selfTest() {
 		System.out.println("User, Storage, and Article SelfTest");
 		boolean allGood = true;
