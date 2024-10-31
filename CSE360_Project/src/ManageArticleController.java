@@ -48,10 +48,10 @@ public class ManageArticleController {
 	private Text ma_userLabel;
 	
 	@FXML
-	private TextField ma_backup, ma_backupGroup, ma_restore, ma_filterGroups;
+	private TextField ma_backup, ma_backupGroup, ma_restore, ma_filterGroups, ma_deleteArticleField, ma_editArticleField;
 	
 	@FXML
-	private Button ma_back, ma_makeArticle, ma_makeBackup, ma_doMerge, ma_doOverwrite, ma_list, ma_listGroup ;
+	private Button ma_back, ma_makeArticle, ma_makeBackup, ma_doMerge, ma_doOverwrite, ma_list, ma_listGroup, ma_deleteArticleButton, ma_editButton ;
 	
 	/**
      * Initializes the controller after the root element has been processed.
@@ -91,7 +91,7 @@ public class ManageArticleController {
         this.storage = (Storage) stage.getUserData();
 		
 		//Code to create backup files
-		//If the backup group file is texfield is empty, backup all articles
+		//If the backup group file is textfield is empty, backup all articles
 		String backupfile = ma_backup.getText();
 		String group = ma_backupGroup.getText();
 		if (backupfile.isEmpty()) {
@@ -183,8 +183,8 @@ public class ManageArticleController {
         System.out.println("All articles: ");
         for (Article a : articles) {
         	a.printInfo();
-        	System.out.println();
         }
+    	System.out.println();
 	}
 	
 	/**
@@ -213,9 +213,8 @@ public class ManageArticleController {
         System.out.println("Articles of group " + group + ":");
         for (Article a : articles) {
         	a.printInfo();
-        	System.out.println();
         }
-		
+    	System.out.println();
 	}
 	
 	/**
@@ -265,6 +264,55 @@ public class ManageArticleController {
 	        stage.show();
 		}
 	}
+	
+	@FXML
+	public void ma_editClicked(ActionEvent event) throws IOException, SQLException {
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+		String got_id = ma_editArticleField.getText();
+		int id = -1;
+		try {
+			id = Integer.parseInt(got_id);
+		} catch (Exception e) {
+			System.out.println("Enter a valid ID!");
+			return;
+		}
+		System.out.println("Edit ID " + id);
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("EditArticle.fxml"));
+		root = loader.load();
+		
+		EditArticleController controller = loader.getController();
+		controller.userName(myusername);
+		Article a = this.storage.getArticleByID(id);
+		controller.setArticle(a);
+		
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+	}
+	
+	@FXML
+	public void ma_deleteArticleClicked(ActionEvent event) throws IOException, SQLException {
+		String got_id = ma_deleteArticleField.getText();
+		int id = -1;
+		try {
+			id = Integer.parseInt(got_id);
+		} catch (Exception e) {
+			System.out.println("Enter a valid ID!");
+			return;
+		}
+		
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+        int affected = this.storage.deleteArticleByID(id);
+        if (affected > 0) {
+        	System.out.println("Deleted article with ID#" + id + "!");
+        } else {
+        	System.out.println("Couldn't find article by that ID!");
+        }
+	}
+	
 	 /**
      * Sets the user name label to display the currently logged-in user.
      *

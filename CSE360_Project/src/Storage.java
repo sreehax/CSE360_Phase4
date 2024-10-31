@@ -510,6 +510,26 @@ public class Storage {
 		prep.executeUpdate();
 	}
 	
+	// Update an article using the ID
+	public void updateArticle(Article a) throws SQLException {
+		String update = "UPDATE articles SET title = ?, body = ?, refs = ?, header = ?, grouping = ?, description = ?, keywords = ? WHERE id = ?";
+		PreparedStatement prep = conn.prepareStatement(update);
+		String references = a.getReferencesStr();
+		String keywords = a.getKeywordsStr();
+		int id = a.getID();
+		
+		prep.setString(1, a.getTitle());
+		prep.setString(2, a.getBody());
+		prep.setString(3, references);
+		prep.setString(4, a.getHeader());
+		prep.setString(5, a.getGrouping());
+		prep.setString(6, a.getDescription());
+		prep.setString(7, keywords);
+		prep.setInt(8, id);
+		
+		prep.executeUpdate();
+	}
+	
 	// helper method to get all Articles from a ResultSet
 	private ArrayList<Article> consolidateArticles(ResultSet rs) throws SQLException {
 		ArrayList<Article> ret = new ArrayList<Article>();
@@ -645,6 +665,15 @@ public class Storage {
 		String update = "DELETE FROM articles";
 		Statement stmt = this.conn.createStatement();
 		stmt.executeUpdate(update);
+	}
+	
+	// delete article by ID
+	public int deleteArticleByID(int id) throws SQLException {
+		String update = "DELETE FROM articles WHERE id = ?";
+		PreparedStatement prep = this.conn.prepareStatement(update);
+		prep.setInt(1, id);
+		int affected = prep.executeUpdate();
+		return affected;
 	}
 	
 	 /**
