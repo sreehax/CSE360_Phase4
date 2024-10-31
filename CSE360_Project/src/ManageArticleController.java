@@ -73,6 +73,7 @@ public class ManageArticleController {
 		
 		CreateArticleController controller = loader.getController();
 		controller.userName(myusername);
+		controller.cameFrom(camefrom);
 		
 		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -283,6 +284,7 @@ public class ManageArticleController {
 		
 		EditArticleController controller = loader.getController();
 		controller.userName(myusername);
+		controller.cameFrom(camefrom);
 		Article a = this.storage.getArticleByID(id);
 		controller.setArticle(a);
 		

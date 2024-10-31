@@ -31,6 +31,7 @@ public class EditArticleController {
 	private Parent root;
 	private Storage storage;
 	private String myusername;
+	private String camefrom;
 	private int myid;
 	
 	@FXML
@@ -93,6 +94,7 @@ public class EditArticleController {
 		
 		ManageArticleController controller = loader.getController();
 		controller.userName(myusername);
+		controller.cameFrom(camefrom);
 		
 		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -116,5 +118,9 @@ public class EditArticleController {
 		e_keywordsTextField.setText(a.getKeywordsStr().replaceAll(",", ""));
 		e_descriptionTextField.setText(a.getDescription());
 		e_bodyTextField.setText(a.getBody());
+	}
+	
+	public void cameFrom(String loc) {
+		this.camefrom = loc;
 	}
 }
