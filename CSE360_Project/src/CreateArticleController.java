@@ -24,7 +24,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-//
+/**
+ * The CreateArticleController class is responsible for handling the creation of new articles.
+ * It interacts with the UI elements for article attributes like title, references, headers, 
+ * groups, description, keywords, and body. Upon user interaction, it stores the new article 
+ * information in the database.
+ */
 public class CreateArticleController {
 	private Stage stage;
 	private Scene scene;
@@ -45,6 +50,16 @@ public class CreateArticleController {
 	
 	String titleString, referenceString, headersString, groupsString, descriptionString, bodyString, keywordString;
 	
+    /**
+     * Handles the action triggered when the "Create Article" button is clicked.
+     * This method gathers user input from the UI, creates a new Article object,
+     * sets its properties, and commits it to the database through the Storage class.
+     * After saving, it loads the ManageArticles.fxml view.
+     *
+     * @param event The ActionEvent triggered by clicking the "Create Article" button
+     * @throws IOException if there is an issue loading the ManageArticles.fxml file
+     * @throws SQLException if there is an error during the database operation
+     */
 	@FXML
 	public void ca_createArticleClicked(ActionEvent event) throws IOException, SQLException {
 		
@@ -101,12 +116,21 @@ public class CreateArticleController {
         stage.setScene(scene);
         stage.show();
 	}
-	
+	 /**
+     * Sets the username label to display the currently logged-in user's name.
+     *
+     * @param username The username to be displayed
+     */
 	public void userName(String username) {
 		ip_userLabel.setText("User: " + username);
 		myusername = username;
 	}
-	
+	    /**
+     * Sets the origin location indicating where the user navigated from.
+     * This information can be used to customize behavior based on the previous page.
+     *
+     * @param loc The name of the location or page the user came from
+     */
 	public void cameFrom(String loc) {
 		this.camefrom = loc;
 	}
