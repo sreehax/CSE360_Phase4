@@ -39,5 +39,8 @@
       <CheckBox fx:id="al_instructorcheckbox" layoutX="128.0" layoutY="263.0" mnemonicParsing="false" onAction="#al_instructorcheckboxClicked" text="Instructor" />
       <Button fx:id="al_printtable" layoutX="323.0" layoutY="259.0" mnemonicParsing="false" onAction="#al_printtableClicked" text="Print Users Table" />
       <Button fx:id="al_toArticles" layoutX="324.0" layoutY="313.0" mnemonicParsing="false" onAction="#al_toArticlesClicked" text="Manage Articles" />
+      <Text layoutX="24.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search article by title" />
+      <TextField fx:id="al_searchBar" layoutX="151.0" layoutY="349.0" />
+      <Button fx:id="al_searchButton" layoutX="323.0" layoutY="349.0" mnemonicParsing="false" onAction="#al_searchButtonClicked" text="Search" />
    </children>
 </AnchorPane>

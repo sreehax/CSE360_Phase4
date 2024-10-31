@@ -41,7 +41,7 @@ public class EditArticleController {
 	private TextArea e_bodyTextField;
 	
 	@FXML
-	private Text e_userLabel;
+	private Text e_userLabel, e_idNumLabel;
 	
 	String titleString, referenceString, headersString, groupsString, descriptionString, bodyString, keywordString;
 	
@@ -108,6 +108,7 @@ public class EditArticleController {
 	
 	public void setArticle(Article a) {
 		myid = a.getID();
+		e_idNumLabel.setText("ID: " + myid);
 		e_titleTextField.setText(a.getTitle());
 		e_referenceLinksTextField.setText(a.getReferencesStr().replaceAll(",", ""));
 		e_headersTextField.setText(a.getHeader());

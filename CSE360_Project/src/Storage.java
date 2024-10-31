@@ -660,6 +660,15 @@ public class Storage {
 		return consolidateArticles(rs);
 	}
 	
+	// search article by title
+	public ArrayList<Article> searchArticlesByTitle(String title) throws SQLException {
+		String query = "SELECT * FROM articles WHERE title LIKE ?";
+		PreparedStatement prep = this.conn.prepareStatement(query);
+		prep.setString(1, "%" + title + "%");
+		ResultSet rs = prep.executeQuery();
+		return consolidateArticles(rs);
+	}
+	
 	// delete all articles
 	public void deleteAllArticles() throws SQLException {
 		String update = "DELETE FROM articles";
