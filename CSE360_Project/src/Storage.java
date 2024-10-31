@@ -96,14 +96,44 @@ public class Storage {
 		}
 		
 		return PasswordHasher.verifyPassword(password, hash);
-	}	
+	}		 
+	/**
+     * Checks if `logins` table contain more than one registered account.
+     * 
+     * @return true if at least one user exists in the `logins` table, false otherwise.
+     * @throws SQLException if there is an error executing the SQL query.
+     */
+	public boolean checkLoginsExist() throws SQLException {
+		int size = 0;
+		String strQuery = "SELECT count(*) AS row_count FROM logins";
+		
+		try {
+			PreparedStatement stmt = this.conn.prepareStatement(strQuery);
+			ResultSet rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				size = rs.getInt("row_count");
+			}
+		}
+		catch (Exception e) {
+			System.out.println("checkLoginsExist failed");
+		}
+		
+		
+		if (size == 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
 	 /**
      * Prints the contents of the `logins` table to the console and returns whether any users are present.
      * 
      * @return true if at least one user exists in the `logins` table, false otherwise.
      * @throws SQLException if there is an error executing the SQL query.
      */
-	public boolean printTable() throws SQLException {
+	public void printTable1() throws SQLException {
 		String strQuery = "SELECT * from logins";
 		Statement stmt = this.conn.createStatement();
 		ResultSet rs = stmt.executeQuery(strQuery);
@@ -114,14 +144,6 @@ public class Storage {
 			i++;
 			System.out.println("user " + i + ": ");
 			System.out.println(rs.getString("username"));
-		}
-		
-		System.out.println("number of users in logins: " + i);
-		if (i == 0) {
-			return false;
-		}
-		else {
-			return true;
 		}
 	}
 	/**

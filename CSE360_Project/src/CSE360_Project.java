@@ -57,7 +57,8 @@ public class CSE360_Project extends Application {
 		
 		//go to create account if there are no users, otherwise go to main home page 
 		Storage storage = new Storage();
-		boolean flag = storage.printTable();
+		boolean flag = storage.checkLoginsExist();
+		storage.printTable1();
 		storage.printTable2();
 		storage.PrintTable3();
 		if (flag) {
@@ -67,6 +68,7 @@ public class CSE360_Project extends Application {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
 				Parent root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
 	            
+				
 				primaryStage.setUserData(storage);
 				
 	            Scene scene = new Scene(root);
