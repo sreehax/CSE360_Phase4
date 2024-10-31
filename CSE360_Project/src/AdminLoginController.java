@@ -51,6 +51,12 @@ public class AdminLoginController {
 	@FXML
 	private CheckBox al_admincheckbox, al_studentcheckbox, al_instructorcheckbox;
 	
+	@FXML
+	private TextField al_searchBar;
+	
+	@FXML
+	private Button al_searchButton;
+	
 	/**
      * Initializes the controller after the root element has been processed.
      */
@@ -285,6 +291,23 @@ public class AdminLoginController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+	}
+	
+	@FXML
+	public void al_searchButtonClicked(ActionEvent event) throws IOException, SQLException{
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+		String searchterm = al_searchBar.getText();
+		ArrayList<Article> articles = this.storage.searchArticlesByTitle(searchterm);
+		
+		if (articles.size() == 0) {
+			System.out.println("No articles found by that search term");
+			return;
+		}
+		System.out.println("Found " + articles.size() + " articles by that search term:");
+		for (Article a: articles) {
+			a.printInfo();
+		}
 	}
 	
 }

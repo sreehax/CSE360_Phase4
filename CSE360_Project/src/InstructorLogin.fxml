@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -27,9 +26,8 @@
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
       <Button fx:id="ip_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#ip_logoutClicked" text="logout" />
       <Button fx:id="ip_toArtices" layoutX="23.0" layoutY="102.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Manage Articles" />
-      <ComboBox layoutX="20.0" layoutY="208.0" prefWidth="150.0" />
-      <Text layoutX="23.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Articles by..." />
-      <TextField layoutX="15.0" layoutY="244.0" prefHeight="26.0" prefWidth="309.0" />
-      <Button layoutX="359.0" layoutY="244.0" mnemonicParsing="false" text="Search" />
+      <Text layoutX="23.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Articles by title" />
+      <TextField fx:id="ip_searchBar" layoutX="15.0" layoutY="244.0" prefHeight="26.0" prefWidth="309.0" />
+      <Button fx:id="ip_searchButton" layoutX="359.0" layoutY="244.0" mnemonicParsing="false" onAction="#ip_searchButtonClicked" text="Search" />
    </children>
 </AnchorPane>

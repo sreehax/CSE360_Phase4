@@ -31,6 +31,7 @@ public class CreateArticleController {
 	private Parent root;
 	private Storage storage;
 	private String myusername;
+	private String camefrom;
 	
 	@FXML
 	private TextField titleTextField, referenceLinksTextField, headersTextField, groupsTextField, descriptionTextField, keywordsTextField;
@@ -92,6 +93,7 @@ public class CreateArticleController {
 		
 		ManageArticleController controller = loader.getController();
 		controller.userName(myusername);
+		controller.cameFrom(camefrom);
 		
 		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -103,6 +105,10 @@ public class CreateArticleController {
 	public void userName(String username) {
 		ip_userLabel.setText("User: " + username);
 		myusername = username;
+	}
+	
+	public void cameFrom(String loc) {
+		this.camefrom = loc;
 	}
 	
 }

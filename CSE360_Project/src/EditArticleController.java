@@ -31,6 +31,7 @@ public class EditArticleController {
 	private Parent root;
 	private Storage storage;
 	private String myusername;
+	private String camefrom;
 	private int myid;
 	
 	@FXML
@@ -41,7 +42,7 @@ public class EditArticleController {
 	private TextArea e_bodyTextField;
 	
 	@FXML
-	private Text e_userLabel;
+	private Text e_userLabel, e_idNumLabel;
 	
 	String titleString, referenceString, headersString, groupsString, descriptionString, bodyString, keywordString;
 	
@@ -93,6 +94,7 @@ public class EditArticleController {
 		
 		ManageArticleController controller = loader.getController();
 		controller.userName(myusername);
+		controller.cameFrom(camefrom);
 		
 		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -108,6 +110,7 @@ public class EditArticleController {
 	
 	public void setArticle(Article a) {
 		myid = a.getID();
+		e_idNumLabel.setText("ID: " + myid);
 		e_titleTextField.setText(a.getTitle());
 		e_referenceLinksTextField.setText(a.getReferencesStr().replaceAll(",", ""));
 		e_headersTextField.setText(a.getHeader());
@@ -115,5 +118,9 @@ public class EditArticleController {
 		e_keywordsTextField.setText(a.getKeywordsStr().replaceAll(",", ""));
 		e_descriptionTextField.setText(a.getDescription());
 		e_bodyTextField.setText(a.getBody());
+	}
+	
+	public void cameFrom(String loc) {
+		this.camefrom = loc;
 	}
 }

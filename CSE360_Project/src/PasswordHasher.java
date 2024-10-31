@@ -101,6 +101,7 @@ public class PasswordHasher {
 	}
 	
 	public static boolean selfTest() {
+		System.out.println("PasswordHasher SelfTest");
 		boolean allGood = true;
 		boolean current = true;
 		
