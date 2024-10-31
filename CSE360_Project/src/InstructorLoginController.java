@@ -60,7 +60,15 @@ public class InstructorLoginController {
 		this.ip_userLabel.setText("User: " + name);
 		this.myusername = name;
 	}
-	
+	/**
+     * Handles the action triggered when the "To Articles" button is clicked.
+     * Loads the ManageArticles.fxml file, sets up the new scene with the ManageArticleController,
+     * and passes the current username and navigation origin. Then it updates the current stage
+     * to display the Manage Articles view.
+     *
+     * @param event The ActionEvent triggered by clicking the "To Articles" button
+     * @throws IOException if there is an issue loading the ManageArticles.fxml file
+     */
 	@FXML
 	public void ip_toArticlesClicked(ActionEvent event) throws IOException{
 		// Load the ManageArticles.fxml file and set it as the root of the new scene
@@ -75,12 +83,22 @@ public class InstructorLoginController {
         stage.setScene(scene);
         stage.show();
 	}
-	
+	    /**
+     * Handles the action triggered when the "Search" button is clicked.
+     * Retrieves the search term from the search bar, queries the database for articles
+     * with titles that match the search term, and prints each matching article's information
+     * to the console. If no matches are found, it notifies the user.
+     *
+     * @param event The ActionEvent triggered by clicking the "Search" button
+     * @throws IOException if an I/O error occurs during database operations
+     * @throws SQLException if there is an error executing the database query
+     */
 	@FXML
 	public void ip_searchButtonClicked(ActionEvent event) throws IOException, SQLException{
 		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         this.storage = (Storage) stage.getUserData();
 		String searchterm = ip_searchBar.getText();
+		// Query the database for articles matching the search term in the title
 		ArrayList<Article> articles = this.storage.searchArticlesByTitle(searchterm);
 		
 		if (articles.size() == 0) {
