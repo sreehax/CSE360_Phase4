@@ -99,7 +99,16 @@ public class PasswordHasher {
 		// Timing attacks are impossible to use for an attacker trying to exfiltrate a password
 		return accumulated == 0;
 	}
-	
+	  /**
+     * Conducts a self-test for the PasswordHasher class to validate the hashing,
+     * verification, and constant-time comparison functionalities.
+     * 
+     * - Tests hashing and verifying a password for correct functionality.
+     * - Tests constant-time comparison with both matching and non-matching byte arrays.
+     * - Outputs test results to the console, marking each test as "[PASS]" or "[FAIL]".
+     * 
+     * @return true if all tests pass, false if any test fails
+     */
 	public static boolean selfTest() {
 		System.out.println("PasswordHasher SelfTest");
 		boolean allGood = true;
@@ -156,7 +165,7 @@ public class PasswordHasher {
 		} else {
 			System.out.println("[FAIL] constantTimeComparison failed to identify equal arrays a1 and a3!");
 		}
-		
+		// Test: Constant-time comparison with non-matching byte arrays
 		current = !PasswordHasher.constantTimeComparison(a1, a2);
 		allGood &= current;
 		if (current) {
