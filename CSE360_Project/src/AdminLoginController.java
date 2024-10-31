@@ -292,7 +292,16 @@ public class AdminLoginController {
         stage.setScene(scene);
         stage.show();
 	}
-	
+	    /**
+     * Handles the action when the "Search" button is clicked.
+     * Retrieves the search term from the search bar, queries the database for articles
+     * with titles that match the search term, and prints each matching article's information
+     * to the console. If no matches are found, it notifies the user in the console.
+     *
+     * @param event The ActionEvent triggered by clicking the "Search" button
+     * @throws IOException if an I/O error occurs during database operations
+     * @throws SQLException if there is an error executing the database query
+     */
 	@FXML
 	public void al_searchButtonClicked(ActionEvent event) throws IOException, SQLException{
 		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
