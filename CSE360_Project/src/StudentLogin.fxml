@@ -48,6 +48,6 @@
       <TextArea layoutX="18.0" layoutY="220.0" prefHeight="111.0" prefWidth="360.0" />
       <Button layoutX="385.0" layoutY="263.0" mnemonicParsing="false" text="Submit General Help Message" />
       <Button layoutX="385.0" layoutY="299.0" mnemonicParsing="false" text="Submit Specific Help Message" />
-      <Button fx:id="sl_logout1" layoutX="450.0" layoutY="353.0" mnemonicParsing="false" onAction="#sl_logoutClicked" text="Close Application" />
+      <Button fx:id="sl_kill" layoutX="450.0" layoutY="353.0" mnemonicParsing="false" onAction="#sl_killClicked" text="Close Application" />
    </children>
 </AnchorPane>

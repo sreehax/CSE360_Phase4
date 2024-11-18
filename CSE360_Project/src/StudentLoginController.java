@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,6 +39,17 @@ public class StudentLoginController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+	}
+	 /**
+     * Handles the event when the user clicks the "Close Application" button.
+     * Kill the application.
+     *
+     * @param event The event triggered by clicking the logout button.
+     * @throws IOException If the FXML file for the main scene cannot be loaded.
+     */
+	@FXML
+	public void sl_killClicked(ActionEvent event) throws IOException{
+		Platform.exit();
 	}
 	/**
      * Sets the username of the student and updates the username label in the view.
