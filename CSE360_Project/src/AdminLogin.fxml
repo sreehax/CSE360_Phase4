@@ -4,16 +4,14 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <!-- Author: Jonathan Lin -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AdminLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AdminLoginController">
    <children>
-      <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Page">
          <font>
             <Font size="24.0" />
@@ -42,5 +40,6 @@
       <Text layoutX="24.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search article by title" />
       <TextField fx:id="al_searchBar" layoutX="151.0" layoutY="349.0" />
       <Button fx:id="al_searchButton" layoutX="323.0" layoutY="349.0" mnemonicParsing="false" onAction="#al_searchButtonClicked" text="Search" />
+      <Button fx:id="ip_toArtices11" layoutX="321.0" layoutY="386.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Manage Special Access Groups" />
    </children>
 </AnchorPane>
