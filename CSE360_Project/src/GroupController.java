@@ -36,10 +36,12 @@ import java.util.List;
  * headers, groups, description, keywords, and body, allowing the user to modify these fields 
  * and update the article in the database.
  */
-public class GroupAdminController {
+public class GroupController {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	private String myusername;
+	private String camefrom;
 	
 	private ComboBox SelectGroupToManageComboBox;
 	private TextField AddUserToGroupTextField, DeleteUserFromGroupTextField;
@@ -63,6 +65,25 @@ public class GroupAdminController {
 	
 	public void BackButtonClicked(ActionEvent event) throws IOException{
 		
+	}
+	
+	/**
+     * Sets the user name label to display the currently logged-in user.
+     *
+     * @param name The name of the user to be displayed
+     */
+	public void userName(String name) {
+//		ma_userLabel.setText("User: " + name);
+		myusername = name;
+	}
+	 /**
+     * Sets the origin location indicating where the user navigated from.
+     * This can be used to determine the navigation behavior based on the previous page.
+     *
+     * @param loc The name of the location or page the user came from
+     */
+	public void cameFrom(String loc) {
+		this.camefrom = loc;
 	}
 	
 }
