@@ -40,6 +40,6 @@
       <Text layoutX="24.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search article by title" />
       <TextField fx:id="al_searchBar" layoutX="151.0" layoutY="349.0" />
       <Button fx:id="al_searchButton" layoutX="323.0" layoutY="349.0" mnemonicParsing="false" onAction="#al_searchButtonClicked" text="Search" />
-      <Button fx:id="ip_toArtices11" layoutX="321.0" layoutY="386.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Manage Special Access Groups" />
+      <Button fx:id="ip_toArtices11" layoutX="321.0" layoutY="386.0" mnemonicParsing="false" onAction="#al_toSpecialAccessClicked" text="Manage Special Access Groups" />
    </children>
 </AnchorPane>

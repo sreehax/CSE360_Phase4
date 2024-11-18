@@ -32,6 +32,6 @@
       <Text layoutX="15.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete User From Group" />
       <TextField id="DeleteUserFromGroupTextField" layoutX="173.0" layoutY="207.0" prefHeight="26.0" prefWidth="170.0" />
       <Button id="ListAllUsersInGroupButton" layoutX="192.0" layoutY="258.0" mnemonicParsing="false" text="List All Users In Group" />
-      <Button id="BackButton" layoutX="505.0" layoutY="91.0" mnemonicParsing="false" text="Back" />
+      <Button id="BackButton" layoutX="505.0" layoutY="91.0" mnemonicParsing="false" text="Back" onAction="#gc_backClicked" />
    </children>
 </AnchorPane>

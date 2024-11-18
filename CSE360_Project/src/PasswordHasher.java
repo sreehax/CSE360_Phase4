@@ -27,10 +27,23 @@ public class PasswordHasher {
      */
 	public static String hashPassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		// Generate a random salt (prevents rainbow-tables attacks)
-		byte[] salt = new byte[SALT_LENGTH];
-		SecureRandom random = new SecureRandom();
-		random.nextBytes(salt);
+		byte[] salt = PasswordHasher.genSalt();
 		
+		// Perform the rest of the hash
+		return PasswordHasher.hashPassword(password, salt);
+	}
+	
+	/**
+     * Hashes a password using PBKDF2 with a specified salt and returns the hash and salt
+     * as a single string for storage.
+     * 
+     * @param password the plaintext password to hash.
+     * @param salt the salt to use
+     * @return a byte array to use for encryption
+     * @throws NoSuchAlgorithmException if PBKDF2 algorithm is not available.
+     * @throws InvalidKeySpecException  if the key specification is invalid.
+     */
+	public static String hashPassword(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		// Set up PBKDF2 with our defined parameters
 		int iterations = ITERATIONS;
 		PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, HASH_BITS);
@@ -174,5 +187,12 @@ public class PasswordHasher {
 			System.out.println("[FAIL] constantTimeComparison said a1 == a2, but they are not equal values!");
 		}
 		return allGood;
+	}
+	
+	public static byte[] genSalt() {
+		byte[] salt = new byte[SALT_LENGTH];
+		SecureRandom random = new SecureRandom();
+		random.nextBytes(salt);
+		return salt;
 	}
 }

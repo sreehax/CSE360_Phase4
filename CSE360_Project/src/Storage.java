@@ -5,7 +5,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,6 +26,12 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
+import org.sqlite.SQLiteConfig;
 /**
  * This class handles all interactions with the SQLite database for user management,
  * login authentication, and storing user information.
@@ -40,32 +50,29 @@ public class Storage {
      * @throws SQLException if there is an error connecting to the database or executing SQL queries.
      */
 	public Storage() throws SQLException {
-		//the storage.db is saved in C:\Users\yourname
-		String homedir = System.getProperty("user.home") + File.separatorChar;
-		this.conn = DriverManager.getConnection("jdbc:sqlite:" + homedir + "storage2.db");
-		
-		// Create the database schema if it does not exist already
-		Statement statement = this.conn.createStatement();
-		statement.setQueryTimeout(30);
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS user_info (username TEXT PRIMARY KEY, firstname TEXT, middlename TEXT, lastname TEXT, preferredname TEXT, email TEXT, roles TEXT, code TEXT, temppass INT, temptime TEXT)");
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS logins (username TEXT PRIMARY KEY, passhash TEXT)");
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS onetimecode (code TEXT PRIMARY KEY, time TEXT, role TEXT)");
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS articles (title TEXT, body TEXT, refs TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT, header TEXT, grouping TEXT, description TEXT, keywords TEXT)");
+		this("storage3.db");
 	}
 	
 	// Constructor to create an alternate database (used for self-test)
 	public Storage(String dbName) throws SQLException {
 		//the database is saved in your home directory
 		String homedir = System.getProperty("user.home") + File.separatorChar;
-		this.conn = DriverManager.getConnection("jdbc:sqlite:" + homedir + dbName);
+		
+		// Enforce Foreign Keys
+		SQLiteConfig config = new SQLiteConfig();
+		config.enforceForeignKeys(true);
+		this.conn = DriverManager.getConnection("jdbc:sqlite:" + homedir + dbName, config.toProperties());
 		
 		// Create the database schema if it does not exist already
 		Statement statement = this.conn.createStatement();
 		statement.setQueryTimeout(30);
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS user_info (username TEXT PRIMARY KEY, firstname TEXT, middlename TEXT, lastname TEXT, preferredname TEXT, email TEXT, roles TEXT, code TEXT, temppass INT, temptime TEXT)");
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS logins (username TEXT PRIMARY KEY, passhash TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS user_info (u_user TEXT PRIMARY KEY, firstname TEXT, middlename TEXT, lastname TEXT, preferredname TEXT, email TEXT, roles TEXT, code TEXT, temppass INT, temptime TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS logins (l_user TEXT PRIMARY KEY, passhash TEXT, privkey BLOB, pubkey BLOB, salt2 BLOB, FOREIGN KEY(l_user) REFERENCES user_info(u_user) ON DELETE CASCADE)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS onetimecode (code TEXT PRIMARY KEY, time TEXT, role TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS articles (title TEXT, body TEXT, refs TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT, header TEXT, grouping TEXT, description TEXT, keywords TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_groups (group_id INTEGER PRIMARY KEY, group_name TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_access (s_user TEXT, access_group_id INTEGER, group_key BLOB, FOREIGN KEY(access_group_id) REFERENCES special_groups(group_id) ON DELETE CASCADE, FOREIGN KEY(s_user) REFERENCES user_info(u_user) ON DELETE CASCADE)");
+//		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_articles (article_id INTEGER, article_group_id INTEGER, title TEXT, body BLOB, FOREIGN KEY(article_group_id) REFERENCES special_groups(group_id) ON DELETE CASCADE, PRIMARY KEY (article_id, article_group_id))");
 	}
 	
 	/**
@@ -80,7 +87,7 @@ public class Storage {
      */
 	public boolean loginAttempt(String username, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
 		// Get the pbkdf2 hash for the user
-		String strQuery = "SELECT passhash FROM logins WHERE username = ?";
+		String strQuery = "SELECT passhash FROM logins WHERE l_user = ?";
 		
 		PreparedStatement prepared = this.conn.prepareStatement(strQuery);
 		prepared.setString(1, username);
@@ -143,7 +150,7 @@ public class Storage {
 		while(rs.next()) {
 			i++;
 			System.out.println("user " + i + ": ");
-			System.out.println(rs.getString("username"));
+			System.out.println(rs.getString("l_user"));
 		}
 	}
 	/**
@@ -161,7 +168,7 @@ public class Storage {
 		while(rs.next()) {
 			i++;
 			System.out.println("User \t\t#" + i + " ");
-			System.out.println("Username:\t" + rs.getString("username"));
+			System.out.println("Username:\t" + rs.getString("u_user"));
 			System.out.println("First Name:\t" + rs.getString("firstname"));
 			System.out.println("Middle Name:\t" + rs.getString("middlename"));
 			System.out.println("Last Name:\t" + rs.getString("lastname"));
@@ -212,7 +219,7 @@ public class Storage {
 		
 		
 		// Prepare the statement
-		String strQuery = "INSERT INTO user_info (username, firstname, middlename, lastname, preferredname, email, roles, code) VALUES (?,?,?,?,?,?,?,?)";
+		String strQuery = "INSERT INTO user_info (u_user, firstname, middlename, lastname, preferredname, email, roles, code) VALUES (?,?,?,?,?,?,?,?)";
 		PreparedStatement prepared = this.conn.prepareStatement(strQuery);
 		prepared.setString(1, user.getUsername());
 		prepared.setString(2, user.getFirstname());
@@ -238,7 +245,7 @@ public class Storage {
      * @throws SQLException if there is an error executing the SQL update query.
      */
 	public void updateUser(String username, String firstname, String middlename, String lastname, String preferredname, String email) throws SQLException {
-		String sql = "UPDATE user_info SET firstname = ?, middlename = ?, lastname = ?, preferredname = ?, email = ? WHERE username = ?";
+		String sql = "UPDATE user_info SET firstname = ?, middlename = ?, lastname = ?, preferredname = ?, email = ? WHERE u_user = ?";
 		
 		
 		PreparedStatement stmt = this.conn.prepareStatement(sql);
@@ -252,10 +259,10 @@ public class Storage {
 		stmt.executeUpdate();
 	}
 	
-	public void updateTempPass(String username, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
+	public void updateTempPass(String username, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		//find user, change password, set flag
-		String query1 = "UPDATE user_info SET temppass = 1, temptime = ? WHERE username = ?";
-		String query2 = "UPDATE logins SET passhash = ? WHERE username = ?";
+		String query1 = "UPDATE user_info SET temppass = 1, temptime = ? WHERE u_user = ?";
+		String query3 = "UPDATE logins SET passhash = ? WHERE l_user = ?";
 		
 		LocalDateTime time = LocalDateTime.now();
 		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
@@ -267,16 +274,19 @@ public class Storage {
 		prep1.setString(2, username);
 		prep1.executeUpdate();
 		
-		PreparedStatement prep2 = this.conn.prepareStatement(query2);
+		PreparedStatement prep2 = this.conn.prepareStatement(query3);
 		prep2.setString(1, PasswordHasher.hashPassword(password));
 		prep2.setString(2, username);
 		prep2.executeUpdate();
+		
+		// fixup special group issues
+		this.fixSalt2(username, password);
 	}
 	
-	public void updateMainPass(String username, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
+	public void updateMainPass(String username, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		//find user, change password, set flag
-		String query1 = "UPDATE user_info SET temppass = NULL, temptime = NULL WHERE username = ?";
-		String query2 = "UPDATE logins SET passhash = ? WHERE username = ?";
+		String query1 = "UPDATE user_info SET temppass = NULL, temptime = NULL WHERE u_user = ?";
+		String query2 = "UPDATE logins SET passhash = ? WHERE l_user = ?";
 		
 		PreparedStatement prep1 = this.conn.prepareStatement(query1);
 		
@@ -287,10 +297,40 @@ public class Storage {
 		prep2.setString(1, PasswordHasher.hashPassword(password));
 		prep2.setString(2, username);
 		prep2.executeUpdate();
+		
+		// fixup special group issues
+		this.fixSalt2(username, password);
+	}
+	
+	public void fixSalt2(String username, String password) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, SQLException {
+		String query1 = "DELETE FROM special_access WHERE s_user = ?";
+		String query2 = "UPDATE logins SET privkey = ?, pubkey = ?, salt2 = ? WHERE l_user = ?";
+		
+		
+		// Generate the second salt and symmetric encryption key
+		KeyPair kp = RSAEncryption.genKeyPair();
+		byte[] salt2 = PasswordHasher.genSalt();
+		String key_string = PasswordHasher.hashPassword(password, salt2);
+		SymmetricEncryption senc = new SymmetricEncryption(key_string);
+		
+		// Encrypt the RSA private key so that only the user can decrypt it
+		byte[] encryptedPrivKey = senc.encrypt(RSAEncryption.getPrivkey(kp).getEncoded());
+		byte[] pubkey = RSAEncryption.getPubkey(kp).getEncoded();
+		
+		PreparedStatement prep1 = this.conn.prepareStatement(query1);
+		prep1.setString(1, username);
+		prep1.executeUpdate();
+		
+		PreparedStatement prep2 = this.conn.prepareStatement(query2);
+		prep2.setBytes(1, encryptedPrivKey);
+		prep2.setBytes(2, pubkey);
+		prep2.setBytes(3, salt2);
+		prep2.setString(4, username);
+		prep2.executeUpdate();
 	}
 	
 	public boolean isTempPass(String username) throws SQLException {
-		String query1 = "SELECT temppass FROM user_info WHERE username = ?";
+		String query1 = "SELECT temppass FROM user_info WHERE u_user = ?";
 		
 		PreparedStatement prep1 = this.conn.prepareStatement(query1);
 		prep1.setString(1, username);
@@ -304,7 +344,7 @@ public class Storage {
 	}
 	
 	public boolean doesUserExist(String username) throws SQLException {
-		String query = "SELECT * FROM user_info WHERE username = ?";
+		String query = "SELECT * FROM user_info WHERE u_user = ?";
 		PreparedStatement prep = this.conn.prepareStatement(query);
 		
 		prep.setString(1, username);
@@ -323,16 +363,34 @@ public class Storage {
      * @throws NoSuchAlgorithmException if the password hashing algorithm is unavailable.
      * @throws InvalidKeySpecException if the key specification for password hashing is invalid.
      * @throws SQLException if there is an error executing the SQL insert query.
+	 * @throws BadPaddingException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws InvalidAlgorithmParameterException 
+	 * @throws NoSuchPaddingException 
+	 * @throws InvalidKeyException 
      */
-	public void registerLogin(String username, String password) throws NoSuchAlgorithmException, InvalidKeySpecException, SQLException {
-		// Generate Password Hash
+	public void registerLogin(String username, String password) throws NoSuchAlgorithmException, InvalidKeySpecException, SQLException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+		// Generate Password Hash and RSA keypair
 		String passhash = PasswordHasher.hashPassword(password);
+		KeyPair kp = RSAEncryption.genKeyPair();
+		
+		// Generate the second salt and symmetric encryption key
+		byte[] salt2 = PasswordHasher.genSalt();
+		String key_string = PasswordHasher.hashPassword(password, salt2);
+		SymmetricEncryption senc = new SymmetricEncryption(key_string);
+		
+		// Encrypt the RSA private key so that only the user can decrypt it
+		byte[] encryptedPrivKey = senc.encrypt(RSAEncryption.getPrivkey(kp).getEncoded());
+		byte[] pubkey = RSAEncryption.getPubkey(kp).getEncoded();
 		
 		// Prepare the statement
-		String strQuery = "INSERT INTO logins (username, passhash) VALUES (?,?)";
+		String strQuery = "INSERT INTO logins (l_user, passhash, privkey, pubkey, salt2) VALUES (?,?,?,?,?)";
 		PreparedStatement prepared = this.conn.prepareStatement(strQuery);
 		prepared.setString(1, username);
 		prepared.setString(2, passhash);
+		prepared.setBytes(3, encryptedPrivKey);
+		prepared.setBytes(4, pubkey);
+		prepared.setBytes(5, salt2);
 		
 		// Execute the statement
 		prepared.executeUpdate();
@@ -345,7 +403,7 @@ public class Storage {
      * @throws SQLException if there is an error executing the SQL query.
      */
 	public boolean userSetup(String username) throws SQLException {
-		String strQuery = "SELECT * FROM user_info WHERE username = ?";
+		String strQuery = "SELECT * FROM user_info WHERE u_user = ?";
 		PreparedStatement pstmt = conn.prepareStatement(strQuery);
 		pstmt.setString(1, username);
 		ResultSet rs = pstmt.executeQuery();
@@ -454,7 +512,7 @@ public class Storage {
      * @throws SQLException if a database access error occurs
      */
 	public boolean isCodeAlreadyInUse(String code) throws SQLException {
-		String strQuery = "SELECT username FROM user_info WHERE code = ?";
+		String strQuery = "SELECT u_user FROM user_info WHERE code = ?";
 		PreparedStatement prepared = conn.prepareStatement(strQuery);
 		prepared.setString(1, code);
 		
@@ -471,18 +529,12 @@ public class Storage {
      * @throws SQLException if a database access error occurs
      */
 	public void deleteUser(String username) throws SQLException {
-		String query1 = "DELETE FROM logins WHERE username = ?";
-		String query2 = "DELETE FROM user_info WHERE username = ?";
-		
-		int updates = 0;
-		
-		PreparedStatement prep1 = conn.prepareStatement(query1);
-		prep1.setString(1, username);
-		updates += prep1.executeUpdate();
-		
+		// thanks to ON DELETE CASCADE, the database removes the old entry from logins
+		String query2 = "DELETE FROM user_info WHERE u_user = ?";
+				
 		PreparedStatement prep2 = conn.prepareStatement(query2);
 		prep2.setString(1, username);
-		updates += prep2.executeUpdate();
+		int updates = prep2.executeUpdate();
 		
 		if (updates == 0) {
 			System.out.println("User to delete does not exist");
@@ -496,7 +548,7 @@ public class Storage {
      * @throws SQLException if a database access error occurs or if the user is not found
      */
 	public User getUser(String username) throws SQLException {
-		String query = "SELECT * FROM user_info WHERE username = ?";
+		String query = "SELECT * FROM user_info WHERE u_user = ?";
 		PreparedStatement prepared = conn.prepareStatement(query);
 		prepared.setString(1, username);
 		
@@ -818,41 +870,52 @@ public class Storage {
 			db.delete();
 			Storage tester = new Storage("testing.db");
 			// Register some users with their passwords
-			tester.registerLogin("user1", "password1");
-			tester.registerLogin("user2", "password2");
-			tester.registerLogin("user3", "password3");
+			User user4 = new User("First4", "Middle4", "Last4", "Pref4", "user4", "****", null, 0);
+			user4.addRole('a');
+			tester.registerUser(user4);
+			tester.registerLogin("user4", "password4");
+			
+			User user5 = new User("First5", "Middle5", "Last5", "Pref5", "user5", "****", null, 0);
+			user5.addRole('a');
+			tester.registerUser(user5);
+			tester.registerLogin("user5", "password5");
+			
+			User user6 = new User("First6", "Middle6", "Last6", "Pref6", "user6", "****", null, 0);
+			user6.addRole('a');
+			tester.registerUser(user6);
+			tester.registerLogin("user6", "password6");
 			
 			// Attempt logins: Expected pass
-			current = tester.loginAttempt("user1", "password1");
+			current = tester.loginAttempt("user4", "password4");
 			allGood &= current;
 			if (!current) {
-				System.out.println("[FAIL] Login with <user1, password1> FAILED, should have PASSED!");
+				System.out.println("[FAIL] Login with <user4, password4> FAILED, should have PASSED!");
 			} else {
-				System.out.println("[PASS] Login with <user1, password1>");
+				System.out.println("[PASS] Login with <user4, password4>");
 			}
 			
-			current = tester.loginAttempt("user2", "password2");
+			current = tester.loginAttempt("user5", "password5");
 			allGood &= current;
 			if (!current) {
-				System.out.println("[FAIL] Login with <user2, password2> FAILED, should have PASSED!");
+				System.out.println("[FAIL] Login with <user5, password5> FAILED, should have PASSED!");
 			} else {
-				System.out.println("[PASS] Login with <user2, password2>");
+				System.out.println("[PASS] Login with <user5, password5>");
 			}
 			
 			// Attempt login: Expected fail
-			current = !tester.loginAttempt("user3", "password12345");
+			current = !tester.loginAttempt("user6", "password12345");
 			allGood &= current;
 			if (!current) {
-				System.out.println("[FAIL] Login with <user3, password3> PASSED, should have FAILED!");
+				System.out.println("[FAIL] Login with <user6, password12345> PASSED, should have FAILED!");
 			} else {
-				System.out.println("[PASS] Login with <user3, password3>");
+				System.out.println("[PASS] Login with <user6, password12345>");
 			}
 			
 			// Attempt updating password
-			tester.updateMainPass("user1", "password11");
+			tester.updateMainPass("user4", "password44");
 			
 			// Attempt logging in again with the new password
-			current = tester.loginAttempt("user1", "password11");
+			current = tester.loginAttempt("user4", "password44");
 			allGood &= current;
 			if (!current) {
 				System.out.println("[FAIL] Login with changed password FAILED, should have PASSED!");

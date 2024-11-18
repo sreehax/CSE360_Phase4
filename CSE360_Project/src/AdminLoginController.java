@@ -15,8 +15,15 @@ import java.util.List;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 
 import javafx.scene.control.Button;
@@ -112,9 +119,14 @@ public class AdminLoginController {
 	 * @throws SQLException 
 	 * @throws InvalidKeySpecException 
 	 * @throws NoSuchAlgorithmException 
+	 * @throws BadPaddingException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws InvalidAlgorithmParameterException 
+	 * @throws NoSuchPaddingException 
+	 * @throws InvalidKeyException 
      */
 	@FXML
-	public void al_resetaccountbuttonClicked(ActionEvent event) throws IOException, SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
+	public void al_resetaccountbuttonClicked(ActionEvent event) throws IOException, SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         this.storage = (Storage) stage.getUserData();
         
@@ -284,6 +296,30 @@ public class AdminLoginController {
 		root = loader.load();
 		
 		ManageArticleController controller = loader.getController();
+		controller.userName(myusername);
+		controller.cameFrom("Admin");
+		
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+	}
+	
+	/**
+     * Handles the action triggered by clicking the "Special Access Groups" button. Loads the 
+     * ManageArticles.fxml view, passes the current username to the 
+     * ManageArticleController, and displays the scene.
+     *
+     * @param event The ActionEvent triggered by clicking the "Articles" button
+     * @throws IOException if the ManageArticles.fxml file cannot be loaded
+     */
+	@FXML
+	public void al_toSpecialAccessClicked(ActionEvent event) throws IOException {
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("GroupSpecial.fxml"));
+		root = loader.load();
+		
+		GroupController controller = loader.getController();
 		controller.userName(myusername);
 		controller.cameFrom("Admin");
 		

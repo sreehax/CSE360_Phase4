@@ -104,8 +104,8 @@ public class CreateAccountController {
 			}
 			
 			// Register the new user and login information
-			s.registerLogin(username, password);
 			s.registerUser(user);
+			s.registerLogin(username, password);
 			System.out.println("Successfully registered user!");
 		} catch (SQLException e) {
 			System.out.println("User already exists!");

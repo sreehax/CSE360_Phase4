@@ -47,25 +47,76 @@ public class GroupController {
 	private TextField AddUserToGroupTextField, DeleteUserFromGroupTextField;
 	private Button ListAllUsersInGroupButton, BackButton;
 	
+	@FXML public void initialize() {
+		// Make decisions on what to hide based on the current role.
+	}
+	
+	@FXML
 	public void SelectGroupToManageComboBoxClicked(ActionEvent event) throws IOException{
 		
 	}
 	
+	@FXML
 	public void AddUserToGroupTextFieldClicked(ActionEvent event) throws IOException{
 		
 	}
 	
+	@FXML
 	public void DeleteUserFromGroupTextFieldClicked(ActionEvent event) throws IOException{
 		
 	}
 	
+	@FXML
 	public void ListAllUsersInGroupButtonClicked(ActionEvent event) throws IOException{
 		
 	}
 	
-	public void BackButtonClicked(ActionEvent event) throws IOException{
-		
+	/**
+     * Handles the event when the back button is clicked.
+     * Loads appropriate role screen.
+     *
+     * @param event The action event triggered by the button click
+     * @throws IOException If there is an issue loading the main scene
+	 * @throws SQLException 
+     */
+	@FXML
+	public void gc_backClicked(ActionEvent event) throws IOException, SQLException {
+		if (this.camefrom.equals("Admin")) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
+			root = loader.load();
+			
+			AdminLoginController controller = loader.getController();
+			controller.userName(myusername);
+			
+	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        scene = new Scene(root);
+	        stage.setScene(scene);
+	        stage.show();
+		} else if (this.camefrom.equals("Instructor")) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("InstructorLogin.fxml"));
+			root = loader.load();
+			
+			InstructorLoginController controller = loader.getController();
+			controller.userName(myusername);
+			
+	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        scene = new Scene(root);
+	        stage.setScene(scene);
+	        stage.show();
+		} else if (this.camefrom.equals("Student")) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentLogin.fxml"));
+			root = loader.load();
+			
+			InstructorLoginController controller = loader.getController();
+			controller.userName(myusername);
+			
+	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        scene = new Scene(root);
+	        stage.setScene(scene);
+	        stage.show();
+		}
 	}
+	
 	
 	/**
      * Sets the user name label to display the currently logged-in user.

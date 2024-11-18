@@ -1,7 +1,13 @@
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,9 +65,14 @@ public class ResetPasswordController {
      * @throws NoSuchAlgorithmException if the hashing algorithm is unavailable
      * @throws InvalidKeySpecException if the password specification is invalid
      * @throws SQLException if there is an error updating the password in the database
+	 * @throws BadPaddingException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws InvalidAlgorithmParameterException 
+	 * @throws NoSuchPaddingException 
+	 * @throws InvalidKeyException 
      */
 	@FXML
-	public void rp_confirmClicked(ActionEvent event) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, SQLException{ 
+	public void rp_confirmClicked(ActionEvent event) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, SQLException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException{ 
 		
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		storage = (Storage) stage.getUserData(); 

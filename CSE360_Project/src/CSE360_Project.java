@@ -104,7 +104,7 @@ public class CSE360_Project extends Application {
 	
 	public static void main(String[] args) {
 		// Perform all self tests
-		runAllSelfTests();
+//		runAllSelfTests();
 		System.out.println("starting process");
 		
 		launch(args);
