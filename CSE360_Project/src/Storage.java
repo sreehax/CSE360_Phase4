@@ -837,6 +837,20 @@ public class Storage {
 		return affected;
 	}
 	
+	public ArrayList<String> getGroupsFromUsername(String username) throws SQLException {
+		String query1 = "SELECT group_name FROM special_access, special_groups WHERE group_id = access_group_id AND s_user = ?";
+		PreparedStatement prep = this.conn.prepareStatement(query1);
+		prep.setString(1, username);
+		ResultSet rs = prep.executeQuery();
+		
+		ArrayList<String> ret = new ArrayList<String>();
+		while (rs.next()) {
+			ret.add(rs.getString("group_name"));
+		}
+		
+		return ret;
+	}
+	
 	 /**
      * Checks whether the provided time is within the last 24 hours.
      *

@@ -312,15 +312,21 @@ public class AdminLoginController {
      *
      * @param event The ActionEvent triggered by clicking the "Articles" button
      * @throws IOException if the ManageArticles.fxml file cannot be loaded
+	 * @throws SQLException 
      */
 	@FXML
-	public void al_toSpecialAccessClicked(ActionEvent event) throws IOException {
+	public void al_toSpecialAccessClicked(ActionEvent event) throws IOException, SQLException {
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+        
+        ArrayList<String> groups = this.storage.getGroupsFromUsername(myusername);
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("GroupSpecial.fxml"));
 		root = loader.load();
 		
 		GroupController controller = loader.getController();
 		controller.userName(myusername);
+		controller.populateGroups(groups);
 		controller.cameFrom("Admin");
 		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

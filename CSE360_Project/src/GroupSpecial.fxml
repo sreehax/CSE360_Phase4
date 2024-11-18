@@ -11,7 +11,7 @@
 
 <!-- Authors: Benjamin Nelson & Felix Allison -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GroupController">
+<AnchorPane fx:id="gc_anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GroupController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Manage Special Access Groups">
@@ -25,13 +25,13 @@
       
       <Line endX="469.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
-      <ComboBox id="SelectGroupToManageComboBox" layoutX="23.0" layoutY="104.0" prefWidth="150.0" />
+      <ComboBox fx:id="SelectGroupToManageComboBox" layoutX="23.0" layoutY="104.0" prefWidth="150.0" />
       <Text layoutX="32.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Group To Manage" />
-      <TextField id="AddUserToGroupTextField" layoutX="173.0" layoutY="156.0" prefHeight="26.0" prefWidth="170.0" />
+      <TextField fx:id="AddUserToGroupTextField" layoutX="173.0" layoutY="156.0" prefHeight="26.0" prefWidth="170.0" />
       <Text layoutX="41.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add User To Group" />
       <Text layoutX="15.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete User From Group" />
-      <TextField id="DeleteUserFromGroupTextField" layoutX="173.0" layoutY="207.0" prefHeight="26.0" prefWidth="170.0" />
-      <Button id="ListAllUsersInGroupButton" layoutX="192.0" layoutY="258.0" mnemonicParsing="false" text="List All Users In Group" />
-      <Button id="BackButton" layoutX="505.0" layoutY="91.0" mnemonicParsing="false" text="Back" onAction="#gc_backClicked" />
+      <TextField fx:id="DeleteUserFromGroupTextField" layoutX="173.0" layoutY="207.0" prefHeight="26.0" prefWidth="170.0" />
+      <Button fx:id="ListAllUsersInGroupButton" layoutX="192.0" layoutY="258.0" mnemonicParsing="false" text="List All Users In Group" />
+      <Button fx:id="BackButton" layoutX="505.0" layoutY="91.0" mnemonicParsing="false" text="Back" onAction="#gc_backClicked" />
    </children>
 </AnchorPane>

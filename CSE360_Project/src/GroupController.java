@@ -7,6 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.IOException;
+
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import java.util.List;
 import java.util.ArrayList;
@@ -42,14 +44,15 @@ public class GroupController {
 	private Parent root;
 	private String myusername;
 	private String camefrom;
+	private Storage storage;
 	
-	private ComboBox SelectGroupToManageComboBox;
+	@FXML
+	private ComboBox<String> SelectGroupToManageComboBox;
+	@FXML
 	private TextField AddUserToGroupTextField, DeleteUserFromGroupTextField;
+	@FXML
 	private Button ListAllUsersInGroupButton, BackButton;
 	
-	@FXML public void initialize() {
-		// Make decisions on what to hide based on the current role.
-	}
 	
 	@FXML
 	public void SelectGroupToManageComboBoxClicked(ActionEvent event) throws IOException{
@@ -135,6 +138,11 @@ public class GroupController {
      */
 	public void cameFrom(String loc) {
 		this.camefrom = loc;
+	}
+	
+	public void populateGroups(ArrayList<String> specialAccessGroups) {
+		this.SelectGroupToManageComboBox.setItems(FXCollections.observableArrayList(specialAccessGroups));
+		this.SelectGroupToManageComboBox.getSelectionModel().selectFirst();
 	}
 	
 }
