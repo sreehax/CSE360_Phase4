@@ -32,6 +32,11 @@ public class SymmetricEncryption {
 		this.key = new SecretKeySpec(hash, "ChaCha20");
 	}
 	
+	// Initialize using bytes
+	public SymmetricEncryption(byte[] keydata) {
+		this.key = new SecretKeySpec(keydata, "ChaCha20");
+	}
+	
 	public byte[] encrypt(byte[] data) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		return this.encrypt(data, generateNonce());
 	}

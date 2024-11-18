@@ -9,6 +9,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
@@ -70,7 +71,7 @@ public class Storage {
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS logins (l_user TEXT PRIMARY KEY, passhash TEXT, privkey BLOB, pubkey BLOB, salt2 BLOB, FOREIGN KEY(l_user) REFERENCES user_info(u_user) ON DELETE CASCADE)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS onetimecode (code TEXT PRIMARY KEY, time TEXT, role TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS articles (title TEXT, body TEXT, refs TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT, header TEXT, grouping TEXT, description TEXT, keywords TEXT)");
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_groups (group_id INTEGER PRIMARY KEY, group_name TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_groups (group_id INTEGER PRIMARY KEY, group_name TEXT UNIQUE)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_access (s_user TEXT, access_group_id INTEGER, group_key BLOB, FOREIGN KEY(access_group_id) REFERENCES special_groups(group_id) ON DELETE CASCADE, FOREIGN KEY(s_user) REFERENCES user_info(u_user) ON DELETE CASCADE)");
 //		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_articles (article_id INTEGER, article_group_id INTEGER, title TEXT, body BLOB, FOREIGN KEY(article_group_id) REFERENCES special_groups(group_id) ON DELETE CASCADE, PRIMARY KEY (article_id, article_group_id))");
 	}
@@ -837,7 +838,21 @@ public class Storage {
 		return affected;
 	}
 	
+	public ArrayList<String> listAllGroups() throws SQLException {
+		String query = "SELECT group_name FROM special_groups";
+		Statement stmt = this.conn.createStatement();
+		ResultSet rs = stmt.executeQuery(query);
+		
+		ArrayList<String> ret = new ArrayList<String>();
+		while (rs.next()) {
+			ret.add(rs.getString("group_name"));
+		}
+		
+		return ret;
+	}
+	
 	public ArrayList<String> getGroupsFromUsername(String username) throws SQLException {
+		// implicit JOIN
 		String query1 = "SELECT group_name FROM special_access, special_groups WHERE group_id = access_group_id AND s_user = ?";
 		PreparedStatement prep = this.conn.prepareStatement(query1);
 		prep.setString(1, username);
@@ -849,6 +864,68 @@ public class Storage {
 		}
 		
 		return ret;
+	}
+	
+	public ArrayList<String> getUsersFromGroup(String groupname) throws SQLException {
+		// implicit JOIN
+		String query = "SELECT s_user FROM special_access, special_groups WHERE group_id = access_group_id AND group_name = ?";
+		PreparedStatement prep = this.conn.prepareStatement(query);
+		prep.setString(1, groupname);
+		ResultSet rs = prep.executeQuery();
+		
+		ArrayList<String> ret = new ArrayList<String>();
+		while (rs.next()) {
+			ret.add(rs.getString("s_user"));
+		}
+		
+		return ret;
+	}
+	
+	public void createSpecialAccessGroup(String groupname, String admin) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+		// 1. Add the special_groups entry
+		// 2. Generate an encryption key to be used for the group
+		// 3. Encrypt the group key with RSA for the public key of the admin user
+		// 4. store this special_access record
+		
+		String query1 = "INSERT INTO special_groups (group_name) VALUES (?)";
+		PreparedStatement stmt1 = this.conn.prepareStatement(query1);
+		stmt1.setString(1, groupname);
+		stmt1.executeUpdate();
+
+				
+		String query15 = "SELECT last_insert_rowid() AS the_id";
+		Statement stmt15 = this.conn.createStatement();
+		ResultSet rs0 = stmt15.executeQuery(query15);
+		if (!rs0.next()) {
+			System.out.println("Group creation failed!");
+			return;
+		}
+		int group_id = rs0.getInt("the_id");
+		
+		
+		byte[] group_key_raw = new byte[32];
+		SecureRandom random = new SecureRandom();
+		random.nextBytes(group_key_raw);
+		
+		String query2 = "SELECT pubkey FROM logins WHERE l_user = ?";
+		PreparedStatement prep2 = this.conn.prepareStatement(query2);
+		prep2.setString(1, admin);
+		ResultSet rs = prep2.executeQuery();
+		byte[] pubkey_raw;
+		if (!rs.next()) {
+			System.out.println("Could not find user " + admin + "!");
+			return;
+		}
+		pubkey_raw = rs.getBytes("pubkey");
+		PublicKey pubkey = RSAEncryption.getPubKey(pubkey_raw);
+		byte[] group_key_enc = RSAEncryption.encryptFor(pubkey, group_key_raw);
+		
+		String query3 = "INSERT INTO special_access (s_user, access_group_id, group_key) VALUES (?,?,?)";
+		PreparedStatement prep3 = this.conn.prepareStatement(query3);
+		prep3.setString(1, admin);
+		prep3.setInt(2, group_id);
+		prep3.setBytes(3, group_key_enc);
+		prep3.executeUpdate();
 	}
 	
 	 /**

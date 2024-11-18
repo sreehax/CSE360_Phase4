@@ -319,7 +319,7 @@ public class AdminLoginController {
 		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         this.storage = (Storage) stage.getUserData();
         
-        ArrayList<String> groups = this.storage.getGroupsFromUsername(myusername);
+        ArrayList<String> groups = this.storage.listAllGroups();
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("GroupSpecial.fxml"));
 		root = loader.load();

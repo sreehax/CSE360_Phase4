@@ -25,7 +25,7 @@ public class RSAEncryption {
 		return pair.getPrivate();
 	}
 	
-	public static PrivateKey getPrivateKey(byte[] serialized) throws NoSuchAlgorithmException, InvalidKeySpecException {
+	public static PrivateKey getPrivKey(byte[] serialized) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		KeyFactory kf = KeyFactory.getInstance("RSA");
 		EncodedKeySpec eks = new X509EncodedKeySpec(serialized);
 		return kf.generatePrivate(eks);
@@ -35,17 +35,21 @@ public class RSAEncryption {
 		return pair.getPublic();
 	}
 	
-	public static PublicKey getPublicKey(byte[] serialized) throws NoSuchAlgorithmException, InvalidKeySpecException {
+	public static PublicKey getPubKey(byte[] serialized) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		KeyFactory kf = KeyFactory.getInstance("RSA");
 		EncodedKeySpec eks = new X509EncodedKeySpec(serialized);
 		return kf.generatePublic(eks);
 	}
 	
 	public static byte[] encryptFor(PublicKey recipient, String message) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+		byte[] msgBytes = message.getBytes(StandardCharsets.UTF_8);
+		return RSAEncryption.encryptFor(recipient, msgBytes);
+	}
+	
+	public static byte[] encryptFor(PublicKey recipient, byte[] message) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
 		Cipher cipher = Cipher.getInstance("RSA");
 		cipher.init(Cipher.ENCRYPT_MODE, recipient);
-		byte[] msgBytes = message.getBytes(StandardCharsets.UTF_8);
-		return cipher.doFinal(msgBytes);
+		return cipher.doFinal(message);
 	}
 	
 	public static String decryptMsg(PrivateKey priv, byte[] ciphertext) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {

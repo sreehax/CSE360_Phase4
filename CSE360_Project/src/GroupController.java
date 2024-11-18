@@ -13,9 +13,17 @@ import javafx.event.ActionEvent;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
 import javafx.scene.control.Button;
@@ -70,7 +78,22 @@ public class GroupController {
 	}
 	
 	@FXML
-	public void ListAllUsersInGroupButtonClicked(ActionEvent event) throws IOException{
+	public void gc_listAllUsersClicked(ActionEvent event) throws IOException, SQLException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+        
+		String group = this.SelectGroupToManageComboBox.getValue();
+		ArrayList<String> users = this.storage.getUsersFromGroup(group);
+		if (users.size() == 0) {
+			System.out.println("No users in group " + group + ".");
+			return;
+		}
+		
+		System.out.println("Users in group " + group + ": ");
+		for (String user : users) {
+			System.out.println("- " + user);
+		}
+		System.out.println();
 		
 	}
 	
