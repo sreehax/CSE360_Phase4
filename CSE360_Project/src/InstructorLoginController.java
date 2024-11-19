@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.ListView;
 
 //AUTHOR: Felix Allison and maybe someone else. I don't know who
 //but credit where it's due I guess.
@@ -37,7 +38,8 @@ public class InstructorLoginController {
 	private TextField SearchByKeywordTextField, SearchByArticleIDTextField, StudentNameTextField;
 	private Button LogoutButton, SearchByKeywordButton, SearchByArticleIDButton, CreateArticlesButton;
 	private Button ListStudentMessagesButton, ManageSpecialAccessButton, CreateStudentButton, DeleteStudentButton;
-	private Button AddToGroupButton, RemoveFromGroupButton;
+	private Button AddToGroupButton, RemoveFromGroupButton, ResetSearchButton;
+	private ListView ArticleListListView;
 	
 	public void filterComplexityComboBoxClicked(ActionEvent event) throws IOException{
 		
@@ -83,6 +85,33 @@ public class InstructorLoginController {
 	}
 	public void removeFromGroupButtonClicked(ActionEvent event) throws IOException{
 		
+	}
+	//The next two methods are identical to the ones in the Student scene. The main
+	//reason I copied them here instead of just reusing those is in the event that we
+	//have to modify or customize searches based on roles in the future.
+	public void resetSearchButtonPressed(ActionEvent event) throws IOException{
+		//Removes list items iteratively starting at the final index and removing
+		//all items until it removes the final item at index 0.
+		for(int i = ArticleListListView.getItems().size(); i >= 0; i++) {
+			ArticleListListView.getItems().remove(i);
+		}
+	}
+	
+	//This is the method that adds different articles to the student article list view
+	public void addArticleToArticleListView(Article articleToInsert) {
+		//Construct a bigass String to insert into the list  
+		String insertable = "";
+		insertable += "Title: " +articleToInsert.getTitle() + "\n";
+		insertable += "Body:" + articleToInsert.getBody() + "\n";
+		insertable += "Keywords: " + articleToInsert.getReferencesStr() + "\n";
+		insertable += "ID: " + articleToInsert.getID()+ "\n";
+		insertable += "Header: " + articleToInsert.getHeader() + "\n";
+		insertable += "Grouping: " + articleToInsert.getGrouping() + "\n";
+		insertable += "Description: " + articleToInsert.getDescription() + "\n";
+		insertable += "Keywords: " + articleToInsert.getKeywordsStr() + "\n";
+		
+		 ArticleListListView.getItems().add(insertable);
+		 ArticleListListView.getItems().add(" TEST");
 	}
 	//
 	@FXML
