@@ -144,13 +144,15 @@ public class MainSceneController {
 					else {
 						//choose between 3
 						if (list.get(0) == Role.ADMIN) {
+							
 							System.out.println("role is admin");
 							FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
 							root = loader.load();
 							// Pass the username to the AdminLoginController
 							AdminLoginController controller = loader.getController();
 							controller.userName(username);
-						// Set the scene to the Admin login page
+			
+							// Set the scene to the Admin login page
 					        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 					        scene = new Scene(root);
 					        stage.setScene(scene);

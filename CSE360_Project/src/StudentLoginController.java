@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 
 //AUTHOR: Felix Allison & Someone else, probably Jonathan Lin since
 //A lot of the code looks kinda bad.
@@ -36,11 +38,14 @@ public class StudentLoginController {
 	private ComboBox FilterComplexityComboBox, FilterByGroupComboBox;
 	private TextField SearchByKeywordTextField, SearchByArticleIDTextField;
 	private TextArea SubmitHelpMessageTextArea;
-	private Button LogoutButton, SearchByKeywordButton, SearchByArticleIDButton, SubmitGeneralHelpMessageButton;
-	private Button SubmitSpecificHelpMessageButton, CloseApplicationButton;
+	private Button SearchByKeywordButton, SearchByArticleIDButton, SubmitGeneralHelpMessageButton;
+	private Button SubmitSpecificHelpMessageButton;
+	private Button ResetSearchButton;
+	private ListView ArticleListListView;
 	
+	@FXML
 	private Text sl_userLabel;
-
+	
 	//
 	public void filterComplexityComboBoxClicked(ActionEvent event) throws IOException{
 		
@@ -72,8 +77,33 @@ public class StudentLoginController {
 	public void submitSpecificHelpMessageButtonPressed(ActionEvent event) throws IOException{
 		
 	}
-	//
+	public void resetSearchButtonPressed(ActionEvent event) throws IOException{
+		//Removes list items iteratively starting at the final index and removing
+		//all items until it removes the final item at index 0.
+		for(int i = ArticleListListView.getItems().size(); i >= 0; i++) {
+			ArticleListListView.getItems().remove(i);
+		}
+	}
 	
+	//This is the method that adds different articles to the student article list view
+	public void addArticleToArticleListView(Article articleToInsert) {
+		//Construct a bigass String to insert into the list  
+		String insertable = "";
+		insertable += "Title: " +articleToInsert.getTitle() + "\n";
+		insertable += "Body:" + articleToInsert.getBody() + "\n";
+		insertable += "Keywords: " + articleToInsert.getReferencesStr() + "\n";
+		insertable += "ID: " + articleToInsert.getID()+ "\n";
+		insertable += "Header: " + articleToInsert.getHeader() + "\n";
+		insertable += "Grouping: " + articleToInsert.getGrouping() + "\n";
+		insertable += "Description: " + articleToInsert.getDescription() + "\n";
+		insertable += "Keywords: " + articleToInsert.getKeywordsStr() + "\n";
+		
+		 ArticleListListView.getItems().add(insertable);
+		 ArticleListListView.getItems().add(" TEST");
+	}
+	
+	//
+	@FXML
 	//public void logoutButtonPressed(ActionEvent event) throws IOException
 	public void sl_logoutClicked(ActionEvent event) throws IOException{
 		// Load the MainScene.fxml file and set it as the root of the scene
@@ -85,7 +115,8 @@ public class StudentLoginController {
         stage.setScene(scene);
         stage.show();
 	}
-
+	
+	@FXML
 	//public void closeApplicationButtonPressed(ActionEvent event) throws IOException
 	public void sl_killClicked(ActionEvent event) throws IOException{
 		Platform.exit();

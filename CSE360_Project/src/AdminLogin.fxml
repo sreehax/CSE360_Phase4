@@ -17,7 +17,7 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <Text fx:id="al_userLabel" layoutX="454.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: not logged in" />
+      <Text id="UserLoginStatus" fx:id="al_userLabel" layoutX="454.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: not logged in" />
       <Text layoutX="8.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version 0.1 alpha" />
       <Text layoutX="430.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="version date: 9/25/2024" />
       

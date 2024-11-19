@@ -37,12 +37,9 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * The AdminLoginController class manages the admin login interface,
- * including user interactions for account management and invitation code generation.
- * It handles the setup of the admin panel, allowing the admin to reset accounts,
- * delete users, and create invitation codes for different user roles.
- */
+//AUTHORS: Felix Allison, and others. Presumably Ben Nelson,
+//Sreehari Sreedev, and Jonathan Lin.
+
 public class AdminLoginController {
 	private Stage stage;
 	private Scene scene;
@@ -50,28 +47,36 @@ public class AdminLoginController {
 	private Storage storage;
 	private String myusername;
 	
+	@FXML
 	private Text al_userLabel;
+	@FXML
 	private TextField al_username, al_deleteusername;
+	@FXML
 	private CheckBox al_admincheckbox, al_studentcheckbox, al_instructorcheckbox;
+	@FXML
 	private TextField al_searchBar;
+	@FXML
 	private Button al_searchButton;
 	
 	//
-	private TextField SearchArticleByTitle;
+	private TextField SearchArticleByTitleTextField;
 	private Button ManageSpecialAccessGroupsButton, ManageArticlesButton, SearchArticlesButton;
 	
+	private String articleToSearch;
 	
-	public void searchArticleByTitleClicked(ActionEvent event) throws IOException{
-		
+	public void searchArticleByTitleTextFieldEntered(ActionEvent event) throws IOException{
+		articleToSearch = SearchArticleByTitleTextField.getText();
 	}
 	public void manageSpecialAccessGroupsButtonClicked(ActionEvent event) throws IOException{
-		
+		//COMPLETE METHOD HERE
 	}
-	public void manageArticlesButton(ActionEvent event) throws IOException{
-		
+	public void manageArticlesButtonClicked(ActionEvent event) throws IOException{
+		//COMPLETE METHOD HERE
 	}
-	public void searchArticlesButton(ActionEvent event) throws IOException{
-		
+	public void searchArticlesButtonClicked(ActionEvent event) throws IOException{
+		//DO SOMETHING WITH articleToSearch String
+		//Sree, run that fucker through the database or whatever and
+		//if needed, print the results (?)
 	}
 	//
 	
@@ -84,6 +89,7 @@ public class AdminLoginController {
 	public void initialize() {
 
 	}
+	
 	
 	@FXML
 	public void al_printtableClicked(ActionEvent event) throws IOException, SQLException {
