@@ -25,10 +25,11 @@ public class InstructorLoginController {
 	private Storage storage;
 	private String myusername;
 	
+	@FXML
 	private Text ip_userLabel;
-		
+	@FXML
 	private TextField ip_searchBar;
-
+	@FXML
 	private Button ip_searchButton;
 	
 	//
@@ -84,7 +85,7 @@ public class InstructorLoginController {
 		
 	}
 	//
-
+	@FXML
 	public void ip_logoutClicked(ActionEvent event) throws IOException{
 		// Load the MainScene.fxml file and set it as the root of the new scene
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
@@ -100,7 +101,7 @@ public class InstructorLoginController {
 		this.ip_userLabel.setText("User: " + name);
 		this.myusername = name;
 	}
-
+	@FXML
 	public void ip_toArticlesClicked(ActionEvent event) throws IOException{
 		// Load the ManageArticles.fxml file and set it as the root of the new scene
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("ManageArticles.fxml"));
@@ -114,7 +115,7 @@ public class InstructorLoginController {
         stage.setScene(scene);
         stage.show();
 	}
-
+	@FXML
 	public void ip_searchButtonClicked(ActionEvent event) throws IOException, SQLException{
 		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         this.storage = (Storage) stage.getUserData();
