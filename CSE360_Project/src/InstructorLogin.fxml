@@ -9,9 +9,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<!-- Author: Jonathan Lin -->
+<!-- Author: Jonathan Lin Sadly, Felix Allison, and Ben Nelson -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InstructorLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InstructorLoginController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instructor Page">
@@ -25,36 +25,36 @@
       
       <Line endX="469.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
-      <Button fx:id="ip_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#ip_logoutClicked" text="logout" />
-      <Button fx:id="ip_toArtices" layoutX="65.0" layoutY="208.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Create Articles" />
+      <Button id="LogoutButton" fx:id="ip_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#ip_logoutClicked" text="logout" />
+      <Button id="CreateArticlesButton" fx:id="ip_toArtices" layoutX="65.0" layoutY="208.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Create Articles" />
       <Text layoutX="25.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Name" />
       <Text layoutX="209.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Articles">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField layoutX="145.0" layoutY="94.0" prefHeight="26.0" prefWidth="241.0" />
-      <TextField layoutX="145.0" layoutY="130.0" prefHeight="26.0" prefWidth="241.0" />
-      <Button layoutX="402.0" layoutY="94.0" mnemonicParsing="false" text="Search by Keyword  " />
-      <Button layoutX="404.0" layoutY="130.0" mnemonicParsing="false" text="Search by Article ID" />
+      <TextField id="SearchByKeywordTextField" layoutX="145.0" layoutY="94.0" prefHeight="26.0" prefWidth="241.0" />
+      <TextField id="SearchByArticleIDTextField" layoutX="145.0" layoutY="130.0" prefHeight="26.0" prefWidth="241.0" />
+      <Button id="SearchByKeywordButton" layoutX="402.0" layoutY="94.0" mnemonicParsing="false" text="Search by Keyword  " />
+      <Button id="SearchByArticleIDButton" layoutX="404.0" layoutY="130.0" mnemonicParsing="false" text="Search by Article ID" />
       <Text layoutX="41.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter Complexity" />
-      <ComboBox layoutX="41.0" layoutY="94.0" prefHeight="26.0" prefWidth="70.0" promptText="all" />
+      <ComboBox id="FilterComplexityComboBox" layoutX="41.0" layoutY="94.0" prefHeight="26.0" prefWidth="70.0" promptText="all" />
       <Text layoutX="37.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter by Group" />
-      <ComboBox layoutX="41.0" layoutY="143.0" prefHeight="26.0" prefWidth="70.0" />
-      <Button fx:id="ip_toArtices1" layoutX="170.0" layoutY="208.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="List Student Messages" />
-      <Button fx:id="ip_toArtices11" layoutX="321.0" layoutY="208.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Manage Special Access Groups" />
+      <ComboBox id="FilterByGroupComboBox" layoutX="41.0" layoutY="143.0" prefHeight="26.0" prefWidth="70.0" />
+      <Button id="ListStudentMessagesButton" fx:id="ip_toArtices1" layoutX="170.0" layoutY="208.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="List Student Messages" />
+      <Button id="ManageSpecialAccessGroupsButton" fx:id="ip_toArtices11" layoutX="321.0" layoutY="208.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Manage Special Access Groups" />
       <Text layoutX="218.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Students">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField layoutX="116.0" layoutY="307.0" prefHeight="26.0" prefWidth="241.0" />
+      <TextField id="StudentNameTextField" layoutX="116.0" layoutY="307.0" prefHeight="26.0" prefWidth="241.0" />
       <Text layoutX="15.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <ComboBox layoutX="116.0" layoutY="347.0" prefHeight="26.0" prefWidth="70.0" />
+      <ComboBox id="SelectGroupComboBox" layoutX="116.0" layoutY="347.0" prefHeight="26.0" prefWidth="70.0" />
       <Text layoutX="28.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Group " />
-      <Button fx:id="ip_toArtices2" layoutX="363.0" layoutY="307.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Create Student" />
-      <Button fx:id="ip_toArtices3" layoutX="464.0" layoutY="307.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Delete Student " />
-      <Button fx:id="ip_toArtices21" layoutX="198.0" layoutY="347.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Add to Group" />
-      <Button fx:id="ip_toArtices211" layoutX="301.0" layoutY="347.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Remove from Group" />
+      <Button id="CreateStudentButton" fx:id="ip_toArtices2" layoutX="363.0" layoutY="307.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Create Student" />
+      <Button id="DeleteStudentButton" fx:id="ip_toArtices3" layoutX="464.0" layoutY="307.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Delete Student " />
+      <Button id="AddToGroupButton" fx:id="ip_toArtices21" layoutX="198.0" layoutY="347.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Add to Group" />
+      <Button id="RemoveFromGroupButton" fx:id="ip_toArtices211" layoutX="301.0" layoutY="347.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Remove from Group" />
    </children>
 </AnchorPane>

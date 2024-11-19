@@ -50,26 +50,39 @@ public class AdminLoginController {
 	private Storage storage;
 	private String myusername;
 	
-	@FXML
 	private Text al_userLabel;
-	
-	@FXML
 	private TextField al_username, al_deleteusername;
-	@FXML
 	private CheckBox al_admincheckbox, al_studentcheckbox, al_instructorcheckbox;
-	
-	@FXML
 	private TextField al_searchBar;
-	
-	@FXML
 	private Button al_searchButton;
+	
+	//
+	private TextField SearchArticleByTitle;
+	private Button ManageSpecialAccessGroupsButton, ManageArticlesButton, SearchArticlesButton;
+	
+	
+	public void searchArticleByTitleClicked(ActionEvent event) throws IOException{
+		
+	}
+	public void manageSpecialAccessGroupsButtonClicked(ActionEvent event) throws IOException{
+		
+	}
+	public void manageArticlesButton(ActionEvent event) throws IOException{
+		
+	}
+	public void searchArticlesButton(ActionEvent event) throws IOException{
+		
+	}
+	//
+	
+	
 	
 	/**
      * Initializes the controller after the root element has been processed.
      */
 	@FXML
 	public void initialize() {
-		
+
 	}
 	
 	@FXML

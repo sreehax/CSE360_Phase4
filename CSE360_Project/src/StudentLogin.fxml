@@ -10,9 +10,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<!-- Author: Jonathan Lin -->
+<!-- Author: Jonathan Lin Sadly, Felix Allison, and Ben Nelson -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StudentLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StudentLoginController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Page">
@@ -26,14 +26,14 @@
       
       <Line endX="469.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
-      <Button fx:id="sl_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#sl_logoutClicked" text="logout" />
-      <ComboBox layoutX="31.0" layoutY="84.0" prefHeight="26.0" prefWidth="70.0" promptText="all" />
+      <Button id="LogoutButton" fx:id="sl_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#sl_logoutClicked" text="logout" />
+      <ComboBox id="FilterComplexityComboBox" layoutX="31.0" layoutY="84.0" prefHeight="26.0" prefWidth="70.0" promptText="all" />
       <Text layoutX="31.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter Complexity" />
-      <TextField layoutX="135.0" layoutY="84.0" prefHeight="26.0" prefWidth="241.0" />
-      <Button layoutX="392.0" layoutY="84.0" mnemonicParsing="false" text="Search by Keyword  " />
-      <TextField layoutX="135.0" layoutY="120.0" prefHeight="26.0" prefWidth="241.0" />
-      <Button layoutX="394.0" layoutY="120.0" mnemonicParsing="false" text="Search by Article ID" />
-      <ComboBox layoutX="31.0" layoutY="133.0" prefHeight="26.0" prefWidth="70.0" />
+      <TextField id="SearchByKeywordTextField" layoutX="135.0" layoutY="84.0" prefHeight="26.0" prefWidth="241.0" />
+      <Button id="SearchByKeywordButton" layoutX="392.0" layoutY="84.0" mnemonicParsing="false" text="Search by Keyword  " />
+      <TextField id="SearchByArticleIDTextField" layoutX="135.0" layoutY="120.0" prefHeight="26.0" prefWidth="241.0" />
+      <Button id="SearchByArticleIDButton" layoutX="394.0" layoutY="120.0" mnemonicParsing="false" text="Search by Article ID" />
+      <ComboBox id="FilterByGroupComboBox" layoutX="31.0" layoutY="133.0" prefHeight="26.0" prefWidth="70.0" />
       <Text layoutX="27.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter by Group" />
       <Text layoutX="198.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Articles">
          <font>
@@ -45,9 +45,9 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <TextArea layoutX="18.0" layoutY="220.0" prefHeight="111.0" prefWidth="360.0" />
-      <Button layoutX="385.0" layoutY="263.0" mnemonicParsing="false" text="Submit General Help Message" />
-      <Button layoutX="385.0" layoutY="299.0" mnemonicParsing="false" text="Submit Specific Help Message" />
-      <Button fx:id="sl_kill" layoutX="450.0" layoutY="353.0" mnemonicParsing="false" onAction="#sl_killClicked" text="Close Application" />
+      <TextArea id="SubmitHelpMessageTextArea" layoutX="18.0" layoutY="220.0" prefHeight="111.0" prefWidth="360.0" />
+      <Button id="SubmitGeneralHelpMessageButton" layoutX="385.0" layoutY="263.0" mnemonicParsing="false" text="Submit General Help Message" />
+      <Button id="SubmitSpecificHelpMessageButton" layoutX="385.0" layoutY="299.0" mnemonicParsing="false" text="Submit Specific Help Message" />
+      <Button id="CloseApplicationButton" fx:id="sl_kill" layoutX="450.0" layoutY="353.0" mnemonicParsing="false" onAction="#sl_killClicked" text="Close Application" />
    </children>
 </AnchorPane>

@@ -9,6 +9,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.Button;
+
+//AUTHOR: Felix Allison & Someone else, probably Jonathan Lin since
+//A lot of the code looks kinda bad.
+
 /**
  * Controller class for the Student Login view.
  * Handles user interactions in the student login screen, including displaying the username
@@ -19,17 +27,54 @@ public class StudentLoginController {
 	private Scene scene;
 	private Parent root;
 	private Storage storage;
-	/** Text label to display the logged-in student's username. */
-	@FXML
+	
+	//NOTE: Some of these buttons are being referenced by their
+	//FXIDs which I think is kinda stupid but whatever. For all the
+	//methods I wrote, I reference them by the IDs I manually gave them.
+	//This should explain the difference in naming schema.
+	
+	private ComboBox FilterComplexityComboBox, FilterByGroupComboBox;
+	private TextField SearchByKeywordTextField, SearchByArticleIDTextField;
+	private TextArea SubmitHelpMessageTextArea;
+	private Button LogoutButton, SearchByKeywordButton, SearchByArticleIDButton, SubmitGeneralHelpMessageButton;
+	private Button SubmitSpecificHelpMessageButton, CloseApplicationButton;
+	
 	private Text sl_userLabel;
-	   /**
-     * Handles the event when the user clicks the "Logout" button.
-     * Logs the student out by navigating back to the main scene.
-     *
-     * @param event The event triggered by clicking the logout button.
-     * @throws IOException If the FXML file for the main scene cannot be loaded.
-     */
-	@FXML
+
+	//
+	public void filterComplexityComboBoxClicked(ActionEvent event) throws IOException{
+		
+	}
+	public void filterByGroupComboBoxClicked(ActionEvent event) throws IOException{
+		
+	}
+	public void searchByKeywordTextFieldClicked(ActionEvent event) throws IOException{
+		
+	}
+	public void searchByArticleIDTextFieldClicked(ActionEvent event) throws IOException{
+		
+	}
+	public void submitHelpMessageTextAreaClicked(ActionEvent event) throws IOException{
+		
+	}
+	public void logoutButtonPressed(ActionEvent event) throws IOException{
+		
+	}
+	public void searchByKeywordButtonPressed(ActionEvent event) throws IOException{
+		
+	}
+	public void searchByArticleIDButtonPressed(ActionEvent event) throws IOException{
+		
+	}
+	public void submitGeneralHelpMessageButtonPressed(ActionEvent event) throws IOException{
+		
+	}
+	public void submitSpecificHelpMessageButtonPressed(ActionEvent event) throws IOException{
+		
+	}
+	//
+	
+	//public void logoutButtonPressed(ActionEvent event) throws IOException
 	public void sl_logoutClicked(ActionEvent event) throws IOException{
 		// Load the MainScene.fxml file and set it as the root of the scene
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
@@ -40,23 +85,14 @@ public class StudentLoginController {
         stage.setScene(scene);
         stage.show();
 	}
-	 /**
-     * Handles the event when the user clicks the "Close Application" button.
-     * Kill the application.
-     *
-     * @param event The event triggered by clicking the logout button.
-     * @throws IOException If the FXML file for the main scene cannot be loaded.
-     */
-	@FXML
+
+	//public void closeApplicationButtonPressed(ActionEvent event) throws IOException
 	public void sl_killClicked(ActionEvent event) throws IOException{
 		Platform.exit();
 	}
-	/**
-     * Sets the username of the student and updates the username label in the view.
-     *
-     * @param name The name of the student to be displayed.
-     */
+	
 	public void userName(String name) {
 		this.sl_userLabel.setText("User: " + name);
 	}
 }
+//

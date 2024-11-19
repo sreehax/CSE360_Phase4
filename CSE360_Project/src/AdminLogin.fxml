@@ -8,9 +8,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<!-- Author: Jonathan Lin -->
+<!-- Author: Jonathan Lin Sadly, Felix Allison, and Ben Nelson -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AdminLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AdminLoginController">
    <children>
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Page">
          <font>
@@ -23,23 +23,23 @@
       
       <Line endX="469.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
-      <Button fx:id="al_invitationButton" layoutX="323.0" layoutY="204.0" mnemonicParsing="false" onAction="#al_invitationbuttonClicked" text="Generate Invitation Code" />
-      <Button fx:id="al_deleteuserButton" layoutX="323.0" layoutY="151.0" mnemonicParsing="false" onAction="#al_deleteuserbuttonClicked" text="Delete User" />
-      <TextField fx:id="al_username" layoutX="127.0" layoutY="99.0" />
+      <Button id="GenerateInvitationCodeButton" fx:id="al_invitationButton" layoutX="323.0" layoutY="204.0" mnemonicParsing="false" onAction="#al_invitationbuttonClicked" text="Generate Invitation Code" />
+      <Button id="DeleteUserButton" fx:id="al_deleteuserButton" layoutX="323.0" layoutY="151.0" mnemonicParsing="false" onAction="#al_deleteuserbuttonClicked" text="Delete User" />
+      <TextField id="UsernameTextField" fx:id="al_username" layoutX="127.0" layoutY="99.0" />
       <Text layoutX="37.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
       <Text layoutX="34.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Role" />
-      <TextField fx:id="al_deleteusername" layoutX="127.0" layoutY="151.0" />
-      <Button fx:id="al_resetaccountButton" layoutX="323.0" layoutY="99.0" mnemonicParsing="false" onAction="#al_resetaccountbuttonClicked" text="Reset Account Password" />
+      <TextField id="DeleteUserTextField" fx:id="al_deleteusername" layoutX="127.0" layoutY="151.0" />
+      <Button id="ResetAccountPasswordButton" fx:id="al_resetaccountButton" layoutX="323.0" layoutY="99.0" mnemonicParsing="false" onAction="#al_resetaccountbuttonClicked" text="Reset Account Password" />
       <Text layoutX="33.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete User" />
-      <Button fx:id="al_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#al_logoutClicked" text="logout" />
-      <CheckBox fx:id="al_admincheckbox" layoutX="128.0" layoutY="208.0" mnemonicParsing="false" onAction="#al_admincheckboxClicked" text="Admin" />
-      <CheckBox fx:id="al_studentcheckbox" layoutX="128.0" layoutY="236.0" mnemonicParsing="false" onAction="#al_studentcheckboxClicked" text="Student" />
-      <CheckBox fx:id="al_instructorcheckbox" layoutX="128.0" layoutY="263.0" mnemonicParsing="false" onAction="#al_instructorcheckboxClicked" text="Instructor" />
-      <Button fx:id="al_printtable" layoutX="323.0" layoutY="259.0" mnemonicParsing="false" onAction="#al_printtableClicked" text="Print Users Table" />
-      <Button fx:id="al_toArticles" layoutX="324.0" layoutY="313.0" mnemonicParsing="false" onAction="#al_toArticlesClicked" text="Manage Articles" />
+      <Button id="LogoutButton" fx:id="al_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#al_logoutClicked" text="logout" />
+      <CheckBox id="SelectRoleCheckBox" fx:id="al_admincheckbox" layoutX="128.0" layoutY="208.0" mnemonicParsing="false" onAction="#al_admincheckboxClicked" text="Admin" />
+      <CheckBox id="SelectStudentCheckBox" fx:id="al_studentcheckbox" layoutX="128.0" layoutY="236.0" mnemonicParsing="false" onAction="#al_studentcheckboxClicked" text="Student" />
+      <CheckBox id="SelectInstructorCheckBox" fx:id="al_instructorcheckbox" layoutX="128.0" layoutY="263.0" mnemonicParsing="false" onAction="#al_instructorcheckboxClicked" text="Instructor" />
+      <Button id="PrintUserButton" fx:id="al_printtable" layoutX="323.0" layoutY="259.0" mnemonicParsing="false" onAction="#al_printtableClicked" text="Print Users Table" />
+      <Button id="ManageArticlesButton" fx:id="al_toArticles" layoutX="324.0" layoutY="313.0" mnemonicParsing="false" onAction="#al_toArticlesClicked" text="Manage Articles" />
       <Text layoutX="24.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search article by title" />
-      <TextField fx:id="al_searchBar" layoutX="151.0" layoutY="349.0" />
-      <Button fx:id="al_searchButton" layoutX="323.0" layoutY="349.0" mnemonicParsing="false" onAction="#al_searchButtonClicked" text="Search" />
-      <Button fx:id="ip_toArtices11" layoutX="321.0" layoutY="386.0" mnemonicParsing="false" onAction="#al_toSpecialAccessClicked" text="Manage Special Access Groups" />
+      <TextField id="SearchArticleByTitleTextField" fx:id="al_searchBar" layoutX="151.0" layoutY="349.0" />
+      <Button id="SearchArticlesButton" fx:id="al_searchButton" layoutX="323.0" layoutY="349.0" mnemonicParsing="false" onAction="#al_searchButtonClicked" text="Search Articles" />
+      <Button id="ManageSpecialAccessGroupsButton" fx:id="ip_toArtices11" layoutX="321.0" layoutY="386.0" mnemonicParsing="false" onAction="#al_toSpecialAccessClicked" text="Manage Special Access Groups" />
    </children>
 </AnchorPane>
