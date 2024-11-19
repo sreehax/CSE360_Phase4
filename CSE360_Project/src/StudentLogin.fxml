@@ -57,8 +57,8 @@
       <Button id="SubmitGeneralHelpMessageButton" layoutX="361.0" layoutY="324.0" mnemonicParsing="false" text="Submit General Help Message" />
       <Button id="SubmitSpecificHelpMessageButton" layoutX="362.0" layoutY="354.0" mnemonicParsing="false" text="Submit Specific Help Message" />
       <Button id="CloseApplicationButton" fx:id="sl_kill" layoutX="362.0" layoutY="385.0" mnemonicParsing="false" onAction="#sl_killClicked" prefHeight="26.0" prefWidth="201.0" text="Close Application" />
-      <ListView id="ArticleListListView" layoutX="15.0" layoutY="188.0" prefHeight="113.0" prefWidth="549.0" />
-      <Button id="ResetSearchButton" layoutX="444.0" layoutY="91.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="117.0" text="Reset Search" />
+      <ListView fx:id="ArticleListListView" layoutX="15.0" layoutY="188.0" prefHeight="113.0" prefWidth="549.0" />
+      <Button id="ResetSearchButton" layoutX="444.0" layoutY="91.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="117.0" text="Reset Search" onAction="#resetSearchButtonPressed" />
       <Text layoutX="17.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Article List">
          <font>
             <Font size="18.0" />

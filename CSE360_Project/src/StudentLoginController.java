@@ -35,13 +35,15 @@ public class StudentLoginController {
 	//methods I wrote, I reference them by the IDs I manually gave them.
 	//This should explain the difference in naming schema.
 	
-	private ComboBox FilterComplexityComboBox, FilterByGroupComboBox;
+	private ComboBox<?> FilterComplexityComboBox, FilterByGroupComboBox;
 	private TextField SearchByKeywordTextField, SearchByArticleIDTextField;
 	private TextArea SubmitHelpMessageTextArea;
 	private Button SearchByKeywordButton, SearchByArticleIDButton, SubmitGeneralHelpMessageButton;
 	private Button SubmitSpecificHelpMessageButton;
 	private Button ResetSearchButton;
-	private ListView ArticleListListView;
+	
+	@FXML
+	private ListView<String> ArticleListListView;
 	
 	@FXML
 	private Text sl_userLabel;
@@ -77,12 +79,10 @@ public class StudentLoginController {
 	public void submitSpecificHelpMessageButtonPressed(ActionEvent event) throws IOException{
 		
 	}
+	
+	@FXML
 	public void resetSearchButtonPressed(ActionEvent event) throws IOException{
-		//Removes list items iteratively starting at the final index and removing
-		//all items until it removes the final item at index 0.
-		for(int i = ArticleListListView.getItems().size(); i >= 0; i++) {
-			ArticleListListView.getItems().remove(i);
-		}
+		ArticleListListView.getItems().clear();
 	}
 	
 	//This is the method that adds different articles to the student article list view
