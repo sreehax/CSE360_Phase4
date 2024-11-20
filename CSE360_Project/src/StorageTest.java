@@ -1,22 +1,35 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
+
 import org.junit.jupiter.api.Test;
 
 class StorageTest {
 
 	@Test
-	void testStorage() {
-		fail("Not yet implemented");
+	void testStorage() throws SQLException {	
+			Storage s = new Storage();
 	}
 
 	@Test
-	void testStorageString() {
-		fail("Not yet implemented");
+	void testStorageString() throws SQLException {
+		Storage s = new Storage("systmedb");
 	}
 
 	@Test
-	void testLoginAttempt() {
-		fail("Not yet implemented");
+	void testLoginAttempt() throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
+		Storage s = new Storage("systmedb");
+		s.loginAttempt("Bob123", "1234");
+		
+		User u = new User("Benjamin","D", "Nelson", "Ben", "ben123", "2345","34", 123);
+		u.addRole('a');
+		u.addRole('i');
+		u.addRole('s');
+		s.registerUser(u);
+		
+		s.loginAttempt("ben123", "2345");
 	}
 
 	@Test
@@ -40,8 +53,13 @@ class StorageTest {
 	}
 
 	@Test
-	void testRegisterUser() {
-		fail("Not yet implemented");
+	void testRegisterUser() throws NoSuchAlgorithmException, InvalidKeySpecException, SQLException {
+		Storage s = new Storage("systmedb");
+		User u = new User("Benjamin","D", "Nelson", "Ben", "ben123", "2345","34", 123);
+		u.addRole('a');
+		u.addRole('i');
+		u.addRole('s');
+		s.registerUser(u);
 	}
 
 	@Test
