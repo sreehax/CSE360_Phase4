@@ -185,6 +185,10 @@ public class User {
 			temp = Role.STUDENT;
 			this.rolelist.add(temp);
 			break;
+		
+		default:
+			System.out.println("No role selected");
+			break;
 		}
 	}
 	 /**
@@ -192,10 +196,41 @@ public class User {
      * 
      * @param role The role to be deleted.
      */
-	public void deleteRole(Role role) {
+	public void deleteRole(char role) {
+		
 		//check role exist in rolelist
 		//if it exist, delete it
 		//if it doesn't exist, print it doesn't exist and exit
+		Role temp;
+		switch(role) {
+		case 'a':
+			temp = Role.ADMIN;
+			if(!this.rolelist.contains(temp)) {
+				System.out.println("User does not have admin role");
+				return;
+			}
+			this.rolelist.remove(temp);
+			break;
+		case 'i':
+			temp = Role.INSTRUCTOR;
+			if(!this.rolelist.contains(temp)) {
+				System.out.println("User does not have instuctor role");
+				return;
+			}
+			this.rolelist.remove(temp);
+			break;
+		case 's':
+			temp = Role.STUDENT;
+			if(!this.rolelist.contains(temp)) {
+				System.out.println("User does not have student role");
+				return;
+			}
+			this.rolelist.remove(temp);
+			break;
+		default:
+			System.out.println("No role selected");
+			break;
+		}
 	}
 	/**
      * Gets the list of roles assigned to the user.

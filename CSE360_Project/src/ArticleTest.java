@@ -1,112 +1,146 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 
 class ArticleTest {
 
 	@Test
 	void testArticleStringStringArrayListOfStringIntStringStringStringArrayListOfString() {
-		fail("Not yet implemented");
+		ArrayList<String> references = new ArrayList<String>();
+		ArrayList<String> keywords = new ArrayList<String>();
+		references.add("wiki");
+		keywords.add("help");
+		Article a = new Article ("Databases help", "fdgfsdg", references, 1, "Step 1", "db","helps you", keywords);
+		
 	}
 
 	@Test
 	void testArticle() {
-		fail("Not yet implemented");
+		Article a = new Article();
 	}
 
 	@Test
 	void testPrintInfo() {
-		fail("Not yet implemented");
+		ArrayList<String> references = new ArrayList<String>();
+		ArrayList<String> keywords = new ArrayList<String>();
+		references.add("wiki");
+		keywords.add("help");
+		Article a = new Article ("Databases help", "fdgfsdg", references, 1, "Step 1", "db","helps you", keywords);
+		a.printInfo();
 	}
 
 	@Test
 	void testGetTitle() {
-		fail("Not yet implemented");
+		ArrayList<String> references = new ArrayList<String>();
+		ArrayList<String> keywords = new ArrayList<String>();
+		references.add("wiki");
+		keywords.add("help");
+		Article a = new Article ("Databases help", "fdgfsdg", references, 1, "Step 1", "db","helps you", keywords);
+		a.getTitle();
 	}
 
 	@Test
 	void testSetTitle() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.setTitle("testTitle");
 	}
 
 	@Test
 	void testGetBody() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.getBody();
 	}
 
 	@Test
 	void testSetBody() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.setBody("testBody");
 	}
 
 	@Test
 	void testGetReferences() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.getReferences();
 	}
 
 	@Test
 	void testGetReferencesStr() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.getReferencesStr();
 	}
 
 	@Test
 	void testAddReference() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.addReference("testReference");
 	}
 
 	@Test
 	void testGetID() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.getID();
 	}
 
 	@Test
 	void testSetID() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.setID(1);
 	}
 
 	@Test
 	void testGetHeader() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.getHeader();
 	}
 
 	@Test
 	void testSetHeader() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.setHeader("testHeader");
 	}
 
 	@Test
 	void testGetGrouping() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.getGrouping();
 	}
 
 	@Test
 	void testSetGrouping() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.setGrouping("testGroup");
 	}
 
 	@Test
 	void testGetDescription() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.getDescription();
 	}
 
 	@Test
 	void testSetDescription() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.setDescription("testDescription");
 	}
 
 	@Test
 	void testGetKeywords() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.getKeywords();
 	}
 
 	@Test
 	void testGetKeywordsStr() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.getKeywords();
 	}
 
 	@Test
 	void testAddKeyword() {
-		fail("Not yet implemented");
+		Article a = new Article();
+		a.addKeyword("testKeyword");
 	}
 
 }

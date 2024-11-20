@@ -16,98 +16,130 @@ class UserTest {
 
 	@Test
 	void testSetFirstname() {
-		fail("Not yet implemented");
+		User u = new User();
+		u.setFirstname("Bob");
 	}
 
 	@Test
 	void testSetMiddlename() {
 		User u = new User();
-		u.setPreferredname("Joe");
+		u.setMiddlename("Billy");
 	}
 
 	@Test
 	void testSetLastname() {
-		fail("Not yet implemented");
+		User u = new User();
+		u.setLastname("Johnson");
 	}
 
 	@Test
 	void testSetPreferredname() {
-		fail("Not yet implemented");
+		User u = new User();
+		u.setPreferredname("Joe");
 	}
 
 	@Test
 	void testSetUsername() {
-		fail("Not yet implemented");
+		User u = new User();
+		u.setUsername("Bob123");
 	}
 
 	@Test
 	void testSetEmail() {
-		fail("Not yet implemented");
+		User u = new User();
+		u.setEmail("Bob123@asu.edu");
 	}
 
 	@Test
 	void testSetCode() {
-		fail("Not yet implemented");
+		User u = new User();
+		u.setCode("2134asf");
 	}
 
 	@Test
 	void testSetTemppass() {
-		fail("Not yet implemented");
+		User u = new User();
+		u.setTemppass(124);
 	}
 
 	@Test
 	void testGetFirstname() {
-		fail("Not yet implemented");
+		User u = new User("Benjame","D", "Nelson", "Ben", "123456", "2345","34", 123);
+		u.getFirstname();
 	}
 
 	@Test
 	void testGetMiddlename() {
-		fail("Not yet implemented");
+		User u = new User("Benjame","D", "Nelson", "Ben", "123456", "2345","34", 123);
+		u.getMiddlename();
 	}
 
 	@Test
 	void testGetLastname() {
-		fail("Not yet implemented");
+		User u = new User("Benjame","D", "Nelson", "Ben", "123456", "2345","34", 123);
+		u.getLastname();
 	}
 
 	@Test
 	void testGetPreferredname() {
-		fail("Not yet implemented");
+		User u = new User("Benjame","D", "Nelson", "Ben", "123456", "2345","34", 123);
+		u.getPreferredname();
 	}
 
 	@Test
 	void testGetUsername() {
-		fail("Not yet implemented");
+		User u = new User("Benjame","D", "Nelson", "Ben", "123456", "2345","34", 123);
+		u.getUsername();
 	}
 
 	@Test
 	void testGetEmail() {
-		fail("Not yet implemented");
+		User u = new User("Benjame","D", "Nelson", "Ben", "123456", "2345","34", 123);
+		u.getEmail();
 	}
 
 	@Test
 	void testGetCode() {
-		fail("Not yet implemented");
+		User u = new User("Benjame","D", "Nelson", "Ben", "123456", "2345","34", 123);
+		u.getCode();
 	}
 
 	@Test
 	void testGetTemppass() {
-		fail("Not yet implemented");
+		User u = new User("Benjame","D", "Nelson", "Ben", "123456", "2345","34", 123);
+		u.getTemppass();
 	}
 
 	@Test
 	void testAddRole() {
-		fail("Not yet implemented");
+		User u = new User();
+		u.addRole('a');
+		u.addRole('i');
+		u.addRole('s');
+		u.addRole('e');
 	}
 
 	@Test
 	void testDeleteRole() {
-		fail("Not yet implemented");
+		User u = new User();
+		u.deleteRole('a');
+		u.deleteRole('i');
+		u.deleteRole('s');
+		u.deleteRole('e');
+		
+		u.addRole('a');
+		u.addRole('i');
+		u.addRole('s');
+		
+		u.deleteRole('a');
+		u.deleteRole('i');
+		u.deleteRole('s');
 	}
 
 	@Test
 	void testGetRoleList() {
-		fail("Not yet implemented");
+		User u = new User();
+		u.getRoleList();
 	}
 
 }
