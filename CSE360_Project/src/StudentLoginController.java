@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -49,6 +51,8 @@ public class StudentLoginController{
 	@FXML
 	private ListView<Button> ArticleListListView = new ListView<Button>();
 	@FXML
+	private ObservableList<Button> articleButtons = FXCollections.observableArrayList();
+	@FXML
 	private Text sl_userLabel;
 	
 	//
@@ -89,7 +93,9 @@ public class StudentLoginController{
 	}
 	@FXML
 	public void submitSpecificHelpMessageButtonPressed(ActionEvent event) throws IOException{
-
+		addArticleToArticleListView("temp3");
+		ArticleListListView.refresh();
+		
 	}
 	
 	@FXML
@@ -114,14 +120,14 @@ public class StudentLoginController{
 		
 		Button tempButton = new Button();
 		tempButton.setText(buttonString);
-		ArticleListListView.getItems().add(tempButton);
-		ArticleListListView.refresh();
+		articleButtons.add(tempButton);
 	}
     
 	@FXML
 	public void initialize() {
+		ArticleListListView.setItems(articleButtons);
 		addArticleToArticleListView("temp");
-		addArticleToArticleListView("temp2");	
+		addArticleToArticleListView("temp2");
 	}
 	
 	//
