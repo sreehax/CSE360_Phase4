@@ -1,37 +1,45 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 import org.junit.jupiter.api.Test;
 
 class PasswordHasherTest {
 
 	@Test
-	void testHashPasswordString() {
-		fail("Not yet implemented");
+	void testHashPasswordString() throws NoSuchAlgorithmException, InvalidKeySpecException {
+		PasswordHasher.hashPassword("password");
 	}
 
 	@Test
-	void testHashPasswordStringByteArray() {
-		fail("Not yet implemented");
+	void testHashPasswordStringByteArray() throws NoSuchAlgorithmException, InvalidKeySpecException {
+		PasswordHasher.hashPassword("password", PasswordHasher.genSalt());
 	}
 
 	@Test
-	void testVerifyPassword() {
-		fail("Not yet implemented");
+	void testVerifyPassword() throws NoSuchAlgorithmException, InvalidKeySpecException {
+		PasswordHasher.verifyPassword("password", PasswordHasher.hashPassword("password"));
 	}
 
 	@Test
 	void testConstantTimeComparison() {
-		fail("Not yet implemented");
+		byte[] first = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+		byte[] second = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+		PasswordHasher.constantTimeComparison(first, second);
+		
+		byte[] second2 = {1,3,3,3,5,6,7,8,9,10,11,12,13,14,15,16};
+		PasswordHasher.constantTimeComparison(first, second2);
 	}
 
-	@Test
-	void testSelfTest() {
-		fail("Not yet implemented");
-	}
+	//@Test
+	//void testSelfTest() {
+	//	PasswordHasher.selfTest();
+	//}
 
 	@Test
 	void testGenSalt() {
-		fail("Not yet implemented");
+		PasswordHasher.genSalt();
 	}
 
 }

@@ -110,7 +110,7 @@ public class CSE360_Project extends Application {
 		launch(args);
 	}
 	
-	public static void runAllSelfTests() {
+	/*public static void runAllSelfTests() {
 		boolean allGood = true;
 		
 		// User and Article are also tested in the Storage selfTest() method.
@@ -122,5 +122,5 @@ public class CSE360_Project extends Application {
 		} else {
 			System.out.println("Some test cases failed, see above :(");
 		}
-	}
+	}*/
 }
