@@ -1,10 +1,13 @@
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,7 +27,7 @@ import javafx.scene.control.ListView;
  * Handles user interactions in the student login screen, including displaying the username
  * and handling logout actions.
  */
-public class StudentLoginController {
+public class StudentLoginController{
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
@@ -35,6 +38,7 @@ public class StudentLoginController {
 	//methods I wrote, I reference them by the IDs I manually gave them.
 	//This should explain the difference in naming schema.
 	
+	@FXML
 	private ComboBox<?> FilterComplexityComboBox, FilterByGroupComboBox;
 	private TextField SearchByKeywordTextField, SearchByArticleIDTextField;
 	private TextArea SubmitHelpMessageTextArea;
@@ -43,8 +47,7 @@ public class StudentLoginController {
 	private Button ResetSearchButton;
 	
 	@FXML
-	private ListView<String> ArticleListListView;
-	
+	private ListView<Button> ArticleListListView = new ListView<Button>();
 	@FXML
 	private Text sl_userLabel;
 	
@@ -56,7 +59,7 @@ public class StudentLoginController {
 		
 	}
 	public void searchByKeywordTextFieldClicked(ActionEvent event) throws IOException{
-		
+
 	}
 	public void searchByArticleIDTextFieldClicked(ActionEvent event) throws IOException{
 		
@@ -68,16 +71,27 @@ public class StudentLoginController {
 		
 	}
 	public void searchByKeywordButtonPressed(ActionEvent event) throws IOException{
-		
+		addArticleToArticleListView("temp");
+		addArticleToArticleListView("temp");
+		Article newArticle = new Article();
+		newArticle.setBody("This is the article body for testing.");
+		newArticle.setDescription("This is a description that says stuff.");
+		newArticle.setGrouping("This is the grouping area. It does something.");
+		newArticle.setHeader("Insert header here");
+		newArticle.setID(12345);
+		newArticle.setTitle("Generic Article Title");
+		newArticle.addKeyword("Keyword1");
+		newArticle.addReference("Reference1");
 	}
 	public void searchByArticleIDButtonPressed(ActionEvent event) throws IOException{
 		
 	}
 	public void submitGeneralHelpMessageButtonPressed(ActionEvent event) throws IOException{
-		
+
 	}
+	@FXML
 	public void submitSpecificHelpMessageButtonPressed(ActionEvent event) throws IOException{
-		
+
 	}
 	
 	@FXML
@@ -85,22 +99,26 @@ public class StudentLoginController {
 		ArticleListListView.getItems().clear();
 	}
 	
+	@FXML
 	//This is the method that adds different articles to the student article list view
-	public void addArticleToArticleListView(Article articleToInsert) {
+	public void addArticleToArticleListView(String buttonString) {
 		//Construct a bigass String to insert into the list  
-		String insertable = "";
-		insertable += "Title: " +articleToInsert.getTitle() + "\n";
-		insertable += "Body:" + articleToInsert.getBody() + "\n";
-		insertable += "Keywords: " + articleToInsert.getReferencesStr() + "\n";
-		insertable += "ID: " + articleToInsert.getID()+ "\n";
-		insertable += "Header: " + articleToInsert.getHeader() + "\n";
-		insertable += "Grouping: " + articleToInsert.getGrouping() + "\n";
-		insertable += "Description: " + articleToInsert.getDescription() + "\n";
-		insertable += "Keywords: " + articleToInsert.getKeywordsStr() + "\n";
+		//Article articleToInsert
+		//String insertable = "";
+		//insertable += "Title: " +articleToInsert.getTitle() + "\n";
+		//insertable += "Body:" + articleToInsert.getBody() + "\n";
+		//insertable += "Keywords: " + articleToInsert.getReferencesStr() + "\n";
+		//insertable += "ID: " + articleToInsert.getID()+ "\n";
+		//insertable += "Header: " + articleToInsert.getHeader() + "\n";
+		//insertable += "Grouping: " + articleToInsert.getGrouping() + "\n";
+		//insertable += "Description: " + articleToInsert.getDescription() + "\n";
+		//insertable += "Keywords: " + articleToInsert.getKeywordsStr() + "\n";
 		
-		 ArticleListListView.getItems().add(insertable);
-		 ArticleListListView.getItems().add(" TEST");
+		Button tempButton = new Button();
+		tempButton.setText(buttonString);
+		ArticleListListView.getItems().add(tempButton);
 	}
+    
 	
 	//
 	@FXML
@@ -125,5 +143,6 @@ public class StudentLoginController {
 	public void userName(String name) {
 		this.sl_userLabel.setText("User: " + name);
 	}
+	
 }
 //
