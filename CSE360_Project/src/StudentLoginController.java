@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Button;
@@ -46,7 +47,7 @@ public class StudentLoginController{
 	private TextArea SubmitHelpMessageTextArea;
 	private Button SearchByKeywordButton, SearchByArticleIDButton, SubmitGeneralHelpMessageButton;
 	private Button SubmitSpecificHelpMessageButton;
-	private Button ResetSearchButton;
+	private Button ResetSearchButton, OpenArticleButton;
 	
 	@FXML
 	private ListView<Button> ArticleListListView = new ListView<Button>();
@@ -56,24 +57,17 @@ public class StudentLoginController{
 	private Text sl_userLabel;
 	
 	//
+	//SREE: Implement database functionality
 	public void filterComplexityComboBoxClicked(ActionEvent event) throws IOException{
-		
+		//Not quite sure what this does
+		//Sree: Implement database functionality with this method.
 	}
+	//SREE: Implement database functionality
 	public void filterByGroupComboBoxClicked(ActionEvent event) throws IOException{
-		
+		//Filters by article group
+		//Sree: Implement database functionality with this method.
 	}
-	public void searchByKeywordTextFieldClicked(ActionEvent event) throws IOException{
-
-	}
-	public void searchByArticleIDTextFieldClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void submitHelpMessageTextAreaClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void logoutButtonPressed(ActionEvent event) throws IOException{
-		
-	}
+	//SREE: Implement database functionality
 	public void searchByKeywordButtonPressed(ActionEvent event) throws IOException{
 		Article newArticle = new Article();
 		newArticle.setBody("This is the article body for testing.");
@@ -85,49 +79,64 @@ public class StudentLoginController{
 		newArticle.addKeyword("Keyword1");
 		newArticle.addReference("Reference1");
 	}
+	//SREE: Implement database functionality
 	public void searchByArticleIDButtonPressed(ActionEvent event) throws IOException{
-		
+		//Depending on which is easier to search, I've included both the String and
+		//integer variants of the ID value.
+		String IDtoSearchString = SearchByArticleIDTextField.getText();
+		int IDtoSearchInt = Integer.parseInt(IDtoSearchString);
 	}
+	//SREE: Implement database functionality
 	public void submitGeneralHelpMessageButtonPressed(ActionEvent event) throws IOException{
-
+		//Send to database
+		//Sree: Implement database functionality with this method.
+		String generalHelpMessage = SubmitHelpMessageTextArea.getText();
 	}
 	@FXML
+	//SREE: Implement database functionality
 	public void submitSpecificHelpMessageButtonPressed(ActionEvent event) throws IOException{
-		addArticleToArticleListView("temp3");
-		ArticleListListView.refresh();
+		String specificHelpMessage = SubmitHelpMessageTextArea.getText();
 		
 	}
 	
 	@FXML
+	//COMPLETE
 	public void resetSearchButtonPressed(ActionEvent event) throws IOException{
 		ArticleListListView.getItems().clear();
 	}
 	
 	@FXML
-	//This is the method that adds different articles to the student article list view
-	public void addArticleToArticleListView(String buttonString) {
+	//SREE: Implement database functionality
+	public void addArticleToArticleListView(Article articleToInsert) {
 		//Construct a bigass String to insert into the list  
-		//Article articleToInsert
-		//String insertable = "";
-		//insertable += "Title: " +articleToInsert.getTitle() + "\n";
-		//insertable += "Body:" + articleToInsert.getBody() + "\n";
-		//insertable += "Keywords: " + articleToInsert.getReferencesStr() + "\n";
-		//insertable += "ID: " + articleToInsert.getID()+ "\n";
-		//insertable += "Header: " + articleToInsert.getHeader() + "\n";
-		//insertable += "Grouping: " + articleToInsert.getGrouping() + "\n";
-		//insertable += "Description: " + articleToInsert.getDescription() + "\n";
-		//insertable += "Keywords: " + articleToInsert.getKeywordsStr() + "\n";
+		String insertable = "";
+		insertable += "Title: " +articleToInsert.getTitle() + "\n";
+		insertable += "Body:" + articleToInsert.getBody() + "\n";
+		insertable += "Keywords: " + articleToInsert.getReferencesStr() + "\n";
+		insertable += "ID: " + articleToInsert.getID()+ "\n";
+		insertable += "Header: " + articleToInsert.getHeader() + "\n";
+		insertable += "Grouping: " + articleToInsert.getGrouping() + "\n";
+		insertable += "Description: " + articleToInsert.getDescription() + "\n";
+		insertable += "Keywords: " + articleToInsert.getKeywordsStr() + "\n";
 		
 		Button tempButton = new Button();
-		tempButton.setText(buttonString);
+		tempButton.setText(articleToInsert.getTitle());
 		articleButtons.add(tempButton);
+		ArticleListListView.refresh();
+	}
+	
+	@FXML
+	public void openArticleButtonClicked(ActionEvent event) throws IOException{
+		DialogPane openArticle = new DialogPane();
+		openArticle.snapPositionX(0);
+		openArticle.snapPositionY(0);
+		openArticle.resize(200, 200);
+		
 	}
     
 	@FXML
 	public void initialize() {
 		ArticleListListView.setItems(articleButtons);
-		addArticleToArticleListView("temp");
-		addArticleToArticleListView("temp2");
 	}
 	
 	//
