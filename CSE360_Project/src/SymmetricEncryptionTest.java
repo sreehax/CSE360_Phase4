@@ -1,37 +1,61 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import org.junit.jupiter.api.Test;
 
 class SymmetricEncryptionTest {
 
 	@Test
-	void testSymmetricEncryptionString() {
-		fail("Not yet implemented");
+	void testSymmetricEncryptionString() throws NoSuchAlgorithmException, InvalidKeySpecException {
+		String passhash = PasswordHasher.hashPassword("Password");
+		SymmetricEncryption s = new SymmetricEncryption(passhash);
 	}
 
 	@Test
 	void testSymmetricEncryptionByteArray() {
-		fail("Not yet implemented");
+		byte[] keydata = {0,1,2,3,4,5};
+		SymmetricEncryption s = new SymmetricEncryption(keydata);
 	}
 
 	@Test
-	void testEncryptByteArray() {
-		fail("Not yet implemented");
+	void testEncryptByteArray() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
+		String passhash = PasswordHasher.hashPassword("Password");
+		SymmetricEncryption s = new SymmetricEncryption(passhash);
+		
+		byte[] data = {0,1,2,3,4,5};
+		s.encrypt(data);
 	}
 
 	@Test
-	void testEncryptByteArrayByteArray() {
-		fail("Not yet implemented");
+	void testEncryptByteArrayByteArray() throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
+		String passhash = PasswordHasher.hashPassword("Password");
+		SymmetricEncryption s = new SymmetricEncryption(passhash);
+		
+		byte[] data = {0,1,2,3,4,5};
+		s.encrypt(data, SymmetricEncryption.generateNonce());
 	}
 
 	@Test
-	void testDecrypt() {
-		fail("Not yet implemented");
+	void testDecrypt() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
+		String passhash = PasswordHasher.hashPassword("Password");
+		SymmetricEncryption s = new SymmetricEncryption(passhash);
+		
+		byte[] data = ("Password12345").getBytes();
+		data = s.encrypt(data, SymmetricEncryption.generateNonce());
+		s.decrypt(data);
 	}
 
 	@Test
-	void testGenerateNonce() {
-		fail("Not yet implemented");
+	void testGenerateNonce() throws NoSuchAlgorithmException, InvalidKeySpecException {
+		SymmetricEncryption.generateNonce();
 	}
 
 }

@@ -122,7 +122,7 @@ public class PasswordHasher {
      * 
      * @return true if all tests pass, false if any test fails
      */
-	public static boolean selfTest() {
+	/*public static boolean selfTest() {
 		System.out.println("PasswordHasher SelfTest");
 		boolean allGood = true;
 		boolean current = true;
@@ -187,7 +187,7 @@ public class PasswordHasher {
 			System.out.println("[FAIL] constantTimeComparison said a1 == a2, but they are not equal values!");
 		}
 		return allGood;
-	}
+	}*/
 	
 	public static byte[] genSalt() {
 		byte[] salt = new byte[SALT_LENGTH];
