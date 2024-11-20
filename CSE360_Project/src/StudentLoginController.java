@@ -71,9 +71,6 @@ public class StudentLoginController{
 		
 	}
 	public void searchByKeywordButtonPressed(ActionEvent event) throws IOException{
-		addArticleToArticleListView("temp");
-		addArticleToArticleListView("temp3");
-		initialize();
 		Article newArticle = new Article();
 		newArticle.setBody("This is the article body for testing.");
 		newArticle.setDescription("This is a description that says stuff.");
