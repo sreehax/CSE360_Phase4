@@ -97,6 +97,28 @@ public class InstructorLoginController {
 		showSelectedArticle(a);
 	}
 	@FXML
+	public void ip_clickToEdit(ActionEvent event) throws IOException {
+		// open EditARticle
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("EditArticle.fxml"));
+		root = loader.load();
+		
+		EditArticleController controller = loader.getController();
+		controller.userName(myusername);
+		controller.setPrivkey(privkey);
+		controller.cameFrom("Instructor");
+		
+		Article a = ALLV.getSelectionModel().getSelectedItem();
+		controller.setArticle(a);
+		String group = FBG.getValue();
+		controller.setSecureGroup(group);
+		
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+	}
+	@FXML
 	public void filterByGroupPressed(ActionEvent event) throws IOException{
 		
 	}

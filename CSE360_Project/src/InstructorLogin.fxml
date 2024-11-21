@@ -76,5 +76,6 @@
          </font>
       </Text>
       <Button fx:id="ip_viewSelectedButton" layoutX="320.0" layoutY="183.0" mnemonicParsing="false" onAction="#ip_clickToView" text="View Selected" />
+      <Button fx:id="ip_viewSelectedButton1" layoutX="420.0" layoutY="183.0" mnemonicParsing="false" onAction="#ip_clickToEdit" text="Edit Selected" />
    </children>
 </AnchorPane>

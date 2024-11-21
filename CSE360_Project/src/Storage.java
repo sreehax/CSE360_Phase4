@@ -704,6 +704,47 @@ public class Storage {
 		prep.executeUpdate();
 	}
 	
+	public boolean updateSecureArticle(Article a, String groupname, String youruser, byte[] privkey_bytes) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
+		// using your privkey, decrypt the group key
+				String query0 = "SELECT group_key FROM special_access, special_groups WHERE group_id = access_group_id AND s_user = ? AND group_name = ?";
+				PreparedStatement s0 = this.conn.prepareStatement(query0);
+				s0.setString(1, youruser);
+				s0.setString(2, groupname);
+				ResultSet rs0 = s0.executeQuery();
+				byte[] pre_groupkey;
+				if (!rs0.next()) {
+					System.out.println("Could not find user " + youruser + "!");
+					return false;
+				}
+				pre_groupkey = rs0.getBytes("group_key");
+				PrivateKey privkey = RSAEncryption.getPrivKey(privkey_bytes);
+				byte[] groupkey = RSAEncryption.decryptBytes(privkey, pre_groupkey);
+				
+				// encrypt the body with ChaCha20-Poly1305
+				SymmetricEncryption senc = new SymmetricEncryption(groupkey);
+				byte[] body_encrypted = senc.encrypt(a.getBody());
+				Encoder enc = Base64.getEncoder();
+				
+		String update = "UPDATE articles SET title = ?, body = ?, refs = ?, header = ?, grouping = ?, description = ?, keywords = ? WHERE id = ?";
+		PreparedStatement prep = conn.prepareStatement(update);
+		String references = a.getReferencesStr();
+		String keywords = a.getKeywordsStr();
+		int id = a.getID();
+		
+		prep.setString(1, a.getTitle());
+		prep.setString(2, enc.encodeToString(body_encrypted));
+		prep.setString(3, references);
+		prep.setString(4, a.getHeader());
+		prep.setString(5, a.getGrouping());
+		prep.setString(6, a.getDescription());
+		prep.setString(7, keywords);
+		prep.setInt(8, id);
+		
+		prep.executeUpdate();
+		
+		return true;
+	}
+	
 	  /**
      * Helper method to convert a ResultSet into a list of Article objects.
      *

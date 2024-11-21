@@ -11,9 +11,18 @@ import javafx.event.ActionEvent;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
 import javafx.scene.control.Button;
@@ -22,6 +31,8 @@ import javafx.scene.control.TextArea;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 import java.util.List;
 
 /**
@@ -38,6 +49,7 @@ public class EditArticleController {
 	private String myusername;
 	private String camefrom;
 	private int myid;
+	private String securegroup;
 	private byte[] privkey;
 	
 	@FXML
@@ -48,7 +60,7 @@ public class EditArticleController {
 	private TextArea e_bodyTextField;
 	
 	@FXML
-	private Text e_userLabel, e_idNumLabel;
+	private Text e_userLabel, e_idNumLabel, editLabel;
 	
 	String titleString, referenceString, headersString, groupsString, descriptionString, bodyString, keywordString;
 	  /**
@@ -60,9 +72,17 @@ public class EditArticleController {
      * @param event The ActionEvent triggered by clicking the "Edit Article" button
      * @throws IOException if there is an issue loading the ManageArticles.fxml file
      * @throws SQLException if there is an error during the database operation
+	 * @throws InvalidAlgorithmParameterException 
+	 * @throws BadPaddingException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws NoSuchPaddingException 
+	 * @throws InvalidKeySpecException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws InvalidKeyException 
      */
 	@FXML
-	public void e_editArticleClicked(ActionEvent event) throws IOException, SQLException {
+	public void e_editArticleClicked(ActionEvent event) throws IOException, SQLException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
+		boolean secure = (securegroup != null);
 		 // Obtain the current stage and retrieve the Storage object
 		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         this.storage = (Storage) stage.getUserData();
@@ -99,10 +119,30 @@ public class EditArticleController {
 		newArticle.setGrouping(groupsString);
 		
 		// Commit the article to the database
-		this.storage.updateArticle(newArticle);
+		if (secure) {
+			this.storage.updateSecureArticle(newArticle, securegroup, myusername, privkey);
+		} else {
+			this.storage.updateArticle(newArticle);
+		}
 		
 		System.out.println("Edited the article!");
 		
+		if (secure) {
+			// Go back to the previous page
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("InstructorLogin.fxml"));
+			root = loader.load();
+			
+			InstructorLoginController controller = loader.getController();
+			controller.userName(myusername);
+			controller.setPrivkey(privkey);
+			
+			
+	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        scene = new Scene(root);
+	        stage.setScene(scene);
+	        stage.show();
+	        return;
+		}
 		// Go back to the previous page
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("ManageArticles.fxml"));
 		root = loader.load();
@@ -164,4 +204,8 @@ public class EditArticleController {
 	public void setPrivkey(byte[] privkey) {
 		this.privkey = privkey;
 	}
+		public void setSecureGroup(String securegroup) {
+			this.securegroup = securegroup;
+			editLabel.setText("Edit Secure Article");
+		}
 }
