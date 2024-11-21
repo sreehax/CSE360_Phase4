@@ -56,13 +56,15 @@ public class InstructorLoginController {
 	@FXML
 	private TextArea MS;
 	@FXML
+	private TextField SN;
+	@FXML
 	private ListView<Article> ALLV= new ListView();
 	@FXML
 	private ObservableList<Article> listItems = FXCollections.observableArrayList();
 	@FXML
 	private Text AText;
 	@FXML
-	private ComboBox SG;
+	private ComboBox<String> SG;
 	
 	
 	@FXML
@@ -134,11 +136,34 @@ public class InstructorLoginController {
 		
 	}
 	
+	@FXML
+	public void ip_removeFromGroup(ActionEvent event) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, SQLException {
+		//read the student name and remove them to the group
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+        String student = SN.getText();
+        String group = FBG.getValue();
+        if (this.storage.removeUserFromSpecialAccessGroup(group, student)) {
+        	System.out.println("Successfully removed from the group");
+        }
+	}
+	
+	@FXML
+	public void ip_addToGroup(ActionEvent event) throws IOException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, SQLException {
+		//read the student name and remove them to the group
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		this.storage = (Storage) stage.getUserData();
+		String student = SN.getText();
+		String group = FBG.getValue();
+		if (this.storage.addUserToSpecialAccessGroup(group, student, myusername, privkey)) {
+			System.out.println("Successfully added to the group!");
+		}
+	}
+	
 	public void addArticleToList(Article articleToInsert) {
 		listItems.add(articleToInsert);
 	}
 	
-	@FXML
 	public void showSelectedArticle(Article articleToDisplay) {
 		String insertable = "";
 		insertable += "Title: \n" + articleToDisplay.getTitle() + "\n";
@@ -287,5 +312,7 @@ public void ip_toArticlesClicked(ActionEvent event) throws IOException{
 		this.groups = groups;
 		FBG.setItems(FXCollections.observableArrayList(groups));
 		FBG.getSelectionModel().selectFirst();
+		SG.setItems(FXCollections.observableArrayList(groups));
+		SG.getSelectionModel().selectFirst();
 	}
 }

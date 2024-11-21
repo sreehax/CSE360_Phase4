@@ -60,8 +60,8 @@
       <Text layoutX="11.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Group " />
       <Button fx:id="ip_toArtices2" layoutX="298.0" layoutY="359.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Create Student" />
       <Button fx:id="ip_toArtices3" layoutX="417.0" layoutY="358.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Delete Student " />
-      <Button fx:id="ip_toArtices21" layoutX="188.0" layoutY="392.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Add to Group" />
-      <Button fx:id="ip_toArtices211" layoutX="297.0" layoutY="393.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" prefHeight="26.0" prefWidth="234.0" text="Remove from Group" />
+      <Button fx:id="ip_toArtices21" layoutX="188.0" layoutY="392.0" mnemonicParsing="false" onAction="#ip_addToGroup" text="Add to Group" />
+      <Button fx:id="ip_toArtices211" layoutX="297.0" layoutY="393.0" mnemonicParsing="false" onAction="#ip_removeFromGroup" prefHeight="26.0" prefWidth="234.0" text="Remove from Group" />
       <ListView fx:id="ALLV" layoutX="21.0" layoutY="211.0" prefHeight="124.0" prefWidth="207.0" />
       <Text layoutX="20.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Article List">
          <font>
