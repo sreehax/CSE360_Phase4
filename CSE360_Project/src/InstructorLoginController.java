@@ -160,6 +160,7 @@ public class InstructorLoginController {
 		});
 		ALLV.setItems(listItems);
 		ALLV.refresh();
+		FC.getSelectionModel().selectFirst();
 		
 		
 	}
