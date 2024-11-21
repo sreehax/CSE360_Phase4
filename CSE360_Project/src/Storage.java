@@ -737,6 +737,52 @@ public class Storage {
 		return ret;
 	}
 	
+	private ArrayList<Article> consolidateArticlesDecrypt(ResultSet rs, String groupname, String youruser, byte[] privkey_bytes) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
+		ArrayList<Article> ret = new ArrayList<Article>();
+		// using your privkey, decrypt the group key
+				String query0 = "SELECT group_key FROM special_access, special_groups WHERE group_id = access_group_id AND s_user = ? AND group_name = ?";
+				PreparedStatement s0 = this.conn.prepareStatement(query0);
+				s0.setString(1, youruser);
+				s0.setString(2, groupname);
+				ResultSet rs0 = s0.executeQuery();
+				byte[] pre_groupkey;
+				if (!rs0.next()) {
+					System.out.println("Could not find user " + youruser + "!");
+					return ret;
+				}
+				pre_groupkey = rs0.getBytes("group_key");
+				PrivateKey privkey = RSAEncryption.getPrivKey(privkey_bytes);
+				byte[] groupkey = RSAEncryption.decryptBytes(privkey, pre_groupkey);
+		SymmetricEncryption senc = new SymmetricEncryption(groupkey);
+		
+		while (rs.next()) {
+			String title = rs.getString("title");
+			String body_base64 = rs.getString("body");
+			Decoder dec = Base64.getDecoder();
+			byte[] body_enc = dec.decode(body_base64);
+			byte[] body_dec = senc.decrypt(body_enc);
+			String body = new String(body_dec, StandardCharsets.UTF_8);
+			String[] references_arr = rs.getString("refs").split(", ");
+			int id = rs.getInt("id");
+			String header = rs.getString("header");
+			String grouping = rs.getString("grouping");
+			String description = rs.getString("description");
+			String[] keywords_arr = rs.getString("keywords").split(", ");
+			ArrayList<String> references = new ArrayList<String>();
+			ArrayList<String> keywords = new ArrayList<String>();
+			for (String ref : references_arr) {
+				references.add(ref);
+			}
+			for (String keyword : keywords_arr) {
+				keywords.add(keyword);
+			}
+			
+			ret.add(new Article(title, body, references, id, header, grouping, description, keywords));
+		}
+		
+		return ret;
+	}
+	
 	    /**
      * Serializes a list of articles to a specified file.
      *
@@ -868,6 +914,29 @@ public class Storage {
 		ResultSet rs = prep.executeQuery();
 		
 		return consolidateArticles(rs);
+	}
+	
+	   /**
+     * Retrieves secure articles by their keyword.
+     *
+     * @param keyword the keyword category to filter articles by
+     * @return a list of Article objects matching the specified group
+     * @throws SQLException if a database access error occurs
+	 * @throws InvalidAlgorithmParameterException 
+	 * @throws BadPaddingException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws NoSuchPaddingException 
+	 * @throws InvalidKeySpecException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws InvalidKeyException 
+     */
+	public ArrayList<Article> listSecureArticlesByKeyword(String keyword, String groupname, String username, byte[] privkey) throws SQLException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
+		String query = "SELECT * FROM articles WHERE keywords LIKE ? AND isSecure = 1";
+		PreparedStatement prep = this.conn.prepareStatement(query);
+		prep.setString(1, "%" + keyword + "%");
+		ResultSet rs = prep.executeQuery();
+		;
+		return consolidateArticlesDecrypt(rs, groupname, username, privkey);
 	}
 	
 	  /**

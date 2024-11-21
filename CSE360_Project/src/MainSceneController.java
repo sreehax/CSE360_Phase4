@@ -179,12 +179,14 @@ public class MainSceneController {
 					        return;
 						}
 						if (list.get(0) == Role.INSTRUCTOR) {
+							ArrayList<String> groups = this.storage.getGroupsFromUsername(username);
 							System.out.println("role is instructor");
 							FXMLLoader loader = new FXMLLoader(getClass().getResource("InstructorLogin.fxml"));
 							root = loader.load();
 							// Pass the username to the InstructorLoginController
 							InstructorLoginController controller = loader.getController();
 							controller.userName(username);
+							controller.setGroups(groups);
 							controller.setPrivkey(privkey);
 						// Set the scene to the Instructor login page
 					        stage = (Stage)((Node)event.getSource()).getScene().getWindow();

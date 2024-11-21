@@ -1,6 +1,14 @@
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import javafx.fxml.Initializable;
 import javafx.collections.FXCollections;
@@ -16,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ListView;
 
@@ -29,6 +38,7 @@ public class InstructorLoginController {
 	private Storage storage;
 	private String myusername;
 	private byte[] privkey;
+	ArrayList<String> groups;
 	
 	@FXML
 	private Text ip_userLabel;
@@ -40,23 +50,33 @@ public class InstructorLoginController {
 	@FXML
 	private Button SBK, SBAID, RS, SGHM, SSHM;
 	@FXML
-	private ComboBox FBG, FC;
+	private ComboBox<String> FBG, FC;
 	@FXML
 	private TextField SBKText, SBAIDText;
 	@FXML
 	private TextArea MS;
 	@FXML
-	private ListView<String> ALLV= new ListView();
+	private ListView<Article> ALLV= new ListView();
 	@FXML
-	private ObservableList<String> listItems = FXCollections.observableArrayList();
+	private ObservableList<Article> listItems = FXCollections.observableArrayList();
 	@FXML
 	private Text AText;
 	@FXML
 	private ComboBox SG;
 	
+	
 	@FXML
-	public void searchByKeywordPressed(ActionEvent event) throws IOException{
+	public void searchByKeywordPressed(ActionEvent event) throws IOException, SQLException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException{
 		String keyword = SBKText.getText();
+		String group = FBG.getValue();
+		
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+        ArrayList<Article> articles = this.storage.listSecureArticlesByKeyword(keyword, group, myusername, privkey);
+        for (Article a : articles) {
+        	System.out.println("Populating with " + a.getTitle());
+        	addArticleToList(a);
+        }
 	}
 	@FXML
 	public void searchByArticleIDPressed(ActionEvent event) throws IOException{
@@ -67,6 +87,12 @@ public class InstructorLoginController {
 			stringID = SBAIDText.getText();
 		}
 		
+	}
+	
+	@FXML
+	public void ip_clickToView(ActionEvent event) throws IOException {
+		Article a = ALLV.getSelectionModel().getSelectedItem();
+		showSelectedArticle(a);
 	}
 	@FXML
 	public void filterByGroupPressed(ActionEvent event) throws IOException{
@@ -91,25 +117,38 @@ public class InstructorLoginController {
 	
 	public void initialize() {
 		//testingMethod();
+		ALLV.setCellFactory(param -> new ListCell<Article>() {
+			@Override
+			protected void updateItem(Article item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null || item.getTitle() == null) {
+                    setText(null);
+                } else {
+                    setText(item.getTitle());
+                }
+			}
+		});
 		ALLV.setItems(listItems);
 		ALLV.refresh();
+		
+		
 	}
 	
 	public void addArticleToList(Article articleToInsert) {
-		listItems.add(articleToInsert.getTitle());
+		listItems.add(articleToInsert);
 	}
 	
 	@FXML
 	public void showSelectedArticle(Article articleToDisplay) {
 		String insertable = "";
-		insertable += "Title: " + articleToDisplay.getTitle() + "\n";
-		insertable += "Body: " + articleToDisplay.getBody() + "\n";
-		insertable += "Keywords: " + articleToDisplay.getReferencesStr() + "\n";
-		insertable += "ID: " + articleToDisplay.getID()+ "\n";
-		insertable += "Header: " + articleToDisplay.getHeader() + "\n";
-		insertable += "Grouping: " + articleToDisplay.getGrouping() + "\n";
-		insertable += "Description: " + articleToDisplay.getDescription() + "\n";
-		insertable += "Keywords: " + articleToDisplay.getKeywordsStr() + "\n";
+		insertable += "Title: \n" + articleToDisplay.getTitle() + "\n";
+		insertable += "Body: \n" + articleToDisplay.getBody() + "\n";
+		insertable += "Keywords: \n" + articleToDisplay.getReferencesStr() + "\n";
+		insertable += "ID: \n" + articleToDisplay.getID()+ "\n";
+		insertable += "Header: \n" + articleToDisplay.getHeader() + "\n";
+		insertable += "Grouping: \n" + articleToDisplay.getGrouping() + "\n";
+		insertable += "Description: \n" + articleToDisplay.getDescription() + "\n";
+		insertable += "Keywords: \n" + articleToDisplay.getKeywordsStr() + "\n";
 		
 		//WRITE TO COMMAND LINE?
 		// yeah
@@ -242,5 +281,11 @@ public void ip_toArticlesClicked(ActionEvent event) throws IOException{
 		for (Article a: articles) {
 			a.printInfo();
 		}
+	}
+	
+	public void setGroups(ArrayList<String> groups) {
+		this.groups = groups;
+		FBG.setItems(FXCollections.observableArrayList(groups));
+		FBG.getSelectionModel().selectFirst();
 	}
 }
