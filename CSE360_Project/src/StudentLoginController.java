@@ -61,9 +61,10 @@ public class StudentLoginController{
 	@FXML
 	private ObservableList<String> listItems = FXCollections.observableArrayList();
 	@FXML
-	private Text sl_userLabel;
-	@FXML
 	private Text AText;
+	@FXML
+	private Text sl_userLabel;
+
 	
 	@FXML
 	public void searchByKeywordPressed(ActionEvent event) throws IOException{

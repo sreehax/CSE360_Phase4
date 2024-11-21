@@ -2,6 +2,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javafx.fxml.Initializable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,88 +35,127 @@ public class InstructorLoginController {
 	private TextField ip_searchBar;
 	@FXML
 	private Button ip_searchButton;
+
+	@FXML
+	private Button SBK, SBAID, RS, SGHM, SSHM;
+	@FXML
+	private ComboBox FBG, FC;
+	@FXML
+	private TextField SBKText, SBAIDText;
+	@FXML
+	private TextArea MS;
+	@FXML
+	private ListView<String> ALLV= new ListView();
+	@FXML
+	private ObservableList<String> listItems = FXCollections.observableArrayList();
+	@FXML
+	private Text AText;
+	@FXML
+	private ComboBox SG;
 	
-	//
-	private ComboBox FilterComplexityComboBox, FilterByGroupComboBox, SelectGroupComboBox;
-	private TextField SearchByKeywordTextField, SearchByArticleIDTextField, StudentNameTextField;
-	private Button LogoutButton, SearchByKeywordButton, SearchByArticleIDButton, CreateArticlesButton;
-	private Button ListStudentMessagesButton, ManageSpecialAccessButton, CreateStudentButton, DeleteStudentButton;
-	private Button AddToGroupButton, RemoveFromGroupButton, ResetSearchButton;
-	private ListView ArticleListListView;
-	
-	public void filterComplexityComboBoxClicked(ActionEvent event) throws IOException{
-		
+	@FXML
+	public void searchByKeywordPressed(ActionEvent event) throws IOException{
+		String keyword = SBKText.getText();
 	}
-	public void filterByGroupComboBoxClicked(ActionEvent event) throws IOException{
+	@FXML
+	public void searchByArticleIDPressed(ActionEvent event) throws IOException{
+		String stringID = "";
+		int intID = 0;
 		
-	}
-	public void selectGroupComboBoxClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void searchByKeywordTextFieldClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void searchByArticleIDTextFieldClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void logoutButtonClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void searchByKeywordButtonClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void searchByArticleIDButtonClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void createArticlesButtonClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void listStudentMessagesButtonClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void manageSpecialAccessGroupsButtonClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void createStudentButtonClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void deleteStudentButtonClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void addToGroupButtonClicked(ActionEvent event) throws IOException{
-		
-	}
-	public void removeFromGroupButtonClicked(ActionEvent event) throws IOException{
-		
-	}
-	//The next two methods are identical to the ones in the Student scene. The main
-	//reason I copied them here instead of just reusing those is in the event that we
-	//have to modify or customize searches based on roles in the future.
-	public void resetSearchButtonPressed(ActionEvent event) throws IOException{
-		//Removes list items iteratively starting at the final index and removing
-		//all items until it removes the final item at index 0.
-		for(int i = ArticleListListView.getItems().size(); i >= 0; i++) {
-			ArticleListListView.getItems().remove(i);
+		if(SBAIDText.getText() != "" && SBAIDText.getText() != null) {
+			stringID = SBAIDText.getText();
 		}
+		
+	}
+	@FXML
+	public void filterByGroupPressed(ActionEvent event) throws IOException{
+		
+	}
+	@FXML
+	public void filterComplexityPressed(ActionEvent event) throws IOException{
+		
+	}
+	@FXML
+	public void resetSearchButtonPressed(ActionEvent event) throws IOException{
+		listItems.clear();
+	}
+	@FXML
+	public void submitGeneralHelpMessagePressed(ActionEvent event) throws IOException{
+		String generalHelpMessage = MS.getText();
+	}
+	@FXML
+	public void submitSpecificHelpMessagePressed(ActionEvent event) throws IOException{
+		String specialHelpMessage = MS.getText();
 	}
 	
-	//This is the method that adds different articles to the student article list view
-	public void addArticleToArticleListView(Article articleToInsert) {
-		//Construct a bigass String to insert into the list  
-		String insertable = "";
-		insertable += "Title: " +articleToInsert.getTitle() + "\n";
-		insertable += "Body:" + articleToInsert.getBody() + "\n";
-		insertable += "Keywords: " + articleToInsert.getReferencesStr() + "\n";
-		insertable += "ID: " + articleToInsert.getID()+ "\n";
-		insertable += "Header: " + articleToInsert.getHeader() + "\n";
-		insertable += "Grouping: " + articleToInsert.getGrouping() + "\n";
-		insertable += "Description: " + articleToInsert.getDescription() + "\n";
-		insertable += "Keywords: " + articleToInsert.getKeywordsStr() + "\n";
-		
-		 ArticleListListView.getItems().add(insertable);
-		 ArticleListListView.getItems().add(" TEST");
+	public void initialize() {
+		//testingMethod();
+		ALLV.setItems(listItems);
+		ALLV.refresh();
 	}
-	//
+	
+	public void addArticleToList(Article articleToInsert) {
+		listItems.add(articleToInsert.getTitle());
+	}
+	
+	@FXML
+	public void showSelectedArticle(Article articleToDisplay) {
+		String insertable = "";
+		insertable += "Title: " + articleToDisplay.getTitle() + "\n";
+		insertable += "Body: " + articleToDisplay.getBody() + "\n";
+		insertable += "Keywords: " + articleToDisplay.getReferencesStr() + "\n";
+		insertable += "ID: " + articleToDisplay.getID()+ "\n";
+		insertable += "Header: " + articleToDisplay.getHeader() + "\n";
+		insertable += "Grouping: " + articleToDisplay.getGrouping() + "\n";
+		insertable += "Description: " + articleToDisplay.getDescription() + "\n";
+		insertable += "Keywords: " + articleToDisplay.getKeywordsStr() + "\n";
+		
+		//WRITE TO COMMAND LINE?
+	}
+	@FXML
+	public void selectGroupPressed(ActionEvent event) throws IOException {
+		
+	}
+
+	public void testingMethod() {
+		Article firstArticle = new Article();
+		firstArticle.setBody("Body");
+		firstArticle.setDescription("Description");
+		firstArticle.setGrouping("Group");
+		firstArticle.setHeader("Header");
+		firstArticle.setID(123);
+		firstArticle.setTitle("Title");
+		
+		Article secondArticle = new Article();
+		secondArticle.setBody("Body");
+		secondArticle.setDescription("Description");
+		secondArticle.setGrouping("Group");
+		secondArticle.setHeader("Header");
+		secondArticle.setID(124);
+		secondArticle.setTitle("Title");
+		
+		Article thirdArticle = new Article();
+		thirdArticle.setBody("Body");
+		thirdArticle.setDescription("Description");
+		thirdArticle.setGrouping("Group");
+		thirdArticle.setHeader("Header");
+		thirdArticle.setID(124);
+		thirdArticle.setTitle("Title");
+	
+		Article fourthArticle = new Article();
+		fourthArticle.setBody("Body");
+		fourthArticle.setDescription("Description");
+		fourthArticle.setGrouping("Group");
+		fourthArticle.setHeader("Header");
+		fourthArticle.setID(124);
+		fourthArticle.setTitle("Title");
+		
+		addArticleToList(firstArticle);
+		addArticleToList(secondArticle);
+		addArticleToList(thirdArticle);
+		addArticleToList(fourthArticle);
+	}
+
 	@FXML
 	public void ip_logoutClicked(ActionEvent event) throws IOException{
 		// Load the MainScene.fxml file and set it as the root of the new scene
@@ -131,7 +173,8 @@ public class InstructorLoginController {
 		this.myusername = name;
 	}
 	@FXML
-	public void ip_toArticlesClicked(ActionEvent event) throws IOException{
+	
+public void ip_toArticlesClicked(ActionEvent event) throws IOException{
 		// Load the ManageArticles.fxml file and set it as the root of the new scene
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("ManageArticles.fxml"));
 		root = loader.load();

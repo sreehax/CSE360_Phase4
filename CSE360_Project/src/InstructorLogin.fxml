@@ -27,48 +27,54 @@
       <Line endX="469.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
       <Button id="LogoutButton" fx:id="ip_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#ip_logoutClicked" text="logout" />
-      <Button id="CreateArticlesButton" fx:id="ip_toArtices" layoutX="232.0" layoutY="154.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Create Articles" />
+      <Button fx:id="ip_toArtices" layoutX="232.0" layoutY="154.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Create Articles" />
       <Text layoutX="8.0" layoutY="377.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Name" />
       <Text layoutX="20.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Articles">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField id="SearchByKeywordTextField" layoutX="13.0" layoutY="81.0" prefHeight="26.0" prefWidth="155.0" />
-      <TextField id="SearchByArticleIDTextField" layoutX="14.0" layoutY="117.0" prefHeight="26.0" prefWidth="155.0" />
-      <Button id="SearchByKeywordButton" layoutX="175.0" layoutY="81.0" mnemonicParsing="false" text="Search by Keyword  " />
-      <Button id="SearchByArticleIDButton" layoutX="174.0" layoutY="117.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="142.0" text="Search by Article ID" />
+      <TextField fx:id="SBKText" layoutX="13.0" layoutY="81.0" prefHeight="26.0" prefWidth="155.0" />
+      <TextField fx:id="SBAIDText" layoutX="14.0" layoutY="117.0" prefHeight="26.0" prefWidth="155.0" />
+      <Button fx:id="SBK" layoutX="175.0" layoutY="81.0" mnemonicParsing="false" onAction="#searchByKeywordPressed" text="Search by Keyword  " />
+      <Button fx:id="SBAID" layoutX="174.0" layoutY="117.0" mnemonicParsing="false" onAction="#searchByArticleIDPressed" prefHeight="26.0" prefWidth="142.0" text="Search by Article ID" />
       <Text layoutX="317.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter Complexity">
          <font>
             <Font size="10.0" />
          </font></Text>
-      <ComboBox id="FilterComplexityComboBox" layoutX="397.0" layoutY="83.0" prefHeight="26.0" prefWidth="70.0" promptText="all" />
+      <ComboBox fx:id="FC" layoutX="397.0" layoutY="83.0" onAction="#filterComplexityPressed" prefHeight="26.0" prefWidth="70.0" promptText="all" />
       <Text layoutX="320.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter by Group">
          <font>
             <Font size="10.0" />
          </font></Text>
-      <ComboBox id="FilterByGroupComboBox" layoutX="397.0" layoutY="117.0" prefHeight="26.0" prefWidth="70.0" />
-      <Button id="ListStudentMessagesButton" fx:id="ip_toArtices1" layoutX="353.0" layoutY="154.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" prefHeight="26.0" prefWidth="155.0" text="List Student Messages" />
-      <Button id="ManageSpecialAccessGroupsButton" fx:id="ip_toArtices11" layoutX="17.0" layoutY="154.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Manage Special Access Groups" />
+      <ComboBox fx:id="FBG" layoutX="397.0" layoutY="117.0" onAction="#filterByGroupPressed" prefHeight="26.0" prefWidth="70.0" />
+      <Button fx:id="ip_toArtices1" layoutX="353.0" layoutY="154.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" prefHeight="26.0" prefWidth="155.0" text="List Student Messages" />
+      <Button fx:id="ip_toArtices11" layoutX="17.0" layoutY="154.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Manage Special Access Groups" />
       <Text layoutX="18.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Students">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField id="StudentNameTextField" layoutX="106.0" layoutY="360.0" prefHeight="26.0" prefWidth="182.0" />
+      <TextField fx:id="SN" layoutX="106.0" layoutY="360.0" prefHeight="26.0" prefWidth="182.0" />
       <Text layoutX="15.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <ComboBox id="SelectGroupComboBox" layoutX="106.0" layoutY="394.0" prefHeight="26.0" prefWidth="70.0" />
+      <ComboBox fx:id="SG" layoutX="106.0" layoutY="394.0" onAction="#selectGroupPressed" prefHeight="26.0" prefWidth="70.0" />
       <Text layoutX="11.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Group " />
-      <Button id="CreateStudentButton" fx:id="ip_toArtices2" layoutX="298.0" layoutY="359.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Create Student" />
-      <Button id="DeleteStudentButton" fx:id="ip_toArtices3" layoutX="417.0" layoutY="358.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Delete Student " />
-      <Button id="AddToGroupButton" fx:id="ip_toArtices21" layoutX="188.0" layoutY="392.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Add to Group" />
-      <Button id="RemoveFromGroupButton" fx:id="ip_toArtices211" layoutX="297.0" layoutY="393.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" prefHeight="26.0" prefWidth="234.0" text="Remove from Group" />
-      <ListView id="ArticleListListView" layoutX="21.0" layoutY="211.0" prefHeight="124.0" prefWidth="512.0" />
+      <Button fx:id="ip_toArtices2" layoutX="298.0" layoutY="359.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Create Student" />
+      <Button fx:id="ip_toArtices3" layoutX="417.0" layoutY="358.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Delete Student " />
+      <Button fx:id="ip_toArtices21" layoutX="188.0" layoutY="392.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Add to Group" />
+      <Button fx:id="ip_toArtices211" layoutX="297.0" layoutY="393.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" prefHeight="26.0" prefWidth="234.0" text="Remove from Group" />
+      <ListView fx:id="ALLV" layoutX="21.0" layoutY="211.0" prefHeight="124.0" prefWidth="207.0" />
       <Text layoutX="20.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Article List">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Button id="ResetSearchButton" layoutX="469.0" layoutY="81.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="101.0" text="Reset Search" />
+      <Button fx:id="RS" layoutX="469.0" layoutY="81.0" mnemonicParsing="false" onAction="#resetSearchButtonPressed" prefHeight="65.0" prefWidth="101.0" text="Reset Search" />
+      <Text fx:id="AText" layoutX="255.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="See Command Line for Article" wrappingWidth="284.13000106811523" />
+      <Text layoutX="256.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Article:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
