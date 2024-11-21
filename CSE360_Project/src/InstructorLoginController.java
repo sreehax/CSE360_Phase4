@@ -28,6 +28,7 @@ public class InstructorLoginController {
 	private Parent root;
 	private Storage storage;
 	private String myusername;
+	private byte[] privkey;
 	
 	@FXML
 	private Text ip_userLabel;
@@ -172,6 +173,15 @@ public class InstructorLoginController {
 		this.ip_userLabel.setText("User: " + name);
 		this.myusername = name;
 	}
+	/**
+     * Sets the private key for the logged in user.
+     *
+     * @param username The private key.
+     */
+	public void setPrivkey(byte[] privkey) {
+		this.privkey = privkey;
+	}
+	
 	@FXML
 	
 public void ip_toArticlesClicked(ActionEvent event) throws IOException{

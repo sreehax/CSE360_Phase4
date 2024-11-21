@@ -58,4 +58,11 @@ public class RSAEncryption {
 		byte[] plaintext = cipher.doFinal(ciphertext);
 		return new String(plaintext, StandardCharsets.UTF_8);
 	}
+	
+	public static byte[] decryptBytes(PrivateKey priv, byte[] ciphertext) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+		Cipher cipher = Cipher.getInstance("RSA");
+		cipher.init(Cipher.DECRYPT_MODE, priv);
+		byte[] plaintext = cipher.doFinal(ciphertext);
+		return plaintext;
+	}
 }

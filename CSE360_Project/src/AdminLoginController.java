@@ -46,6 +46,7 @@ public class AdminLoginController {
 	private Parent root;
 	private Storage storage;
 	private String myusername;
+	private byte[] privkey;
 	
 	@FXML
 	private Text al_userLabel;
@@ -300,6 +301,16 @@ public class AdminLoginController {
 		al_userLabel.setText("User: " + name);
 		this.myusername = name;
 	}
+	
+	/**
+     * Sets the private key for the logged in user.
+     *
+     * @param username The private key.
+     */
+	public void setPrivkey(byte[] privkey) {
+		this.privkey = privkey;
+	}
+	
 	/**
      * Handles the action triggered by clicking the "Articles" button. Loads the 
      * ManageArticles.fxml view, passes the current username to the 
@@ -338,7 +349,7 @@ public class AdminLoginController {
 		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         this.storage = (Storage) stage.getUserData();
         
-        ArrayList<String> groups = this.storage.listAllGroups();
+        ArrayList<String> groups = this.storage.getGroupsFromUsername(myusername);
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("GroupSpecial.fxml"));
 		root = loader.load();

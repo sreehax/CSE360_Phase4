@@ -9,6 +9,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -104,7 +105,7 @@ public class Storage {
 		}
 		
 		return PasswordHasher.verifyPassword(password, hash);
-	}		 
+	}
 	/**
      * Checks if `logins` table contain more than one registered account.
      * 
@@ -838,6 +839,7 @@ public class Storage {
 		return affected;
 	}
 	
+	// special access group stuff
 	public ArrayList<String> listAllGroups() throws SQLException {
 		String query = "SELECT group_name FROM special_groups";
 		Statement stmt = this.conn.createStatement();
@@ -927,6 +929,82 @@ public class Storage {
 		prep3.setBytes(3, group_key_enc);
 		prep3.executeUpdate();
 	}
+	
+	public void addUserToSpecialAccessGroup(String groupname, String user_to_add, String youruser, byte[] privkey_bytes) throws SQLException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
+		// using your privkey, decrypt the group key
+		String query0 = "SELECT group_key FROM special_access, special_groups WHERE group_id = access_group_id AND s_user = ? AND group_name = ?";
+		PreparedStatement s0 = this.conn.prepareStatement(query0);
+		s0.setString(1, youruser);
+		s0.setString(2, groupname);
+		ResultSet rs0 = s0.executeQuery();
+		byte[] pre_groupkey;
+		if (!rs0.next()) {
+			System.out.println("Could not find user " + youruser + "!");
+			return;
+		}
+		pre_groupkey = rs0.getBytes("group_key");
+		PrivateKey privkey = RSAEncryption.getPrivKey(privkey_bytes);
+		byte[] groupkey = RSAEncryption.decryptBytes(privkey, pre_groupkey);
+		
+		// get the pubkey of the new user, and encrypt the groupkey for them
+		String query1 = "SELECT pubkey FROM logins WHERE l_user = ?";
+		PreparedStatement s1 = this.conn.prepareStatement(query1);
+		s1.setString(1, user_to_add);
+		ResultSet rs = s1.executeQuery();
+		byte[] pubkey_raw;
+		if (!rs.next()) {
+			System.out.println("Could not find user " + user_to_add + "!");
+			return;
+		}
+		pubkey_raw = rs.getBytes("pubkey");
+		PublicKey pubkey = RSAEncryption.getPubKey(pubkey_raw);
+		byte[] group_key_enc = RSAEncryption.encryptFor(pubkey, groupkey);
+		
+		// add a record for the new user to access the groupkey
+		String query2 = "INSERT INTO special_access (s_user, access_group_id, group_key) SELECT (?, group, ?) FROM special_groups WHERE group_name = ?";
+		PreparedStatement s2 = this.conn.prepareStatement(query2);
+		s2.setString(1, user_to_add);
+		s2.setBytes(2, group_key_enc);
+		s2.setString(3, groupname);
+		s2.executeUpdate();
+	}
+	
+	// It is up to the caller to make sure that you are not trying to remove yourself!
+	public void removeUserFromSpecialAccessGroup(String groupname, String user_to_remove) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+		// Delete the special_access record
+		// I guess an explicit join is preferred
+		String query = "DELETE sa FROM special_access sa JOIN special_groups sg ON sa.access_group_id = sg.group_id WHERE sa.s_user = ? AND sg.group_name = ?";
+		PreparedStatement prep = this.conn.prepareStatement(query);
+		prep.setString(1, user_to_remove);
+		prep.setString(2, groupname);
+		prep.executeUpdate();
+		
+		return;
+	}
+	
+	public byte[] getPrivkey(String username, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+		// get salt2
+		String query = "SELECT salt2, privkey FROM logins WHERE l_user = ?";
+		PreparedStatement prep = this.conn.prepareStatement(query);
+		prep.setString(1, username);
+		ResultSet rs = prep.executeQuery();
+		if (!rs.next()) {
+			System.out.println("Could not find user " + username + "!");
+			return null;
+		}
+		byte[] salt2 = rs.getBytes("salt2");
+		byte[] privkey_enc = rs.getBytes("privkey");
+		
+		// Compute passhash2 for symmetric encryption
+		String passhash2 = PasswordHasher.hashPassword(password, salt2);
+		SymmetricEncryption senc = new SymmetricEncryption(passhash2);
+		
+		// Use senc to decrypt the RSA private key that is needed for future operations
+		byte[] privkey = senc.decrypt(privkey_enc);
+		
+		return privkey;
+	}
+	
 	
 	 /**
      * Checks whether the provided time is within the last 24 hours.

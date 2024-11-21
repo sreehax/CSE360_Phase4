@@ -42,6 +42,7 @@ public class StudentLoginController{
 	private Scene scene;
 	private Parent root;
 	private Storage storage;
+	private byte[] privkey;
 	
 	//NOTE: Some of these buttons are being referenced by their
 	//FXIDs which I think is kinda stupid but whatever. For all the
@@ -167,7 +168,14 @@ public class StudentLoginController{
 	
 	
 	
-	
+	/**
+     * Sets the private key for the logged in user.
+     *
+     * @param username The private key.
+     */
+	public void setPrivkey(byte[] privkey) {
+		this.privkey = privkey;
+	}
 	
 	
 	@FXML

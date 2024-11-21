@@ -21,6 +21,7 @@ public class SelectRoleController {
 	private Scene scene;
 	private Parent root;
 	private String username;
+	private byte[] privkey;
 	
 	private ArrayList<Role> list;
 	 /** Text label to display the username. */
@@ -58,6 +59,7 @@ public class SelectRoleController {
 			
 			AdminLoginController controller = loader.getController();
 			controller.userName(username);
+			controller.setPrivkey(privkey);
 
 	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	        scene = new Scene(root);
@@ -71,6 +73,7 @@ public class SelectRoleController {
 			
 			InstructorLoginController controller = loader.getController();
 			controller.userName(username);
+			controller.setPrivkey(privkey);
 
 	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	        scene = new Scene(root);
@@ -84,6 +87,7 @@ public class SelectRoleController {
 			
 			StudentLoginController controller = loader.getController();
 			controller.userName(username);
+			controller.setPrivkey(privkey);
 
 	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	        scene = new Scene(root);
@@ -123,6 +127,16 @@ public class SelectRoleController {
 		this.username = username;
 		sr_userLabel.setText("User: " + username);
 	}
+	
+	/**
+     * Sets the private key for the logged in user.
+     *
+     * @param username The private key.
+     */
+	public void setPrivkey(byte[] privkey) {
+		this.privkey = privkey;
+	}
+	
 	 /**
      * Populates the combo box with the available roles based on the given list of roles.
      *

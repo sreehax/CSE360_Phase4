@@ -11,8 +11,15 @@ import javafx.event.ActionEvent;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 
 import javafx.scene.control.Button;
@@ -52,9 +59,14 @@ public class MainSceneController {
      *
      * @param event the event triggered by clicking the login button.
      * @throws IOException if an I/O error occurs while loading the next scene.
+	 * @throws BadPaddingException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws InvalidAlgorithmParameterException 
+	 * @throws NoSuchPaddingException 
+	 * @throws InvalidKeyException 
      */
 	@FXML
-	public void LoginButtonClicked(ActionEvent event) throws IOException {
+	public void LoginButtonClicked(ActionEvent event) throws IOException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		// Get the current stage from the event source
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		storage = (Storage) stage.getUserData();
@@ -69,6 +81,7 @@ public class MainSceneController {
 		try {
 			
 			flag = this.storage.loginAttempt(username, password);
+			
 			if (flag) {
 				System.out.println("Login succeeded!");
 				
@@ -89,6 +102,7 @@ public class MainSceneController {
 			        stage.show();
 			        return;
 				}
+				byte[] privkey = this.storage.getPrivkey(username, password);
 				
 				
 				//check user setup
@@ -132,6 +146,7 @@ public class MainSceneController {
 						// Pass the username and roles to the SelectRoleController
 						SelectRoleController controller = loader.getController();
 						controller.changeUsername(username);
+						controller.setPrivkey(privkey);
 						controller.addroles(list);
 						// Set the scene to the role selection page
 				        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -151,6 +166,7 @@ public class MainSceneController {
 							// Pass the username to the AdminLoginController
 							AdminLoginController controller = loader.getController();
 							controller.userName(username);
+							controller.setPrivkey(privkey);
 			
 							// Set the scene to the Admin login page
 					        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -167,6 +183,7 @@ public class MainSceneController {
 							// Pass the username to the InstructorLoginController
 							InstructorLoginController controller = loader.getController();
 							controller.userName(username);
+							controller.setPrivkey(privkey);
 						// Set the scene to the Instructor login page
 					        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 					        scene = new Scene(root);
@@ -185,6 +202,7 @@ public class MainSceneController {
 							 // Pass the username to the StudentLoginController
 							StudentLoginController controller = loader.getController();
 							controller.userName(username);
+							controller.setPrivkey(privkey);
 						// Set the scene to the Student login page
 					        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 					        scene = new Scene(root);
