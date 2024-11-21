@@ -46,7 +46,7 @@ public class SymmetricEncryption {
 		IvParameterSpec ivParameterSpec = new IvParameterSpec(nonce);
 		cipher.init(Cipher.ENCRYPT_MODE, this.key, ivParameterSpec);
 		
-		byte[] ciphertext = cipher.doFinal();
+		byte[] ciphertext = cipher.doFinal(data);
 		
 		byte[] ret = new byte[ciphertext.length + nonce.length];
 		// copy ciphertext and nonce into the return value
@@ -55,7 +55,6 @@ public class SymmetricEncryption {
 		
 		for (int i = 0; i < nonce.length; i++)
 			ret[ciphertext.length + i] = nonce[i];
-		
 		return ret;
 	}
 	

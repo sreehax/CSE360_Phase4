@@ -9,7 +9,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import java.util.List;
+import java.util.Base64.Encoder;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.stream.Collectors;
 
 import javax.crypto.BadPaddingException;
