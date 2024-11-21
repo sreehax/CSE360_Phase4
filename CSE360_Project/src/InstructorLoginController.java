@@ -119,6 +119,12 @@ public class InstructorLoginController {
         stage.show();
 	}
 	@FXML
+	public void ip_listStudentMessages(ActionEvent event) throws IOException, SQLException{
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+        this.storage.printHelpMessages();
+	}
+	@FXML
 	public void filterByGroupPressed(ActionEvent event) throws IOException{
 		
 	}

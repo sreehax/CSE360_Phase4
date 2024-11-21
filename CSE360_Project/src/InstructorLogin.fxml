@@ -47,7 +47,7 @@
             <Font size="10.0" />
          </font></Text>
       <ComboBox fx:id="FBG" layoutX="397.0" layoutY="117.0" onAction="#filterByGroupPressed" prefHeight="26.0" prefWidth="70.0" />
-      <Button fx:id="ip_toArtices1" layoutX="353.0" layoutY="154.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" prefHeight="26.0" prefWidth="155.0" text="List Student Messages" />
+      <Button fx:id="ip_toArtices1" layoutX="353.0" layoutY="154.0" mnemonicParsing="false" onAction="#ip_listStudentMessages" prefHeight="26.0" prefWidth="155.0" text="List Student Messages" />
       <Button fx:id="ip_toArtices11" layoutX="17.0" layoutY="154.0" mnemonicParsing="false" onAction="#ip_toSpecialAccess" text="Manage Special Access Groups" />
       <Text layoutX="18.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Students">
          <font>

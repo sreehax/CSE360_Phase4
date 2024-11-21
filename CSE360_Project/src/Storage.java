@@ -75,6 +75,7 @@ public class Storage {
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_groups (group_id INTEGER PRIMARY KEY, group_name TEXT UNIQUE)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_access (s_user TEXT, access_group_id INTEGER, group_key BLOB, FOREIGN KEY(access_group_id) REFERENCES special_groups(group_id) ON DELETE CASCADE, FOREIGN KEY(s_user) REFERENCES user_info(u_user) ON DELETE CASCADE)");
 //		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_articles (article_id INTEGER, article_group_id INTEGER, FOREIGN KEY(article_group_id) REFERENCES special_groups(group_id) ON DELETE CASCADE, FOREIGN KEY(article_id) REFERENCES articles(id) ON DELETE CASCADE, PRIMARY KEY (article_id, article_group_id))");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS student_message (m_user TEXT, body TEXT, type TEXT)");
 	}
 	
 	/**
@@ -1186,6 +1187,32 @@ public class Storage {
 		byte[] privkey = senc.decrypt(privkey_enc);
 		
 		return privkey;
+	}
+	
+	public void submitHelpMessage(String username, String body, String type) throws SQLException {
+		String query = "INSERT INTO student_message (m_user, body, type) VALUES (?,?,?)";
+		PreparedStatement prep = this.conn.prepareStatement(query);
+		prep.setString(1, username);
+		prep.setString(2, body);
+		prep.setString(3, type);
+		prep.executeUpdate();
+	}
+	
+	public void printHelpMessages() throws SQLException {
+		String query = "SELECT * FROM student_message";
+		Statement stmt = this.conn.createStatement();
+		ResultSet rs = stmt.executeQuery(query);
+		int i = 0;
+		while (rs.next()) {
+			String username = rs.getString("m_user");
+			String body = rs.getString("body");
+			String type = rs.getString("type");
+			
+			System.out.println("Message #" + i);
+			System.out.println("User: " + username);
+			System.out.println("Type: " + type);
+			System.out.println("Body:\n" + body);
+		}
 	}
 	
 	

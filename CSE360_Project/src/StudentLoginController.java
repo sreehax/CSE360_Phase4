@@ -124,12 +124,20 @@ public class StudentLoginController{
 		listItems.clear();
 	}
 	@FXML
-	public void submitGeneralHelpMessagePressed(ActionEvent event) throws IOException{
+	public void submitGeneralHelpMessagePressed(ActionEvent event) throws IOException, SQLException{
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
 		String generalHelpMessage = SHM.getText();
+		this.storage.submitHelpMessage(myusername, generalHelpMessage, "general");
+		System.out.println("Submitted general help message!");
 	}
 	@FXML
-	public void submitSpecificHelpMessagePressed(ActionEvent event) throws IOException{
+	public void submitSpecificHelpMessagePressed(ActionEvent event) throws IOException, SQLException{
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
 		String specialHelpMessage = SHM.getText();
+		this.storage.submitHelpMessage(myusername, specialHelpMessage, "general");
+		System.out.println("Submitted general help message!");
 	}
 	
 	public void initialize() {
