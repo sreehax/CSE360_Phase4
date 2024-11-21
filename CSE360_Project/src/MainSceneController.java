@@ -199,6 +199,7 @@ public class MainSceneController {
 						}
 						if (list.get(0) == Role.STUDENT) {
 							 // User is a student, load StudentLogin scene
+							ArrayList<String> groups = this.storage.getGroupsFromUsername(username);
 							System.out.println("role is student");
 							
 							FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentLogin.fxml"));
@@ -206,6 +207,7 @@ public class MainSceneController {
 							 // Pass the username to the StudentLoginController
 							StudentLoginController controller = loader.getController();
 							controller.userName(username);
+							controller.setGroups(groups);
 							controller.setPrivkey(privkey);
 						// Set the scene to the Student login page
 					        stage = (Stage)((Node)event.getSource()).getScene().getWindow();

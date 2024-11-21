@@ -14,7 +14,7 @@
 <!-- Author: Jonathan Lin
  Sadly, Felix Allison, and Ben Nelson -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StudentLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StudentLoginController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Page">
@@ -70,5 +70,6 @@
          </font>
       </Text>
       <Text fx:id="AText" layoutX="272.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="See Command Line for Article" wrappingWidth="284.13000106811523" />
+      <Button id="SearchByArticleIDButton" fx:id="SBAID1" layoutX="339.0" layoutY="161.0" mnemonicParsing="false" onAction="#sp_clickToView" prefHeight="26.0" prefWidth="144.0" text="View Selected" />
    </children>
 </AnchorPane>

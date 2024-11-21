@@ -58,7 +58,7 @@ public class InstructorLoginController {
 	@FXML
 	private TextField SN;
 	@FXML
-	private ListView<Article> ALLV= new ListView();
+	private ListView<Article> ALLV= new ListView<Article>();
 	@FXML
 	private ObservableList<Article> listItems = FXCollections.observableArrayList();
 	@FXML
@@ -75,8 +75,8 @@ public class InstructorLoginController {
 		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         this.storage = (Storage) stage.getUserData();
         ArrayList<Article> articles = this.storage.listSecureArticlesByKeyword(keyword, group, myusername, privkey);
+        listItems.clear();
         for (Article a : articles) {
-        	System.out.println("Populating with " + a.getTitle());
         	addArticleToList(a);
         }
 	}
