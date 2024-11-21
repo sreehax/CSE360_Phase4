@@ -11,7 +11,7 @@
 
 <!-- Authors: Benjamin Nelson & Felix Allison -->
 
-<AnchorPane fx:id="gc_anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GroupController">
+<AnchorPane fx:id="gc_anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GroupController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Manage Special Access Groups">
@@ -32,6 +32,8 @@
       <Text layoutX="15.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete User From Group" />
       <TextField fx:id="DeleteUserFromGroupTextField" layoutX="173.0" layoutY="207.0" prefHeight="26.0" prefWidth="170.0" />
       <Button fx:id="ListAllUsersInGroupButton" layoutX="192.0" layoutY="258.0" mnemonicParsing="false" onAction="#gc_listAllUsersClicked" text="List All Users In Group" />
-      <Button fx:id="BackButton" layoutX="505.0" layoutY="91.0" mnemonicParsing="false" text="Back" onAction="#gc_backClicked" />
+      <Button fx:id="BackButton" layoutX="505.0" layoutY="91.0" mnemonicParsing="false" onAction="#gc_backClicked" text="Back" />
+      <Button fx:id="ListAllUsersInGroupButton1" layoutX="350.0" layoutY="156.0" mnemonicParsing="false" onAction="#AddUserToGroupTextFieldClicked" text="Add" />
+      <Button fx:id="ListAllUsersInGroupButton11" layoutX="350.0" layoutY="207.0" mnemonicParsing="false" onAction="#DeleteUserFromGroupTextFieldClicked" text="Delete" />
    </children>
 </AnchorPane>

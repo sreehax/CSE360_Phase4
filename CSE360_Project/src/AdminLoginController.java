@@ -56,6 +56,9 @@ public class AdminLoginController {
 	private CheckBox al_admincheckbox, al_studentcheckbox, al_instructorcheckbox;
 	@FXML
 	private TextField al_searchBar;
+	
+	@FXML
+	private TextField al_csName, al_csUser;
 	@FXML
 	private Button al_searchButton;
 	
@@ -351,6 +354,11 @@ public class AdminLoginController {
         this.storage = (Storage) stage.getUserData();
         
         ArrayList<String> groups = this.storage.getGroupsFromUsername(myusername);
+        if (groups.size() == 0) {
+        	System.out.println("You are not in any special access groups :(");
+        	System.out.println("Try creating one.");
+        	return;
+        }
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("GroupSpecial.fxml"));
 		root = loader.load();
@@ -365,6 +373,26 @@ public class AdminLoginController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+	}
+	
+	@FXML
+	public void al_createSAGClicked(ActionEvent event) throws IOException, SQLException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+        
+		// get the text field values
+		String groupname = al_csName.getText();
+		String user = al_csUser.getText();
+		
+		if (!this.storage.createSpecialAccessGroup(groupname, user)) {
+			return;
+		}
+		if (!user.equals(myusername)) {
+			if (!this.storage.addUserToSpecialAccessGroup(groupname, user, myusername, privkey)) {
+				return;
+			}
+		}
+		System.out.println("Added " + user + " to group " + groupname + "!");
 	}
 	    /**
      * Handles the action when the "Search" button is clicked.

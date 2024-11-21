@@ -883,27 +883,11 @@ public class Storage {
 		return ret;
 	}
 	
-	public void createSpecialAccessGroup(String groupname, String admin) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+	public boolean createSpecialAccessGroup(String groupname, String admin) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		// 1. Add the special_groups entry
 		// 2. Generate an encryption key to be used for the group
 		// 3. Encrypt the group key with RSA for the public key of the admin user
 		// 4. store this special_access record
-		
-		String query1 = "INSERT INTO special_groups (group_name) VALUES (?)";
-		PreparedStatement stmt1 = this.conn.prepareStatement(query1);
-		stmt1.setString(1, groupname);
-		stmt1.executeUpdate();
-
-				
-		String query15 = "SELECT last_insert_rowid() AS the_id";
-		Statement stmt15 = this.conn.createStatement();
-		ResultSet rs0 = stmt15.executeQuery(query15);
-		if (!rs0.next()) {
-			System.out.println("Group creation failed!");
-			return;
-		}
-		int group_id = rs0.getInt("the_id");
-		
 		
 		byte[] group_key_raw = new byte[32];
 		SecureRandom random = new SecureRandom();
@@ -916,11 +900,26 @@ public class Storage {
 		byte[] pubkey_raw;
 		if (!rs.next()) {
 			System.out.println("Could not find user " + admin + "!");
-			return;
+			return false;
 		}
 		pubkey_raw = rs.getBytes("pubkey");
 		PublicKey pubkey = RSAEncryption.getPubKey(pubkey_raw);
 		byte[] group_key_enc = RSAEncryption.encryptFor(pubkey, group_key_raw);
+		
+		String query1 = "INSERT INTO special_groups (group_name) VALUES (?)";
+		PreparedStatement stmt1 = this.conn.prepareStatement(query1);
+		stmt1.setString(1, groupname);
+		stmt1.executeUpdate();
+
+				
+		String query15 = "SELECT last_insert_rowid() AS the_id";
+		Statement stmt15 = this.conn.createStatement();
+		ResultSet rs0 = stmt15.executeQuery(query15);
+		if (!rs0.next()) {
+			System.out.println("Group creation failed!");
+			return false;
+		}
+		int group_id = rs0.getInt("the_id");
 		
 		String query3 = "INSERT INTO special_access (s_user, access_group_id, group_key) VALUES (?,?,?)";
 		PreparedStatement prep3 = this.conn.prepareStatement(query3);
@@ -928,9 +927,10 @@ public class Storage {
 		prep3.setInt(2, group_id);
 		prep3.setBytes(3, group_key_enc);
 		prep3.executeUpdate();
+		return true;
 	}
 	
-	public void addUserToSpecialAccessGroup(String groupname, String user_to_add, String youruser, byte[] privkey_bytes) throws SQLException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
+	public boolean addUserToSpecialAccessGroup(String groupname, String user_to_add, String youruser, byte[] privkey_bytes) throws SQLException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
 		// using your privkey, decrypt the group key
 		String query0 = "SELECT group_key FROM special_access, special_groups WHERE group_id = access_group_id AND s_user = ? AND group_name = ?";
 		PreparedStatement s0 = this.conn.prepareStatement(query0);
@@ -940,7 +940,7 @@ public class Storage {
 		byte[] pre_groupkey;
 		if (!rs0.next()) {
 			System.out.println("Could not find user " + youruser + "!");
-			return;
+			return false;
 		}
 		pre_groupkey = rs0.getBytes("group_key");
 		PrivateKey privkey = RSAEncryption.getPrivKey(privkey_bytes);
@@ -954,19 +954,20 @@ public class Storage {
 		byte[] pubkey_raw;
 		if (!rs.next()) {
 			System.out.println("Could not find user " + user_to_add + "!");
-			return;
+			return false;
 		}
 		pubkey_raw = rs.getBytes("pubkey");
 		PublicKey pubkey = RSAEncryption.getPubKey(pubkey_raw);
 		byte[] group_key_enc = RSAEncryption.encryptFor(pubkey, groupkey);
 		
 		// add a record for the new user to access the groupkey
-		String query2 = "INSERT INTO special_access (s_user, access_group_id, group_key) SELECT (?, group, ?) FROM special_groups WHERE group_name = ?";
+		String query2 = "INSERT INTO special_access (s_user, access_group_id, group_key) SELECT ?, group_id, ? FROM special_groups WHERE group_name = ?";
 		PreparedStatement s2 = this.conn.prepareStatement(query2);
 		s2.setString(1, user_to_add);
 		s2.setBytes(2, group_key_enc);
 		s2.setString(3, groupname);
 		s2.executeUpdate();
+		return true;
 	}
 	
 	// It is up to the caller to make sure that you are not trying to remove yourself!

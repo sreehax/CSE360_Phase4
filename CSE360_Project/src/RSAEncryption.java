@@ -27,7 +27,7 @@ public class RSAEncryption {
 	
 	public static PrivateKey getPrivKey(byte[] serialized) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		KeyFactory kf = KeyFactory.getInstance("RSA");
-		EncodedKeySpec eks = new X509EncodedKeySpec(serialized);
+		EncodedKeySpec eks = new PKCS8EncodedKeySpec(serialized);
 		return kf.generatePrivate(eks);
 	}
 	

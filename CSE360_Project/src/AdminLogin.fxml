@@ -10,7 +10,7 @@
 
 <!-- Author: Jonathan Lin Sadly, Felix Allison, and Ben Nelson -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AdminLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AdminLoginController">
    <children>
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Page">
          <font>
@@ -36,10 +36,15 @@
       <CheckBox id="SelectStudentCheckBox" fx:id="al_studentcheckbox" layoutX="128.0" layoutY="236.0" mnemonicParsing="false" onAction="#al_studentcheckboxClicked" text="Student" />
       <CheckBox id="SelectInstructorCheckBox" fx:id="al_instructorcheckbox" layoutX="128.0" layoutY="263.0" mnemonicParsing="false" onAction="#al_instructorcheckboxClicked" text="Instructor" />
       <Button id="PrintUserButton" fx:id="al_printtable" layoutX="323.0" layoutY="259.0" mnemonicParsing="false" onAction="#al_printtableClicked" text="Print Users Table" />
-      <Button id="ManageArticlesButton" fx:id="al_toArticles" layoutX="324.0" layoutY="313.0" mnemonicParsing="false" onAction="#al_toArticlesClicked" text="Manage Articles" />
-      <Text layoutX="24.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search article by title" />
-      <TextField id="SearchArticleByTitleTextField" fx:id="al_searchBar" layoutX="151.0" layoutY="349.0" />
-      <Button id="SearchArticlesButton" fx:id="al_searchButton" layoutX="323.0" layoutY="349.0" mnemonicParsing="false" onAction="#al_searchButtonClicked" text="Search Articles" />
-      <Button id="ManageSpecialAccessGroupsButton" fx:id="ip_toArtices11" layoutX="321.0" layoutY="386.0" mnemonicParsing="false" onAction="#al_toSpecialAccessClicked" text="Manage Special Access Groups" />
+      <Button id="ManageArticlesButton" fx:id="al_toArticles" layoutX="444.0" layoutY="308.0" mnemonicParsing="false" onAction="#al_toArticlesClicked" text="Manage Articles" />
+      <Text layoutX="19.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search article by title" />
+      <TextField id="SearchArticleByTitleTextField" fx:id="al_searchBar" layoutX="151.0" layoutY="308.0" />
+      <Button id="SearchArticlesButton" fx:id="al_searchButton" layoutX="324.0" layoutY="308.0" mnemonicParsing="false" onAction="#al_searchButtonClicked" text="Search Articles" />
+      <Button id="ManageSpecialAccessGroupsButton" fx:id="ip_toArtices11" layoutX="364.0" layoutY="386.0" mnemonicParsing="false" onAction="#al_toSpecialAccessClicked" text="Manage Special Access Groups" />
+      <Text layoutX="17.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create  special access group" />
+      <TextField id="SearchArticleByTitleTextField" fx:id="al_csName" layoutX="180.0" layoutY="340.0" />
+      <Text layoutX="90.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="With initial user" />
+      <TextField id="SearchArticleByTitleTextField" fx:id="al_csUser" layoutX="180.0" layoutY="373.0" />
+      <Button id="ManageSpecialAccessGroupsButton" fx:id="ap_createButton" layoutX="359.0" layoutY="340.0" mnemonicParsing="false" onAction="#al_createSAGClicked" text="Create" />
    </children>
 </AnchorPane>
