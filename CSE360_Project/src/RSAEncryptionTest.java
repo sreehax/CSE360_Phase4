@@ -1,47 +1,64 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import org.junit.jupiter.api.Test;
 
 class RSAEncryptionTest {
 
 	@Test
-	void testGenKeyPair() {
-		fail("Not yet implemented");
+	void testGenKeyPair() throws NoSuchAlgorithmException {
+		RSAEncryption.genKeyPair();
 	}
 
 	@Test
-	void testGetPrivkey() {
-		fail("Not yet implemented");
+	void testGetPrivkey() throws NoSuchAlgorithmException {
+		RSAEncryption.getPrivkey(RSAEncryption.genKeyPair());
 	}
 
 	@Test
-	void testGetPrivKey() {
-		fail("Not yet implemented");
+	void testGetPrivKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
+		byte[] serialized = {1,2,3,4,5};
+		RSAEncryption.getPrivKey(serialized);
 	}
 
 	@Test
-	void testGetPubkey() {
-		fail("Not yet implemented");
+	void testGetPubkey() throws NoSuchAlgorithmException {
+		RSAEncryption.getPubkey(RSAEncryption.genKeyPair());
 	}
 
 	@Test
-	void testGetPubKey() {
-		fail("Not yet implemented");
+	void testGetPubKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
+		byte[] serialized = {1,2,3,4,5};
+		RSAEncryption.getPubKey(serialized);
 	}
 
 	@Test
-	void testEncryptForPublicKeyString() {
-		fail("Not yet implemented");
+	void testEncryptForPublicKeyString() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+		RSAEncryption.encryptFor(RSAEncryption.getPubkey(RSAEncryption.genKeyPair()), "Hello there");
 	}
 
 	@Test
-	void testEncryptForPublicKeyByteArray() {
-		fail("Not yet implemented");
+	void testEncryptForPublicKeyByteArray() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+		byte[] message = "hello there".getBytes();
+		RSAEncryption.encryptFor(RSAEncryption.getPubkey(RSAEncryption.genKeyPair()), message);
+
 	}
 
 	@Test
-	void testDecryptMsg() {
-		fail("Not yet implemented");
+	void testDecryptMsg() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+		byte[] message = "hello there".getBytes();
+		KeyPair key =RSAEncryption.genKeyPair();
+		byte[] ciphertext = RSAEncryption.encryptFor(RSAEncryption.getPubkey(key), message);
+
+		RSAEncryption.decryptMsg(RSAEncryption.getPrivkey(key), ciphertext);
 	}
 
 }
