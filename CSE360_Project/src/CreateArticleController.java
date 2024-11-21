@@ -11,9 +11,18 @@ import javafx.event.ActionEvent;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
 import javafx.scene.control.Button;
@@ -37,6 +46,7 @@ public class CreateArticleController {
 	private Storage storage;
 	private String myusername;
 	private String camefrom;
+	private String securegroup;
 	private byte[] privkey;
 	
 	@FXML
@@ -47,7 +57,7 @@ public class CreateArticleController {
 	private TextArea bodyTextField;
 	
 	@FXML
-	private Text ip_userLabel;
+	private Text ip_userLabel, ca_titlelabel;
 	
 	String titleString, referenceString, headersString, groupsString, descriptionString, bodyString, keywordString;
 	
@@ -60,9 +70,18 @@ public class CreateArticleController {
      * @param event The ActionEvent triggered by clicking the "Create Article" button
      * @throws IOException if there is an issue loading the ManageArticles.fxml file
      * @throws SQLException if there is an error during the database operation
+     * @throws BadPaddingException 
+     * @throws IllegalBlockSizeException 
+     * @throws NoSuchPaddingException 
+     * @throws InvalidKeySpecException 
+     * @throws NoSuchAlgorithmException 
+     * @throws InvalidKeyException 
+     * @throws InvalidAlgorithmParameterException 
      */
 	@FXML
-	public void ca_createArticleClicked(ActionEvent event) throws IOException, SQLException {
+	public void ca_createArticleClicked(ActionEvent event) throws IOException, SQLException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
+		
+		boolean isSecure = (securegroup != null);
 		
 		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         this.storage = (Storage) stage.getUserData();
@@ -99,10 +118,29 @@ public class CreateArticleController {
 		newArticle.setGrouping(groupsString);
 		
 		// Commit the article to the database
-		this.storage.addArticle(newArticle);
+		if (isSecure) {
+			this.storage.addSecureArticle(newArticle, securegroup, myusername, privkey);
+		} else {
+			this.storage.addArticle(newArticle);
+		}
 		
-		System.out.println("Added the article to the database!");
-		
+		System.out.println("Added the secure article to the database!");
+		if (isSecure) {
+			// Go back to the previous page
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("InstructorLogin.fxml"));
+			root = loader.load();
+			
+			InstructorLoginController controller = loader.getController();
+			controller.userName(myusername);
+			controller.setPrivkey(privkey);
+			
+			
+	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        scene = new Scene(root);
+	        stage.setScene(scene);
+	        stage.show();
+			return;
+		}
 		// Go back to the previous page
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("ManageArticles.fxml"));
 		root = loader.load();
@@ -144,6 +182,12 @@ public class CreateArticleController {
      */
 	public void setPrivkey(byte[] privkey) {
 		this.privkey = privkey;
+	}
+	
+	// set secure article group, if any
+	public void setSecureGroup(String securegroup) {
+		this.securegroup = securegroup;
+		ca_titlelabel.setText("Create Secure Article");
 	}
 	
 }

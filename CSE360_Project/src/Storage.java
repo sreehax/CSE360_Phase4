@@ -71,10 +71,10 @@ public class Storage {
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS user_info (u_user TEXT PRIMARY KEY, firstname TEXT, middlename TEXT, lastname TEXT, preferredname TEXT, email TEXT, roles TEXT, code TEXT, temppass INT, temptime TEXT)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS logins (l_user TEXT PRIMARY KEY, passhash TEXT, privkey BLOB, pubkey BLOB, salt2 BLOB, FOREIGN KEY(l_user) REFERENCES user_info(u_user) ON DELETE CASCADE)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS onetimecode (code TEXT PRIMARY KEY, time TEXT, role TEXT)");
-		statement.executeUpdate("CREATE TABLE IF NOT EXISTS articles (title TEXT, body TEXT, refs TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT, header TEXT, grouping TEXT, description TEXT, keywords TEXT)");
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS articles (title TEXT, body TEXT, refs TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT, header TEXT, grouping TEXT, description TEXT, keywords TEXT, isSecure INTEGER, article_group_id INTEGER)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_groups (group_id INTEGER PRIMARY KEY, group_name TEXT UNIQUE)");
 		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_access (s_user TEXT, access_group_id INTEGER, group_key BLOB, FOREIGN KEY(access_group_id) REFERENCES special_groups(group_id) ON DELETE CASCADE, FOREIGN KEY(s_user) REFERENCES user_info(u_user) ON DELETE CASCADE)");
-//		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_articles (article_id INTEGER, article_group_id INTEGER, title TEXT, body BLOB, FOREIGN KEY(article_group_id) REFERENCES special_groups(group_id) ON DELETE CASCADE, PRIMARY KEY (article_id, article_group_id))");
+//		statement.executeUpdate("CREATE TABLE IF NOT EXISTS special_articles (article_id INTEGER, article_group_id INTEGER, FOREIGN KEY(article_group_id) REFERENCES special_groups(group_id) ON DELETE CASCADE, FOREIGN KEY(article_id) REFERENCES articles(id) ON DELETE CASCADE, PRIMARY KEY (article_id, article_group_id))");
 	}
 	
 	/**
@@ -586,7 +586,7 @@ public class Storage {
      * @throws SQLException if a database access error occurs
      */
 	public void addArticle(Article a) throws SQLException {
-		String update = "INSERT INTO articles (title, body, refs, id, header, grouping, description, keywords) VALUES (?,?,?,?,?,?,?,?)";
+		String update = "INSERT INTO articles (title, body, refs, id, header, grouping, description, keywords, isSecure) VALUES (?,?,?,?,?,?,?,?,?)";
 		PreparedStatement prep = conn.prepareStatement(update);
 		String references = a.getReferencesStr();
 		String keywords = a.getKeywordsStr();
@@ -604,8 +604,80 @@ public class Storage {
 		prep.setString(6, a.getGrouping());
 		prep.setString(7, a.getDescription());
 		prep.setString(8, keywords);
+		prep.setInt(9, 0);
 		
 		prep.executeUpdate();
+	}
+	
+	 /**
+     * Inserts a new Article into the database.
+     *
+     * @param a the Article to insert
+     * @throws SQLException if a database access error occurs
+	 * @throws InvalidKeySpecException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws BadPaddingException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws NoSuchPaddingException 
+	 * @throws InvalidKeyException 
+	 * @throws InvalidAlgorithmParameterException 
+     */
+	public boolean addSecureArticle(Article a, String groupname, String youruser, byte[] privkey_bytes) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
+		// using your privkey, decrypt the group key
+		String query0 = "SELECT group_key FROM special_access, special_groups WHERE group_id = access_group_id AND s_user = ? AND group_name = ?";
+		PreparedStatement s0 = this.conn.prepareStatement(query0);
+		s0.setString(1, youruser);
+		s0.setString(2, groupname);
+		ResultSet rs0 = s0.executeQuery();
+		byte[] pre_groupkey;
+		if (!rs0.next()) {
+			System.out.println("Could not find user " + youruser + "!");
+			return false;
+		}
+		pre_groupkey = rs0.getBytes("group_key");
+		PrivateKey privkey = RSAEncryption.getPrivKey(privkey_bytes);
+		byte[] groupkey = RSAEncryption.decryptBytes(privkey, pre_groupkey);
+		
+		String bruh = "SELECT group_id FROM special_groups WHERE group_name = ? LIMIT 1";
+		PreparedStatement b = conn.prepareStatement(bruh);
+		b.setString(1, groupname);
+		ResultSet stupid = b.executeQuery();
+		if (!stupid.next()) {
+			System.out.println("Could not find group " + groupname + "!");
+			return false;
+		}
+		int group_id = stupid.getInt("group_id");
+		
+		// encrypt the body with ChaCha20-Poly1305
+		SymmetricEncryption senc = new SymmetricEncryption(groupkey);
+		byte[] body_encrypted = senc.encrypt(a.getBody());
+		Encoder enc = Base64.getEncoder();
+		
+		
+		String update = "INSERT INTO articles (title, body, refs, id, header, grouping, description, keywords, isSecure, article_group_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
+		PreparedStatement prep = conn.prepareStatement(update);
+		String references = a.getReferencesStr();
+		String keywords = a.getKeywordsStr();
+		int id = a.getID();
+		
+		prep.setString(1, a.getTitle());
+		prep.setString(2, enc.encodeToString(body_encrypted));
+		prep.setString(3, references);
+		if (id > 0) {
+			prep.setInt(4, a.getID());
+		} else {
+			prep.setNull(4, Types.NULL);
+		}
+		prep.setString(5, a.getHeader());
+		prep.setString(6, a.getGrouping());
+		prep.setString(7, a.getDescription());
+		prep.setString(8, keywords);
+		prep.setInt(9, 1);
+		prep.setInt(10, group_id);
+		
+		prep.executeUpdate();
+		
+		return true;
 	}
 	  /**
      * Updates an existing Article in the database using its ID.
@@ -755,7 +827,7 @@ public class Storage {
      * @throws SQLException if a database access error occurs
      */
 	public ArrayList<Article> listAllArticles() throws SQLException {
-		String query = "SELECT * FROM articles";
+		String query = "SELECT * FROM articles WHERE isSecure = 0";
 		Statement stmt = this.conn.createStatement();
 		ResultSet rs = stmt.executeQuery(query);
 		
@@ -770,7 +842,7 @@ public class Storage {
      * @throws SQLException if a database access error occurs
      */
 	public Article getArticleByID(int id) throws SQLException {
-		String query = "SELECT * FROM articles WHERE id = ?";
+		String query = "SELECT * FROM articles WHERE id = ? AND isSecure = 0";
 		PreparedStatement prep = this.conn.prepareStatement(query);
 		prep.setInt(1, id);
 		ResultSet rs = prep.executeQuery();
@@ -790,7 +862,7 @@ public class Storage {
      * @throws SQLException if a database access error occurs
      */
 	public ArrayList<Article> listArticlesByGroup(String group) throws SQLException {
-		String query = "SELECT * FROM articles WHERE grouping LIKE ?";
+		String query = "SELECT * FROM articles WHERE grouping LIKE ? AND isSecure = 0";
 		PreparedStatement prep = this.conn.prepareStatement(query);
 		prep.setString(1, "%" + group + "%");
 		ResultSet rs = prep.executeQuery();
@@ -806,7 +878,7 @@ public class Storage {
      * @throws SQLException if a database access error occurs
      */
 	public ArrayList<Article> searchArticlesByTitle(String title) throws SQLException {
-		String query = "SELECT * FROM articles WHERE title LIKE ?";
+		String query = "SELECT * FROM articles WHERE title LIKE ? AND isSecure = 0";
 		PreparedStatement prep = this.conn.prepareStatement(query);
 		prep.setString(1, "%" + title + "%");
 		ResultSet rs = prep.executeQuery();
@@ -971,16 +1043,16 @@ public class Storage {
 	}
 	
 	// It is up to the caller to make sure that you are not trying to remove yourself!
-	public void removeUserFromSpecialAccessGroup(String groupname, String user_to_remove) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+	public boolean removeUserFromSpecialAccessGroup(String groupname, String user_to_remove) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		// Delete the special_access record
 		// I guess an explicit join is preferred
-		String query = "DELETE sa FROM special_access sa JOIN special_groups sg ON sa.access_group_id = sg.group_id WHERE sa.s_user = ? AND sg.group_name = ?";
+		String query = "DELETE FROM special_access WHERE s_user = ? AND access_group_id = (SELECT group_id FROM special_groups WHERE group_name = ? LIMIT 1)";
 		PreparedStatement prep = this.conn.prepareStatement(query);
 		prep.setString(1, user_to_remove);
 		prep.setString(2, groupname);
-		prep.executeUpdate();
+		int affected = prep.executeUpdate();
 		
-		return;
+		return affected != 0;
 	}
 	
 	public byte[] getPrivkey(String username, String password) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
@@ -1010,7 +1082,7 @@ public class Storage {
 	 /**
      * Checks whether the provided time is within the last 24 hours.
      *
-     * @param time the time in "yyyy-MM-dd'T'HH:mm:ss" format.
+     * @param time the time in "yyyy-MM-dd'T'HH:mm:ss" format.o	
      * @return true if the time is within 24 hours; false otherwise.
      */
 	public boolean within24Hours(String time) {

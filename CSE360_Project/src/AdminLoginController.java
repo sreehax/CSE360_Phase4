@@ -380,18 +380,23 @@ public class AdminLoginController {
 		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         this.storage = (Storage) stage.getUserData();
         
-		// get the text field values
-		String groupname = al_csName.getText();
-		String user = al_csUser.getText();
-		
-		if (!this.storage.createSpecialAccessGroup(groupname, user)) {
-			return;
-		}
-		if (!user.equals(myusername)) {
-			if (!this.storage.addUserToSpecialAccessGroup(groupname, user, myusername, privkey)) {
-				return;
-			}
-		}
+        // if you are adding yourself, just add yourself
+        // if you are not adding yourself, add yourself then add them
+     	String groupname = al_csName.getText();
+     	String user = al_csUser.getText();
+        
+        if (user.equals(myusername)) {
+        	if (!this.storage.createSpecialAccessGroup(groupname, user)) {
+    			return;
+    		}
+        } else {
+        	if (!this.storage.createSpecialAccessGroup(groupname, myusername)) {
+    			return;
+    		}
+    		if (!this.storage.addUserToSpecialAccessGroup(groupname, user, myusername, privkey)) {
+    			return;
+    		}
+        }
 		System.out.println("Added " + user + " to group " + groupname + "!");
 	}
 	    /**

@@ -60,7 +60,10 @@ public class GroupController {
 	@FXML
 	private TextField AddUserToGroupTextField, DeleteUserFromGroupTextField;
 	@FXML
-	private Button ListAllUsersInGroupButton, BackButton;
+	private Button ListAllUsersInGroupButton, BackButton, addUserButton, delUserButton, gc_createArticle;
+	
+	@FXML
+	private Text addLabel, delLabel;
 	
 	
 	@FXML
@@ -91,7 +94,11 @@ public class GroupController {
 		String userToDelete = AddUserToGroupTextField.getText();
 		String group = this.SelectGroupToManageComboBox.getValue();
 		// TODO: do some checking on group membership
-		this.storage.removeUserFromSpecialAccessGroup(group, userToDelete);
+		if (!this.storage.removeUserFromSpecialAccessGroup(group, userToDelete)) {
+			System.out.println("Couldn't delete the user");
+			return;
+		}
+		System.out.println("Successfully deleted user " + userToDelete + " to group " + group + "!");
 	}
 	
 	@FXML
@@ -112,6 +119,25 @@ public class GroupController {
 		}
 		System.out.println();
 		
+	}
+	
+	@FXML
+	public void gc_createArticleClicked(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateArticle.fxml"));
+		root = loader.load();
+		String group = this.SelectGroupToManageComboBox.getValue();
+		
+		CreateArticleController controller = loader.getController();
+		controller.userName(myusername);
+		controller.setPrivkey(privkey);
+		controller.cameFrom(camefrom);
+		controller.setSecureGroup(group);
+		
+		
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 	}
 	
 	/**
@@ -191,6 +217,19 @@ public class GroupController {
      */
 	public void cameFrom(String loc) {
 		this.camefrom = loc;
+		if (loc.equals("Instructor")) {
+			// Since we are instructor, hide all the stuff they can't do
+			addLabel.setVisible(false);
+			AddUserToGroupTextField.setVisible(false);
+			addUserButton.setVisible(false);
+			
+			delLabel.setVisible(false);
+			DeleteUserFromGroupTextField.setVisible(false);
+			delUserButton.setVisible(false);
+		} else if (loc.equals("Admin")) {
+			// What do we need to hide here?
+			gc_createArticle.setVisible(false);
+		}
 	}
 	
 	public void populateGroups(ArrayList<String> specialAccessGroups) {

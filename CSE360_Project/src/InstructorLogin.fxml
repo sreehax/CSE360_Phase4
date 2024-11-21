@@ -12,7 +12,7 @@
 
 <!-- Author: Jonathan Lin -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InstructorLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InstructorLoginController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instructor Page">
@@ -27,7 +27,6 @@
       <Line endX="469.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
       <Button id="LogoutButton" fx:id="ip_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#ip_logoutClicked" text="logout" />
-      <Button fx:id="ip_toArtices" layoutX="232.0" layoutY="154.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Create Articles" />
       <Text layoutX="8.0" layoutY="377.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Name" />
       <Text layoutX="20.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Articles">
          <font>
@@ -49,7 +48,7 @@
          </font></Text>
       <ComboBox fx:id="FBG" layoutX="397.0" layoutY="117.0" onAction="#filterByGroupPressed" prefHeight="26.0" prefWidth="70.0" />
       <Button fx:id="ip_toArtices1" layoutX="353.0" layoutY="154.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" prefHeight="26.0" prefWidth="155.0" text="List Student Messages" />
-      <Button fx:id="ip_toArtices11" layoutX="17.0" layoutY="154.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="Manage Special Access Groups" />
+      <Button fx:id="ip_toArtices11" layoutX="17.0" layoutY="154.0" mnemonicParsing="false" onAction="#ip_toSpecialAccess" text="Manage Special Access Groups" />
       <Text layoutX="18.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Students">
          <font>
             <Font size="18.0" />
@@ -76,5 +75,6 @@
             <Font size="18.0" />
          </font>
       </Text>
+      <Button fx:id="ip_toArtices111" layoutX="106.0" layoutY="183.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" text="List" />
    </children>
 </AnchorPane>

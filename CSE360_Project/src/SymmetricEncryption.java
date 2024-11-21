@@ -1,3 +1,4 @@
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -35,6 +36,11 @@ public class SymmetricEncryption {
 	// Initialize using bytes
 	public SymmetricEncryption(byte[] keydata) {
 		this.key = new SecretKeySpec(keydata, "ChaCha20");
+	}
+	
+	public byte[] encrypt(String msg) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+		byte[] msgBytes = msg.getBytes(StandardCharsets.UTF_8);
+		return this.encrypt(msgBytes, generateNonce());
 	}
 	
 	public byte[] encrypt(byte[] data) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
