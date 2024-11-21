@@ -43,6 +43,7 @@ public class ManageArticleController {
 	private Storage storage;
 	private String myusername;
 	private String camefrom;
+	private byte[] privkey;
 	
 	@FXML
 	private Text ma_userLabel;
@@ -73,6 +74,7 @@ public class ManageArticleController {
 		
 		CreateArticleController controller = loader.getController();
 		controller.userName(myusername);
+		controller.setPrivkey(privkey);
 		controller.cameFrom(camefrom);
 		
 		
@@ -247,6 +249,7 @@ public class ManageArticleController {
 			
 			AdminLoginController controller = loader.getController();
 			controller.userName(myusername);
+			controller.setPrivkey(privkey);
 			
 	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	        scene = new Scene(root);
@@ -258,6 +261,7 @@ public class ManageArticleController {
 			
 			InstructorLoginController controller = loader.getController();
 			controller.userName(myusername);
+			controller.setPrivkey(privkey);
 			
 	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	        scene = new Scene(root);
@@ -292,6 +296,7 @@ public class ManageArticleController {
 		
 		EditArticleController controller = loader.getController();
 		controller.userName(myusername);
+		controller.setPrivkey(privkey);
 		controller.cameFrom(camefrom);
 		Article a = this.storage.getArticleByID(id);
 		controller.setArticle(a);
@@ -342,6 +347,16 @@ public class ManageArticleController {
 		ma_userLabel.setText("User: " + name);
 		myusername = name;
 	}
+	
+	/**
+     * Sets the private key for the logged in user.
+     *
+     * @param username The private key.
+     */
+	public void setPrivkey(byte[] privkey) {
+		this.privkey = privkey;
+	}
+	
 	 /**
      * Sets the origin location indicating where the user navigated from.
      * This can be used to determine the navigation behavior based on the previous page.

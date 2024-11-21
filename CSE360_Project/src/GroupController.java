@@ -53,6 +53,7 @@ public class GroupController {
 	private String myusername;
 	private String camefrom;
 	private Storage storage;
+	private byte[] privkey;
 	
 	@FXML
 	private ComboBox<String> SelectGroupToManageComboBox;
@@ -113,6 +114,7 @@ public class GroupController {
 			
 			AdminLoginController controller = loader.getController();
 			controller.userName(myusername);
+			controller.setPrivkey(privkey);
 			
 	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	        scene = new Scene(root);
@@ -124,6 +126,7 @@ public class GroupController {
 			
 			InstructorLoginController controller = loader.getController();
 			controller.userName(myusername);
+			controller.setPrivkey(privkey);
 			
 	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	        scene = new Scene(root);
@@ -135,6 +138,7 @@ public class GroupController {
 			
 			InstructorLoginController controller = loader.getController();
 			controller.userName(myusername);
+			controller.setPrivkey(privkey);
 			
 	        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 	        scene = new Scene(root);
@@ -153,6 +157,16 @@ public class GroupController {
 //		ma_userLabel.setText("User: " + name);
 		myusername = name;
 	}
+	
+	/**
+     * Sets the private key for the logged in user.
+     *
+     * @param username The private key.
+     */
+	public void setPrivkey(byte[] privkey) {
+		this.privkey = privkey;
+	}
+	
 	 /**
      * Sets the origin location indicating where the user navigated from.
      * This can be used to determine the navigation behavior based on the previous page.

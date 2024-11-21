@@ -190,6 +190,7 @@ public void ip_toArticlesClicked(ActionEvent event) throws IOException{
 		root = loader.load();
 		ManageArticleController controller = loader.getController();
 		controller.userName(myusername);
+		controller.setPrivkey(privkey);
 		controller.cameFrom("Instructor");
 	// Get the current stage and update the scene to the main scene	
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

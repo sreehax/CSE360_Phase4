@@ -38,6 +38,7 @@ public class EditArticleController {
 	private String myusername;
 	private String camefrom;
 	private int myid;
+	private byte[] privkey;
 	
 	@FXML
 	private TextField e_titleTextField, e_referenceLinksTextField, e_headersTextField, e_groupsTextField, e_descriptionTextField, e_keywordsTextField;
@@ -109,6 +110,7 @@ public class EditArticleController {
 		ManageArticleController controller = loader.getController();
 		controller.userName(myusername);
 		controller.cameFrom(camefrom);
+		controller.setPrivkey(privkey);
 		
 		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -152,5 +154,14 @@ public class EditArticleController {
      */
 	public void cameFrom(String loc) {
 		this.camefrom = loc;
+	}
+	
+	/**
+     * Sets the private key for the logged in user.
+     *
+     * @param username The private key.
+     */
+	public void setPrivkey(byte[] privkey) {
+		this.privkey = privkey;
 	}
 }

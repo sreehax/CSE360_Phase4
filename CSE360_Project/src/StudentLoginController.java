@@ -200,5 +200,7 @@ public class StudentLoginController{
 		this.sl_userLabel.setText("User: " + name);
 	}
 	
+	
+	
 }
 //

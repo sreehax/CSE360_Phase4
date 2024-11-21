@@ -37,6 +37,7 @@ public class CreateArticleController {
 	private Storage storage;
 	private String myusername;
 	private String camefrom;
+	private byte[] privkey;
 	
 	@FXML
 	private TextField titleTextField, referenceLinksTextField, headersTextField, groupsTextField, descriptionTextField, keywordsTextField;
@@ -109,6 +110,7 @@ public class CreateArticleController {
 		ManageArticleController controller = loader.getController();
 		controller.userName(myusername);
 		controller.cameFrom(camefrom);
+		controller.setPrivkey(privkey);
 		
 		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -133,6 +135,15 @@ public class CreateArticleController {
      */
 	public void cameFrom(String loc) {
 		this.camefrom = loc;
+	}
+	
+	/**
+     * Sets the private key for the logged in user.
+     *
+     * @param username The private key.
+     */
+	public void setPrivkey(byte[] privkey) {
+		this.privkey = privkey;
 	}
 	
 }

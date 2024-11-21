@@ -327,6 +327,7 @@ public class AdminLoginController {
 		
 		ManageArticleController controller = loader.getController();
 		controller.userName(myusername);
+		controller.setPrivkey(privkey);
 		controller.cameFrom("Admin");
 		
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -356,6 +357,7 @@ public class AdminLoginController {
 		
 		GroupController controller = loader.getController();
 		controller.userName(myusername);
+		controller.setPrivkey(privkey);
 		controller.populateGroups(groups);
 		controller.cameFrom("Admin");
 		
