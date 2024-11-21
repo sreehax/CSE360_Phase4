@@ -69,13 +69,29 @@ public class GroupController {
 	}
 	
 	@FXML
-	public void AddUserToGroupTextFieldClicked(ActionEvent event) throws IOException{
-		
+	public void AddUserToGroupTextFieldClicked(ActionEvent event) throws IOException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, SQLException{
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+		String userToAdd = AddUserToGroupTextField.getText();
+		String group = this.SelectGroupToManageComboBox.getValue();
+		if (userToAdd.equals(myusername)) {
+			System.out.println("You can't add yourself to the group, you are already added!");
+			return;
+		}
+		if (!this.storage.addUserToSpecialAccessGroup(group, userToAdd, myusername, privkey)) {
+			return;
+		}
+		System.out.println("Successfully added " + userToAdd + " to group " + group + "!");
 	}
 	
 	@FXML
-	public void DeleteUserFromGroupTextFieldClicked(ActionEvent event) throws IOException{
-		
+	public void DeleteUserFromGroupTextFieldClicked(ActionEvent event) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, SQLException{
+		this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        this.storage = (Storage) stage.getUserData();
+		String userToDelete = AddUserToGroupTextField.getText();
+		String group = this.SelectGroupToManageComboBox.getValue();
+		// TODO: do some checking on group membership
+		this.storage.removeUserFromSpecialAccessGroup(group, userToDelete);
 	}
 	
 	@FXML
