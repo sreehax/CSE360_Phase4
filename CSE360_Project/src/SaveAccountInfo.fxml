@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<!-- Author: Jonathan Lin -->
+<!-- Author: Jonathan Lin, Felix Allison -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SaveAccountInfoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SelectRoleController">
    <children>
-      <TextField fx:id="firstnameid" layoutX="150.0" layoutY="68.0" promptText="first name" />
-      <Label layoutX="21.0" layoutY="72.0" text="First Name" />
-      <Button fx:id="save_account_button" layoutX="150.0" layoutY="252.0" mnemonicParsing="false" onAction="#save_account_button_buttonClicked" prefHeight="26.0" prefWidth="162.0" text="Save Information" />
-      <Text fx:id="CreateFlagText" layoutX="14.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="15.0" />
-      <Button fx:id="save_account_back" layoutX="150.0" layoutY="289.0" mnemonicParsing="false" onAction="#save_account_backClicked" prefHeight="26.0" prefWidth="162.0" text="Back to Menu" />
-      <Label layoutX="21.0" layoutY="107.0" text="Middle Name" />
-      <Label layoutX="22.0" layoutY="146.0" text="Last Name" />
-      <Label layoutX="22.0" layoutY="185.0" text="Preferred Name" />
-      <TextField fx:id="middlenameid" layoutX="150.0" layoutY="105.0" promptText="middle name" />
-      <TextField fx:id="lastnameid" layoutX="150.0" layoutY="141.0" promptText="last name" />
-      <TextField fx:id="preferrednameid" layoutX="150.0" layoutY="178.0" promptText="preferred name" />
-      <Label layoutX="22.0" layoutY="220.0" text="Email" />
-      <TextField fx:id="emailid" layoutX="150.0" layoutY="215.0" promptText="email" />
-      <Text layoutX="25.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter account information">
+      <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
+      <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Roles">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
+      <Text fx:id="sr_userLabel" layoutX="448.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: not logged in" />
+      <Text layoutX="8.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version 1.0 Beta" />
+      <Text layoutX="422.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version Date: 12-5-2024" />
+      
+      <Line endX="469.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
+      <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
+      <Button fx:id="sr_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#sr_logoutClicked" text="logout" />
+      <ChoiceBox fx:id="sr_combobox" layoutX="15.0" layoutY="69.0" prefHeight="26.0" prefWidth="134.0" />
+      <Button fx:id="sr_selectSession" layoutX="163.0" layoutY="69.0" mnemonicParsing="false" onAction="#sr_selectSessionClicked" text="select your session" />
    </children>
 </AnchorPane>
