@@ -14,7 +14,7 @@
 <!-- Author: Jonathan Lin
  Sadly, Felix Allison, and Ben Nelson -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StudentLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StudentLoginController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Page">
@@ -23,32 +23,26 @@
          </font>
       </Text>
       <Text fx:id="sl_userLabel" layoutX="449.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: not logged in" />
-      <Text layoutX="8.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version 0.1 alpha" />
-      <Text layoutX="430.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="version date: 9/25/2024" />
+      <Text layoutX="8.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version 1.0 Beta" />
+      <Text layoutX="421.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version Date: 12-5-2024" />
       
       <Line endX="469.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
       <Button id="LogoutButton" fx:id="sl_logout" layoutX="385.0" layoutY="18.0" mnemonicParsing="false" onAction="#sl_logoutClicked" text="logout" />
-      <ComboBox id="FilterComplexityComboBox" fx:id="FC" layoutX="365.0" layoutY="130.0" onAction="#filterComplexityPressed" prefHeight="26.0" prefWidth="70.0" promptText="all" />
-      <Text layoutX="357.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter Complexity">
-         <font>
-            <Font size="10.0" />
-         </font></Text>
+      <ComboBox id="FilterComplexityComboBox" fx:id="FC" layoutX="480.0" layoutY="130.0" onAction="#filterComplexityPressed" prefHeight="26.0" prefWidth="87.0" promptText="all" />
+      <Text layoutX="363.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter Complexity" />
       <TextField id="SearchByKeywordTextField" fx:id="SBKText" layoutX="12.0" layoutY="91.0" prefHeight="26.0" prefWidth="184.0" />
       <Button id="SearchByKeywordButton" fx:id="SBK" layoutX="211.0" layoutY="91.0" mnemonicParsing="false" onAction="#searchByKeywordPressed" prefHeight="26.0" prefWidth="144.0" text="Search by Keyword  " />
       <TextField id="SearchByArticleIDTextField" fx:id="SBAIDText" layoutX="12.0" layoutY="130.0" prefHeight="26.0" prefWidth="184.0" />
       <Button id="SearchByArticleIDButton" fx:id="SBAID" layoutX="211.0" layoutY="130.0" mnemonicParsing="false" onAction="#searchByArticleIDPressed" prefHeight="26.0" prefWidth="144.0" text="Search by Article ID" />
-      <ComboBox id="FilterByGroupComboBox" fx:id="FBG" layoutX="365.0" layoutY="91.0" onAction="#filterByGroupPressed" prefHeight="26.0" prefWidth="70.0" />
-      <Text layoutX="362.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter by Group">
-         <font>
-            <Font size="11.0" />
-         </font></Text>
+      <ComboBox id="FilterByGroupComboBox" fx:id="FBG" layoutX="480.0" layoutY="91.0" onAction="#filterByGroupPressed" prefHeight="26.0" prefWidth="87.0" />
+      <Text layoutX="361.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter by Group" />
       <Text layoutX="14.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Articles">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text layoutX="20.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Submit Help Message">
+      <Text layoutX="17.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Submit Help Message">
          <font>
             <Font size="18.0" />
          </font>
@@ -57,19 +51,13 @@
       <Button id="SubmitGeneralHelpMessageButton" fx:id="SGHM" layoutX="361.0" layoutY="324.0" mnemonicParsing="false" onAction="#submitGeneralHelpMessagePressed" text="Submit General Help Message" />
       <Button id="SubmitSpecificHelpMessageButton" fx:id="SSHM" layoutX="362.0" layoutY="354.0" mnemonicParsing="false" onAction="#submitGeneralHelpMessagePressed" text="Submit Specific Help Message" />
       <Button id="CloseApplicationButton" fx:id="sl_kill" layoutX="362.0" layoutY="385.0" mnemonicParsing="false" onAction="#sl_killClicked" prefHeight="26.0" prefWidth="201.0" text="Close Application" />
-      <ListView id="ArticleListListView" fx:id="ALLV" editable="true" layoutX="15.0" layoutY="188.0" prefHeight="113.0" prefWidth="247.0" />
-      <Button id="ResetSearchButton" fx:id="RS" layoutX="444.0" layoutY="91.0" mnemonicParsing="false" onAction="#resetSearchButtonPressed" prefHeight="66.0" prefWidth="117.0" text="Reset Search" />
+      <ListView id="ArticleListListView" fx:id="ALLV" editable="true" layoutX="15.0" layoutY="188.0" prefHeight="113.0" prefWidth="339.0" />
+      <Button id="ResetSearchButton" fx:id="RS" layoutX="361.0" layoutY="275.0" mnemonicParsing="false" onAction="#resetSearchButtonPressed" prefHeight="26.0" prefWidth="203.0" text="Reset Search" />
       <Text layoutX="17.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Article List">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text layoutX="273.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Article:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text fx:id="AText" layoutX="272.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="See Command Line for Article" wrappingWidth="284.13000106811523" />
-      <Button id="SearchByArticleIDButton" fx:id="SBAID1" layoutX="339.0" layoutY="161.0" mnemonicParsing="false" onAction="#sp_clickToView" prefHeight="26.0" prefWidth="144.0" text="View Selected" />
+      <Button id="SearchByArticleIDButton" fx:id="SBAID1" layoutX="361.0" layoutY="245.0" mnemonicParsing="false" onAction="#sp_clickToView" prefHeight="26.0" prefWidth="203.0" text="View Selected Article" />
    </children>
 </AnchorPane>
