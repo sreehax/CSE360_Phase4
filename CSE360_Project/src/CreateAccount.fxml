@@ -8,16 +8,16 @@
 
 <!-- Author: Jonathan Lin -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CreateAccountController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CreateAccountController">
    <children>
-      <TextField fx:id="ca_usernameid" layoutX="150.0" layoutY="29.0" promptText="username" />
+      <TextField fx:id="ca_usernameid" layoutX="150.0" layoutY="29.0" prefHeight="26.0" prefWidth="172.0" promptText="username" />
       <Label layoutX="21.0" layoutY="33.0" text="Username" />
-      <Button fx:id="create_account_button" layoutX="201.0" layoutY="269.0" mnemonicParsing="false" onAction="#create_account_buttonClicked" text="Create Account" />
-      <Text fx:id="ca_nouserstxt" layoutX="22.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No users detected, please create admin account" underline="true" wrappingWidth="256.0" />
-      <Button fx:id="create_account_back" layoutX="258.0" layoutY="307.0" mnemonicParsing="false" onAction="#create_account_backClicked" text="Back" />
-      <TextField fx:id="ca_passwordid" layoutX="150.0" layoutY="57.0" promptText="password" />
-      <TextField fx:id="ca_password2id" layoutX="150.0" layoutY="83.0" promptText="re-enter your password" />
-      <Label layoutX="22.0" layoutY="87.0" text="Re-enter password" />
-      <Label layoutX="22.0" layoutY="61.0" text="Password" />
+      <Button fx:id="create_account_button" layoutX="150.0" layoutY="129.0" mnemonicParsing="false" onAction="#create_account_buttonClicked" prefHeight="26.0" prefWidth="172.0" text="Create Account" />
+      <Text fx:id="ca_nouserstxt" layoutX="20.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No users detected, please create admin account" underline="true" wrappingWidth="309.0" />
+      <Button fx:id="create_account_back" layoutX="150.0" layoutY="164.0" mnemonicParsing="false" onAction="#create_account_backClicked" prefHeight="26.0" prefWidth="172.0" text="Back" />
+      <TextField fx:id="ca_passwordid" layoutX="150.0" layoutY="61.0" prefHeight="26.0" prefWidth="172.0" promptText="password" />
+      <TextField fx:id="ca_password2id" layoutX="150.0" layoutY="95.0" prefHeight="26.0" prefWidth="172.0" promptText="re-enter your password" />
+      <Label layoutX="21.0" layoutY="100.0" text="Re-enter password" />
+      <Label layoutX="22.0" layoutY="67.0" text="Password" />
    </children>
 </AnchorPane>
