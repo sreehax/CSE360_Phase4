@@ -11,7 +11,7 @@
 
 <!-- Authors: Benjamin Nelson & Felix Allison & Sreehari Sreedev -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditArticleController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditArticleController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text fx:id="editLabel" layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Article">
@@ -19,27 +19,27 @@
             <Font size="24.0" />
          </font> 
       </Text>
-      <Text fx:id="e_userLabel" layoutX="454.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: not logged in" />
-      <Text layoutX="8.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version 0.1 alpha" />
-      <Text layoutX="430.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="version date: 9/25/2024" />
+      <Text fx:id="e_userLabel" layoutX="446.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: not logged in" />
+      <Text layoutX="8.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version 1.0 Beta" />
+      <Text layoutX="422.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version Date: 12-5-2024" />
       
       <Line endX="469.0" layoutX="101.0" layoutY="424.0" startX="-100.0" />
       <Line endX="461.0" layoutX="109.0" layoutY="56.0" startX="-109.0" />
-      <Text layoutX="40.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" />
-      <TextField fx:id="e_titleTextField" layoutX="98.0" layoutY="65.0" prefHeight="26.0" prefWidth="181.0" />
-      <TextField fx:id="e_referenceLinksTextField" layoutX="98.0" layoutY="97.0" prefHeight="26.0" prefWidth="182.0" />
+      <Text layoutX="11.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" />
+      <TextField fx:id="e_titleTextField" layoutX="113.0" layoutY="65.0" prefHeight="26.0" prefWidth="204.0" />
+      <TextField fx:id="e_referenceLinksTextField" layoutX="113.0" layoutY="97.0" prefHeight="26.0" prefWidth="204.0" />
       <Text layoutX="13.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reference Links" />
-      <Text layoutX="37.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Body" />
-      <TextField fx:id="e_descriptionTextField" layoutX="99.0" layoutY="202.0" prefHeight="26.0" prefWidth="385.0" />
-      <Button fx:id="e_editArticleButton" layoutX="410.0" layoutY="64.0" mnemonicParsing="false" onAction="#e_editArticleClicked" text="Edit Article" />
-      <Text layoutX="24.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Header" />
-      <TextField fx:id="e_headersTextField" layoutX="98.0" layoutY="131.0" prefHeight="26.0" prefWidth="182.0" />
-      <Text layoutX="28.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group(s)" />
-      <TextField fx:id="e_groupsTextField" layoutX="98.0" layoutY="166.0" prefHeight="26.0" prefWidth="182.0" />
-      <Text layoutX="22.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
-      <TextArea fx:id="e_bodyTextField" layoutX="98.0" layoutY="259.0" prefHeight="137.0" prefWidth="386.0" />
-      <Text layoutX="298.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Keyword (s)" />
-      <TextField fx:id="e_keywordsTextField" layoutX="380.0" layoutY="165.0" prefHeight="26.0" prefWidth="105.0" />
-      <Text fx:id="e_idNumLabel" layoutX="251.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID: unknown" />
+      <Text layoutX="21.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Body" />
+      <TextField fx:id="e_descriptionTextField" layoutX="116.0" layoutY="236.0" prefHeight="32.0" prefWidth="328.0" />
+      <Button fx:id="e_editArticleButton" layoutX="451.0" layoutY="235.0" mnemonicParsing="false" onAction="#e_editArticleClicked" prefHeight="32.0" prefWidth="84.0" text="Edit Article" />
+      <Text layoutX="14.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Header" />
+      <TextField fx:id="e_headersTextField" layoutX="114.0" layoutY="131.0" prefHeight="26.0" prefWidth="204.0" />
+      <Text layoutX="15.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group(s)" />
+      <TextField fx:id="e_groupsTextField" layoutX="114.0" layoutY="165.0" prefHeight="26.0" prefWidth="204.0" />
+      <Text layoutX="17.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
+      <TextArea fx:id="e_bodyTextField" layoutX="114.0" layoutY="280.0" prefHeight="116.0" prefWidth="421.0" />
+      <Text layoutX="16.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Keyword (s)" />
+      <TextField fx:id="e_keywordsTextField" layoutX="116.0" layoutY="198.0" prefHeight="26.0" prefWidth="204.0" />
+      <Text fx:id="e_idNumLabel" layoutX="241.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID: unknown" />
    </children>
 </AnchorPane>
