@@ -4,24 +4,30 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <!-- Author: Jonathan Lin -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SaveAccountInfoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SaveAccountInfoController">
    <children>
-      <TextField fx:id="firstnameid" layoutX="150.0" layoutY="29.0" promptText="first name" />
-      <Label layoutX="21.0" layoutY="33.0" text="First Name" />
-      <Button fx:id="save_account_button" layoutX="193.0" layoutY="270.0" mnemonicParsing="false" onAction="#save_account_button_buttonClicked" text="Save Information" />
+      <TextField fx:id="firstnameid" layoutX="150.0" layoutY="68.0" promptText="first name" />
+      <Label layoutX="21.0" layoutY="72.0" text="First Name" />
+      <Button fx:id="save_account_button" layoutX="150.0" layoutY="252.0" mnemonicParsing="false" onAction="#save_account_button_buttonClicked" prefHeight="26.0" prefWidth="162.0" text="Save Information" />
       <Text fx:id="CreateFlagText" layoutX="14.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="15.0" />
-      <Button fx:id="save_account_back" layoutX="258.0" layoutY="307.0" mnemonicParsing="false" onAction="#save_account_backClicked" text="Back" />
-      <Label layoutX="21.0" layoutY="61.0" text="Middle Name" />
-      <Label layoutX="22.0" layoutY="87.0" text="Last Name" />
-      <Label layoutX="22.0" layoutY="112.0" text="Preferred Name" />
-      <TextField fx:id="middlenameid" layoutX="150.0" layoutY="57.0" promptText="middle name" />
-      <TextField fx:id="lastnameid" layoutX="150.0" layoutY="83.0" promptText="last name" />
-      <TextField fx:id="preferrednameid" layoutX="150.0" layoutY="108.0" promptText="preferred name" />
-      <Label layoutX="22.0" layoutY="139.0" text="Email" />
-      <TextField fx:id="emailid" layoutX="150.0" layoutY="135.0" promptText="email" />
+      <Button fx:id="save_account_back" layoutX="150.0" layoutY="289.0" mnemonicParsing="false" onAction="#save_account_backClicked" prefHeight="26.0" prefWidth="162.0" text="Back to Menu" />
+      <Label layoutX="21.0" layoutY="107.0" text="Middle Name" />
+      <Label layoutX="22.0" layoutY="146.0" text="Last Name" />
+      <Label layoutX="22.0" layoutY="185.0" text="Preferred Name" />
+      <TextField fx:id="middlenameid" layoutX="150.0" layoutY="105.0" promptText="middle name" />
+      <TextField fx:id="lastnameid" layoutX="150.0" layoutY="141.0" promptText="last name" />
+      <TextField fx:id="preferrednameid" layoutX="150.0" layoutY="178.0" promptText="preferred name" />
+      <Label layoutX="22.0" layoutY="220.0" text="Email" />
+      <TextField fx:id="emailid" layoutX="150.0" layoutY="215.0" promptText="email" />
+      <Text layoutX="25.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter account information">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
