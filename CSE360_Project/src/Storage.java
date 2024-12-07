@@ -1071,12 +1071,11 @@ public class Storage {
 		// 2. Generate an encryption key to be used for the group
 		// 3. Encrypt the group key with RSA for the public key of the admin user
 		// 4. store this special_access record
-		
 		byte[] group_key_raw = new byte[32];
 		SecureRandom random = new SecureRandom();
 		random.nextBytes(group_key_raw);
 		
-		String query2 = "SELECT pubkey FROM logins WHERE l_user = ?";
+		String query2 = "SELECT pubkey FROM logins WHERE l_user = ?";		  //Get the pubkey from the user
 		PreparedStatement prep2 = this.conn.prepareStatement(query2);
 		prep2.setString(1, admin);
 		ResultSet rs = prep2.executeQuery();
@@ -1085,20 +1084,19 @@ public class Storage {
 			System.out.println("Could not find user " + admin + "!");
 			return false;
 		}
-		pubkey_raw = rs.getBytes("pubkey");
+		pubkey_raw = rs.getBytes("pubkey");									  //Generate Encryption Key
 		PublicKey pubkey = RSAEncryption.getPubKey(pubkey_raw);
 		byte[] group_key_enc = RSAEncryption.encryptFor(pubkey, group_key_raw);
 		
-		String query1 = "INSERT INTO special_groups (group_name) VALUES (?)";
+		String query1 = "INSERT INTO special_groups (group_name) VALUES (?)"; //Add special Groups to database
 		PreparedStatement stmt1 = this.conn.prepareStatement(query1);
 		stmt1.setString(1, groupname);
 		stmt1.executeUpdate();
-
-				
+		
 		String query15 = "SELECT last_insert_rowid() AS the_id";
 		Statement stmt15 = this.conn.createStatement();
 		ResultSet rs0 = stmt15.executeQuery(query15);
-		if (!rs0.next()) {
+		if (!rs0.next()) {													//Catch case: group creation fails
 			System.out.println("Group creation failed!");
 			return false;
 		}
@@ -1237,7 +1235,7 @@ public class Storage {
      *
      * @return true if all tests pass, false if any test fails
      */
-	public static boolean selfTest() {
+	/*public static boolean selfTest() {
 		System.out.println("User, Storage, and Article SelfTest");
 		boolean allGood = true;
 		boolean current = true;
@@ -1433,5 +1431,5 @@ public class Storage {
 			System.out.println("[!] Some Storage/User/Article self tests failed, check previous input");
 		}
 		return allGood;
-	}
+	}*/
 }

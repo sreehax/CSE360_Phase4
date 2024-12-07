@@ -81,12 +81,18 @@ class StorageTest {
 
 	@Test
 	void testRegisterUser() throws NoSuchAlgorithmException, InvalidKeySpecException, SQLException {
-		Storage s = new Storage("systmedb6");
-		User u = new User("Benjamin","D", "Nelson", "Ben", "ben123", "2345","34", 123);
-		u.addRole('a');
+		Storage s = new Storage("systmedb6");//Create the test database
+		User u = new User("Benjamin","D", "Nelson", "Ben", "ben123", "2345","34", 123); //Create a user to add
+		u.addRole('a'); //Add each role to the user
 		u.addRole('i');
 		u.addRole('s');
 		s.registerUser(u);
+		
+		User m = new User("B","D", "Nel", "Ren", "n23", "2345","34", 123); //Create a second user
+		m.addRole('s');
+		s.registerUser(m);
+		
+		//s.printTable2(); //Print the user table to show results
 	}
 
 	@Test
@@ -220,10 +226,12 @@ class StorageTest {
 
 	@Test
 	void testGetRolesFromCode() throws SQLException {
-		Storage s = new Storage("systmedb19");
-		s.registerOneTimeCode("1234", "765", "admin");
+		Storage s = new Storage("systmedb19"); //create database
+		s.registerOneTimeCode("1234", "765", "admin");  //create one time code
+		s.registerOneTimeCode("2234", "7765", "instructor");
 		
-		s.getRolesFromCode("1234");
+		System.out.println("Code 1234's Role: "+s.getRolesFromCode("1234"));//print roles from the code
+		System.out.println("Code 2234's Role: "+s.getRolesFromCode("2234"));
 	}
 
 	@Test
@@ -269,13 +277,19 @@ class StorageTest {
 
 	@Test
 	void testAddArticle() throws SQLException {
-		Storage s = new Storage("systmedb24");
-		ArrayList<String> references = new ArrayList<String>();
+		
+		Storage s = new Storage("systmedb24"); //Create Test Database
+		
+		ArrayList<String> references = new ArrayList<String>(); //Create Article to Add
 		ArrayList<String> keywords = new ArrayList<String>();
 		references.add("wiki");
 		keywords.add("help");
 		Article a = new Article ("Databases help", "fdgfsdg", references, 1, "Step 1", "db","helps you", keywords);
-		s.addArticle(a);
+		Article b = new Article ("Databases help", "fdgfsdg", references, 0, "Step 1", "db","helps you", keywords);
+		
+		s.addArticle(a);//adds articles and prints results
+		s.addArticle(b);
+		s.listAllArticles();
 	}
 
 	@Test
@@ -287,6 +301,10 @@ class StorageTest {
 		keywords.add("help");
 		Article a = new Article ("Databases help", "fdgfsdg", references, 1, "Step 1", "db","helps you", keywords);
 		s.addArticle(a);
+		
+		Article b = new Article ("Databases help 2.0", "fdSDFDSGSDFgfsdg", references, 1, "Step 4", "db","helped you", keywords);
+		s.updateArticle(b);
+		
 	}
 
 	
@@ -302,7 +320,7 @@ class StorageTest {
 		
 		ArrayList<Article> articles = new ArrayList<Article>();
 		articles.add(a);
-		s.backupArticles(articles, "C:\\Users\\bdnel");
+		s.backupArticles(articles, "C:\\");
 	}
 
 	@Test
@@ -336,15 +354,17 @@ class StorageTest {
 
 	@Test
 	void testGetArticleByID() throws SQLException {
-		Storage s = new Storage("systmedb29");
-		ArrayList<String> references = new ArrayList<String>();
+		Storage s = new Storage("systmedb29");//Create a test database
+		
+		ArrayList<String> references = new ArrayList<String>(); //Create an article for testing
 		ArrayList<String> keywords = new ArrayList<String>();
 		references.add("wiki");
 		keywords.add("help");
 		Article a = new Article ("Databases help", "fdgfsdg", references, 1, "Step 1", "db","helps you", keywords);
 		s.addArticle(a);
 		
-		s.getArticleByID(1);
+		s.getArticleByID(1); //Search for an article that exists
+		s.getArticleByID(2); //Search for an article that does not exist
 	}
 
 	@Test
@@ -422,12 +442,10 @@ class StorageTest {
 
 	@Test
 	void testCreateSpecialAccessGroup() throws SQLException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
-		Storage s = new Storage("systmedb34");
-		User u = new User("Benjamin","D", "Nelson", "Ben", "ben123", "2345","34", 123);
-		u.addRole('a');
-		u.addRole('i');
-		s.registerUser(u);
-		s.createSpecialAccessGroup("testGroup", "ben123");
+		
+		Storage s = new Storage(); //load storage
+		s.createSpecialAccessGroup("testGroup", "tester"); //create group with invalid admin
+		s.createSpecialAccessGroup("testSecretGroup", "admin");  //create group with valid admin
 	}
 
 	@Test

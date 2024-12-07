@@ -47,18 +47,27 @@ class RSAEncryptionTest {
 
 	@Test
 	void testEncryptForPublicKeyByteArray() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
-		byte[] message = "hello there".getBytes();
-		RSAEncryption.encryptFor(RSAEncryption.getPubkey(RSAEncryption.genKeyPair()), message);
+		byte[] message = "hello there".getBytes(); //message to be encrypted (as bytes)
+		
+		byte[] cipher = RSAEncryption.encryptFor(RSAEncryption.getPubkey(RSAEncryption.genKeyPair()), message); //encrypt message
+		
+		System.out.println("ciphertext: "); //prints encrypted bytes of message
+		for(int i=0;i<cipher.length;i++) {
+			System.out.print(cipher[i]);
+		}
+		System.out.println();
 
 	}
 
 	@Test
 	void testDecryptMsg() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
-		byte[] message = "hello there".getBytes();
-		KeyPair key =RSAEncryption.genKeyPair();
-		byte[] ciphertext = RSAEncryption.encryptFor(RSAEncryption.getPubkey(key), message);
+		
+		byte[] message = "hello there".getBytes(); // message to be encrypted
+		KeyPair key =RSAEncryption.genKeyPair(); //generate a key pair for encrypting and decrypting
+		byte[] ciphertext = RSAEncryption.encryptFor(RSAEncryption.getPubkey(key), message); //encrypt the message
 
-		RSAEncryption.decryptMsg(RSAEncryption.getPrivkey(key), ciphertext);
+		String newtext = RSAEncryption.decryptMsg(RSAEncryption.getPrivkey(key), ciphertext); //decrypt the message
+		System.out.println("Decrypted text: " + newtext);
 	}
 
 }

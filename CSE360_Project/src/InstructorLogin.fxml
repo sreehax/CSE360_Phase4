@@ -14,7 +14,7 @@
 
 <!-- Author: Jonathan Lin, Felix Allison -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21.0.3-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InstructorLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="441.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InstructorLoginController">
    <children>
       <HBox alignment="TOP_CENTER" cache="true" layoutX="15.0" layoutY="379.0" prefHeight="32.0" prefWidth="541.0" />
       <Text layoutX="15.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instructor Page">
@@ -70,8 +70,8 @@
       <Text layoutX="15.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <ComboBox fx:id="SG" layoutX="106.0" layoutY="392.0" onAction="#selectGroupPressed" prefHeight="26.0" prefWidth="70.0" />
       <Text layoutX="13.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Group " />
-      <Button fx:id="ip_toArtices2" layoutX="298.0" layoutY="359.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" prefHeight="26.0" prefWidth="124.0" text="Create Student" />
       <Button fx:id="ip_toArtices3" layoutX="427.0" layoutY="359.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" prefHeight="26.0" prefWidth="131.0" text="Delete Student " />
+      <Button fx:id="ip_toArtices2" layoutX="298.0" layoutY="359.0" mnemonicParsing="false" onAction="#ip_toArticlesClicked" prefHeight="26.0" prefWidth="258.0" text="Manage Articles" />
       <Button fx:id="ip_toArtices21" layoutX="188.0" layoutY="392.0" mnemonicParsing="false" onAction="#ip_addToGroup" text="Add to Group" />
       <Button fx:id="ip_toArtices211" layoutX="297.0" layoutY="393.0" mnemonicParsing="false" onAction="#ip_removeFromGroup" prefHeight="26.0" prefWidth="263.0" text="Remove from Group" />
       <ListView fx:id="ALLV" layoutX="17.0" layoutY="184.0" prefHeight="130.0" prefWidth="272.0" />

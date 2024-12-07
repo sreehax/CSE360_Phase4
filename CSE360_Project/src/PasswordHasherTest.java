@@ -9,7 +9,8 @@ class PasswordHasherTest {
 
 	@Test
 	void testHashPasswordString() throws NoSuchAlgorithmException, InvalidKeySpecException {
-		PasswordHasher.hashPassword("password");
+		String hashpass= PasswordHasher.hashPassword("password");
+		System.out.println("Hashed Password" + hashpass);
 	}
 
 	@Test
